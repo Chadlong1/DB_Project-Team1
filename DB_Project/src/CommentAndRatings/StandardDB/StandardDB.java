@@ -2,6 +2,7 @@ package CommentAndRatings.StandardDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,7 +31,7 @@ public class StandardDB {
 				+ ", nameOfTheStore VARCHAR(30) NOT NULL"
 				+ ", gugun VARCHAR(10) NOT NULL"
 				+ ", address VARCHAR(100) NOT NULL"
-				+ ", phoneNumber VARCHAR(13) NOT NULL"
+				+ ", telephoneNumber VARCHAR(13) NOT NULL"
 				+ ", businessHour VARCHAR(30) NOT NULL"
 				+ ", mainMenu VARCHAR(100) NOT NULL);";
 		try (Connection conn = getConnection();
@@ -40,6 +41,22 @@ public class StandardDB {
 			e.printStackTrace();
 		}
 		System.out.println("resaurantDB 생성");
+		
+//		String insert = "INSERT INTO restaurantDB (nameOfTheStore, gugun, address, telephoneNumber, businessHour, mainMenu)"
+//				+ "VALUES (?, ?, ?, ?, ?, ?);";
+//		try (Connection conn = StandardDB.getConnection();
+//			PreparedStatement stmt = conn.prepareStatement(insert);) {
+//				stmt.setString(1, getnameOfTheStore());
+//				stmt.setDouble(2, getgugun());
+//				stmt.setDouble(3, getaddress());
+//				stmt.setDouble(4, gettelephoneNumber());
+//				stmt.setDouble(5, getbusinessHour());
+//				stmt.setDouble(6, getmainMenu());
+//			
+//				stmt.executeUpdate();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
 		
 	}
 	
