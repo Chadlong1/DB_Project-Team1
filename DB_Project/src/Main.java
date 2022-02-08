@@ -10,5 +10,11 @@ public class Main {
 		System.out.println("양딩딩1");
 		System.out.println("양딩딩1");
 		System.out.println("양딩딩1");
+		System.out.println("코린이1");
+		System.out.println("코린이1");
+		System.out.println("코린이1");
+		
+
+		
 	}
 }
