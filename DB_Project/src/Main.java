@@ -4,6 +4,5 @@ public class Main {
 		System.out.println("연습");
 		System.out.println("연습양성호");
 		System.out.println("연습22");
-		System.out.println("dddddddddddddddddddddddddddddddddddd");
 	}
 }
