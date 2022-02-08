@@ -28,7 +28,7 @@ public class StandardDB {
 		String createRestaurantDB = "CREATE TABLE IF NOT EXISTS restaurantDB "
 				+ "(no INT PRIMARY KEY AUTO_INCREMENT"
 				+ ", nameOfTheStore VARCHAR(30) NOT NULL"
-				+ ", gugunNM VARCHAR(10) NOT NULL"
+				+ ", gugun VARCHAR(10) NOT NULL"
 				+ ", address VARCHAR(100) NOT NULL"
 				+ ", phoneNumber VARCHAR(13) NOT NULL"
 				+ ", businessHour VARCHAR(30) NOT NULL"
