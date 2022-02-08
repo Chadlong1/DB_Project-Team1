@@ -11,6 +11,7 @@ public class StandardDB {
 	private static final String ID = "root";
 	private static final String PASSWORD = "root";
 	
+	// 드라이버 로드
 	static {
 		try {
 			Class.forName(DRIVER);
@@ -22,11 +23,12 @@ public class StandardDB {
 		return DriverManager.getConnection(URL, ID, PASSWORD);
 	}
 	
-		// 상호명 / 주소/ 전화번호/ 영업시간/ 대표메뉴
+	// 음식점 테이블생성 (상호명 / 구군 정보 /상세주소/ 전화번호/ 영업시간/ 대표메뉴) 
 	static {
 		String createRestaurantDB = "CREATE TABLE IF NOT EXISTS restaurantDB "
 				+ "(no INT PRIMARY KEY AUTO_INCREMENT"
 				+ ", nameOfTheStore VARCHAR(30) NOT NULL"
+				+ ", gugunNM VARCHAR(10) NOT NULL"
 				+ ", address VARCHAR(100) NOT NULL"
 				+ ", phoneNumber VARCHAR(13) NOT NULL"
 				+ ", businessHour VARCHAR(30) NOT NULL"
@@ -38,6 +40,7 @@ public class StandardDB {
 			e.printStackTrace();
 		}
 		System.out.println("resaurantDB 생성");
+		
 	}
 	
 }

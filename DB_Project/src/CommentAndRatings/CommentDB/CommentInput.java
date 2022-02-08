@@ -1,5 +1,5 @@
 package CommentAndRatings.CommentDB;
-
+// 코멘트 Class
 public class CommentInput {
 	private String comment;
 	private Double rating;

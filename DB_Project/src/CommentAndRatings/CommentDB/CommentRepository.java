@@ -8,6 +8,7 @@ import java.sql.Statement;
 import CommentAndRatings.StandardDB.StandardDB;
 
 public class CommentRepository {
+	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createCommentTable() {
 		String createCommentTable = "CREATE TABLE IF NOT EXISTS comment "
 				+ "(no INT PRIMARY KEY AUTO_INCREMENT"
@@ -23,6 +24,7 @@ public class CommentRepository {
 		}
 	}
 	
+	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈) 
 	public void insert(CommentInput commentInput) {
 		String insert = "INSERT INTO comment (comment, rating)"
 				+ "VALUES (?, ?);";
