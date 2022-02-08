@@ -13,9 +13,8 @@ public class Main {
 		System.out.println("코린이1");
 		System.out.println("코린이1");
 		System.out.println("코린이1");
-		
-		System.out.println("  -------------------------------  ");
 
-		
+		System.out.println("  -------------------------------  ");
+		System.out.println("  --  ");
 	}
 }
