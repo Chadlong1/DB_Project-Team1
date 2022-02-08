@@ -1,2 +1,2 @@
-#### ForPractice
-DB_Project
+#### DB만들기 팀프로젝트 (1조)
+
