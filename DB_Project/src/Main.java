@@ -5,6 +5,10 @@ public class Main {
 		System.out.println("연습양성호");
 		System.out.println("연습22");
 		
-		System.out.println("양딩딩");
+		System.out.println("양딩딩1");
+		System.out.println("양딩딩1");
+		System.out.println("양딩딩1");
+		System.out.println("양딩딩1");
+		System.out.println("양딩딩1");
 	}
 }
