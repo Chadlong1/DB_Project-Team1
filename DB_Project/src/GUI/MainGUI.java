@@ -1,5 +1,7 @@
 package GUI;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -7,8 +9,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,13 +33,13 @@ import javax.swing.JPanel;
     	  con.add(new JPanel(), BorderLayout.WEST);
     	  
     	  con.setLayout(new FlowLayout(0,0,50));
-    	  JLabel north = new JLabel("돼동여지도");
-    	  con.add(north,"돼동여지도");
-    	  con.setForeground(Color.blue);
+    	  JLabel north = new JLabel("");
+    	  //con.add(north,"돼동여지도");
+    	  //con.setForeground(Color.blue);
     	  con.setFont(new Font("Consolas", Font.BOLD,100));
     	  
-    	  JLabel north2 = new JLabel("ㅁㅇㄹ");
-    	  con.add(north2,"adf");
+    	  JLabel north2 = new JLabel("돼동여지도");
+    	  con.add(north2,"돼동여지도");
     	  String[] zone = {"부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구",
     			  "강서구", "수영구", "동래구", "연제구", "해운대구", "영도구",
     			  "금정구", "사하구"};
@@ -50,9 +55,41 @@ import javax.swing.JPanel;
     	  JComboBox<String> cb1;
     	  JComboBox<String> cb2;
     	  
-//    	  ComboBoxEx(){
-//    		  
-//    	  }
+    	  JComboBox strCombo = new JComboBox(zone);
+    	  JComboBox nameCombo = new JComboBox(food);
+    	  JComboBox timeCombo = new JComboBox(time);
+    	  
+    	  JButton b = new JButton("검색");
+    	  b.setBounds(50,100,90,20);
+    	  
+    	  cb = new JComboBox<String>(zone);
+    	  cb.setBounds(50,100,90,20);
+    	  
+    	  cb1 = new JComboBox<String>(food);
+    	  cb1.setBounds(50,100,90,20);
+    	  
+    	  cb2 = new JComboBox<String>(time);
+    	  cb2.setBounds(50,100,90,20);
+    	  
+    	  con.add(cb);
+    	  con.add(cb1);
+    	  con.add(cb2);
+    	  
+    	  con.add(b);
+    	  con.add(north,b);
+    	  
+    	  b.addActionListener(new ActionListener() {
+    		  public void actionPerformed(ActionEvent e) {
+    			  String data = " 선택 : " + cb.getItemAt(cb.getSelectedIndex()) +
+    					  cb1.getItemAt(cb1.getSelectedIndex()) +
+    					  cb2.getItemAt(cb2.getSelectedIndex());
+    			  north.setText(data);
+    					  
+    		  
+			
+				
+			}
+		});
     	  
     	  
     	  Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -61,7 +98,6 @@ import javax.swing.JPanel;
     	  
     	  JLabel busanImage1 = new JLabel(new ImageIcon(scaled));
     	  add(busanImage1, "Center");
-    	  //add(map, "NORTH");
     	  
          setSize(800, 800);
 
