@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import SEARCHINFO.SEARCHTOOLS;
+
    class Frame1 extends JFrame {
       Frame1() {
     	  setTitle("돼동여지도");
@@ -80,10 +82,14 @@ import javax.swing.JPanel;
     	  
     	  b.addActionListener(new ActionListener() {
     		  public void actionPerformed(ActionEvent e) {
-    			  String data = " 선택 : " + cb.getItemAt(cb.getSelectedIndex()) +
-    					  cb1.getItemAt(cb1.getSelectedIndex()) +
-    					  cb2.getItemAt(cb2.getSelectedIndex());
-    			  north.setText(data);
+    			  
+    			  // 검색 파라미터 추가/수정 해야함  - 정창훈남
+    			  SEARCHTOOLS.searchDB(cb.getItemAt(cb.getSelectedIndex()));
+    			  
+//    			  String data = " 선택 : " + cb.getItemAt(cb.getSelectedIndex()) +
+//    					  cb1.getItemAt(cb1.getSelectedIndex()) +
+//    					  cb2.getItemAt(cb2.getSelectedIndex());
+//    			  north.setText(data);
     					  
     		  
 			
