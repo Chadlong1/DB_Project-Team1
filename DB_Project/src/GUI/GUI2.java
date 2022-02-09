@@ -24,6 +24,21 @@ public class GUI2 extends JFrame {
 	private JPanel contentPane;
 	private Container c;
 	private CardLayout card = new CardLayout(0, 0);
+	private JComboBox<String> zoneComboBox;
+	private JComboBox<String> foodComboBox;
+	private JComboBox<String> timeComboBox;
+
+	public String selectedItemFromZCB() {
+		return (String) zoneComboBox.getSelectedItem();
+	}
+
+	public String selectedItemFromFCB() {
+		return (String) foodComboBox.getSelectedItem();
+	}
+
+	public String selectedItemFromTCB() {
+		return (String) timeComboBox.getSelectedItem();
+	}
 
 	public CardLayout getCard() {
 		return card;
@@ -43,6 +58,7 @@ public class GUI2 extends JFrame {
 	}
 
 	public GUI2() {
+		setTitle("돼동여지도");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 200, 1000, 735);
 		contentPane = new JPanel();
@@ -51,7 +67,7 @@ public class GUI2 extends JFrame {
 		setContentPane(contentPane);
 
 		ImageIcon icon = new ImageIcon("부산_리사이징.png");
-		
+
 		contentPane.setLayout(card);
 		c = getContentPane();
 
@@ -97,19 +113,19 @@ public class GUI2 extends JFrame {
 		String[] food = { "음식종류", "한식", "중식", "양식", "일식", "분식", "패스트푸드" };
 		String[] time = { "영업시간", "am 10 ~", "am 11 ~", "pm 12~", "pm 1 ~", "pm 2 ~", "pm 3 ~", "pm 4 ~" };
 
-		JComboBox zoneComboBox = new JComboBox(zone);
+		zoneComboBox = new JComboBox(zone);
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
 		zoneComboBox.setBounds(50, 90, 80, 30);
 		panel1.add(zoneComboBox);
 
-		JComboBox foodComboBox = new JComboBox(food);
+		foodComboBox = new JComboBox(food);
 		foodComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		foodComboBox.setBackground(Color.WHITE);
 		foodComboBox.setBounds(150, 90, 80, 30);
 		panel1.add(foodComboBox);
 
-		JComboBox timeComboBox = new JComboBox(time);
+		timeComboBox = new JComboBox(time);
 		timeComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		timeComboBox.setBackground(Color.WHITE);
 		timeComboBox.setBounds(250, 90, 80, 30);
