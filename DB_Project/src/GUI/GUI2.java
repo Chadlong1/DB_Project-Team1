@@ -7,12 +7,13 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
@@ -29,8 +30,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import actionlisteners.SearchActionListener;
-import java.awt.SystemColor;
+import SEARCHINFO.SEARCHTOOLS;
+import listeners.SearchActionListener;
 
 public class GUI2 extends JFrame {
 
@@ -39,7 +40,7 @@ public class GUI2 extends JFrame {
 	private CardLayout card = new CardLayout(0, 0);
 	private JComboBox<String> zoneComboBox;
 	private JComboBox<String> foodComboBox;
-	private JComboBox<String> timeComboBox;
+	private JComboBox<String> ratingComboBox;
 	private String rprsntvMenu;
 	private String aDDR;
 	private String cntctTEL;
@@ -47,6 +48,15 @@ public class GUI2 extends JFrame {
 	private String itemCntnts;
 	private URL url;
 	private Image image;
+	private JList<String> searchingList;
+
+	public JList<String> getSearchingList() {
+		return searchingList;
+	}
+
+	public void setSearchingList(JList<String> searchingList) {
+		this.searchingList = searchingList;
+	}
 
 	public String selectedItemFromZone() {
 		return (String) zoneComboBox.getSelectedItem();
@@ -56,8 +66,8 @@ public class GUI2 extends JFrame {
 		return (String) foodComboBox.getSelectedItem();
 	}
 
-	public String selectedItemFromTime() {
-		return (String) timeComboBox.getSelectedItem();
+	public String selectedItemFromRating() {
+		return (String) ratingComboBox.getSelectedItem();
 	}
 
 	public CardLayout getCard() {
@@ -81,6 +91,7 @@ public class GUI2 extends JFrame {
 		setTitle("돼동여지도");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 200, 1000, 735);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(3, 3, 3, 3));
@@ -116,8 +127,10 @@ public class GUI2 extends JFrame {
 
 		String[] zone = { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
-		String[] food = { "음식종류", "한식", "중식", "양식", "일식", "분식", "패스트푸드" };
-		String[] time = { "영업시간", "am 10 ~", "am 11 ~", "pm 12~", "pm 1 ~", "pm 2 ~", "pm 3 ~", "pm 4 ~" };
+		String[] food = { "음식종류", "분류 없음", "한식", "중식", "양식", "일식", "분식" };
+		String[] rating = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
+		SEARCHTOOLS searchTool = new SEARCHTOOLS();
+		List<String> list = searchTool.searchLoca();
 
 		zoneComboBox = new JComboBox(zone);
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -131,11 +144,11 @@ public class GUI2 extends JFrame {
 		foodComboBox.setBounds(150, 90, 80, 30);
 		firstPanel.add(foodComboBox);
 
-		timeComboBox = new JComboBox(time);
-		timeComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		timeComboBox.setBackground(Color.WHITE);
-		timeComboBox.setBounds(250, 90, 80, 30);
-		firstPanel.add(timeComboBox);
+		ratingComboBox = new JComboBox(rating);
+		ratingComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		ratingComboBox.setBackground(Color.WHITE);
+		ratingComboBox.setBounds(250, 90, 80, 30);
+		firstPanel.add(ratingComboBox);
 
 		JButton searchButton = new JButton("검색");
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -221,11 +234,12 @@ public class GUI2 extends JFrame {
 		restItemCntnts.setBounds(27, 234, 449, 80);
 		secondMainPanel.add(restItemCntnts);
 
-		JList<String> searchingList = new JList<>();
+		
+		searchingList = new JList<>();
 		searchingList.setBounds(20, 396, 400, 272);
 		searchingList.setModel(new AbstractListModel<String>() {
-			String[] values = new String[] { "가게이름1", "가게이름2" };
-
+			String[] values = new String[] {};
+			
 			public int getSize() {
 				return values.length;
 			}
@@ -251,13 +265,14 @@ public class GUI2 extends JFrame {
 					cntctTEL = "051-271-4389";
 					restCntctTEL.setText("• 영업시간 : " + usageTime);
 					usageTime = "12:00p.m. ~ 21:30p.m.";
-					restUsageTime.setText("• 주요 메뉴 : " + rprsntvMenu);
+					restUsageTime.setText("• 연락처 : " + cntctTEL);
 					itemCntnts = "샤브샤브, 수육, 구이 등 다양한 방식으로 갈미조개를 요리하는 갈미조개 전문 식당. 국물이 맛있기로 유명한 이 곳은 갈미샤브샤브와 갈미수육이 대표메뉴이다.";
 					restItemCntnts.setText("• 소개 : " + itemCntnts);
 					try {
 						url = new URL("https://www.visitbusan.net/uploadImgs/files/cntnts/20191216135832825_thumbL");
 						image = ImageIO.read(url);
 						thumbL.setIcon(new ImageIcon(image));
+
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -271,7 +286,7 @@ public class GUI2 extends JFrame {
 					cntctTEL = "051-971-8428";
 					restCntctTEL.setText("• 영업시간 : " + usageTime);
 					usageTime = "11:00p.m. ~ 21:00p.m.";
-					restUsageTime.setText("• 주요 메뉴 : " + rprsntvMenu);
+					restUsageTime.setText("• 연락처 : " + cntctTEL);
 					itemCntnts = "30년간 운영해온 생선찜전문점으로, 전통방식인 나무통을 사용하여 조리하는 것이 특징이다. 20가지 이상의 재료로 만든 양념을 사용하는 이 곳은 묵은지 붕어조림과 붕어찜이 대표메뉴이다.";
 					restItemCntnts.setText("• 소개 : " + itemCntnts);
 					try {
