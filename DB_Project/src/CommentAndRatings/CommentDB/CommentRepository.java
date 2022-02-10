@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import CommentAndRatings.StandardDB.StandardDB;
+import busan.ConnectionProvider;
 
 public class CommentRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
@@ -16,7 +16,7 @@ public class CommentRepository {
 				+ ", rating DOUBLE);";
 		System.out.println(createCommentTable);
 		
-		try (Connection conn = StandardDB.getConnection();
+		try (Connection conn = ConnectionProvider.getConnection();
 			Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createCommentTable);
 		} catch (SQLException e) {
@@ -28,7 +28,7 @@ public class CommentRepository {
 	public void insert(CommentInput commentInput) {
 		String insert = "INSERT INTO comment (comment, rating)"
 				+ "VALUES (?, ?);";
-		try (Connection conn = StandardDB.getConnection();
+		try (Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(insert);) {
 				stmt.setString(1, commentInput.getComment());
 				stmt.setDouble(2, commentInput.getRating());
