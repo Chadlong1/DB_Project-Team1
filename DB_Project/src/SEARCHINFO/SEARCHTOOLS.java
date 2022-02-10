@@ -1,4 +1,4 @@
-package SEARCHINFO;
+       package SEARCHINFO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -2,7 +2,7 @@ package busan;
 
 import java.util.List;
 
-import CommentAndRatings.CommentDB.CommentRepository;
+import ReviewAndRatings.ReviewDB.ReviewRepository;
 
 public class Main {
 	public static void main(String[] args) {
@@ -10,9 +10,9 @@ public class Main {
 //		repo.dropTable();
 		repo.createTable();
 
-		CommentRepository crepo = new CommentRepository();
-		crepo.createCommentTable();
-
+		ReviewRepository reviewRepo= new ReviewRepository();
+		reviewRepo.createReviewTable();
+		
 		try {
 			List<Restaurant> apis = Res2.getOpneApiData();
 			repo.insertAll(apis);
