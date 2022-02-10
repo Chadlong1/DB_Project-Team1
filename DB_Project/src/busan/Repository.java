@@ -31,7 +31,6 @@ public class Repository {
 			e.printStackTrace();
 		}
 	}
-
 	public int[] insertAll(List<Restaurant> apis) {
 		String insertTable = "INSERT INTO BPM (title, menu, loca,"
 				+ "addr, tel, time, comment, img, thumb) "
@@ -81,6 +80,15 @@ public class Repository {
 			}
 		}
 		return result;
+	}
+	public void dropTable() {
+		String dropTable = "drop table if exists BPM ;";
+		try (Connection conn = ConnectionProvider.getConnection(); 
+				Statement stmt = conn.createStatement();) {
+			stmt.executeUpdate(dropTable);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
