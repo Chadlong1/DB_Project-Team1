@@ -2,6 +2,7 @@ package busan;
 
 public class Restaurant {
 	private String title;
+	private String type;
 	private String menu;
 	private String loca;
 	private String addr;
@@ -11,10 +12,11 @@ public class Restaurant {
 	private String img;
 	private String thumb;
 
-	public Restaurant(String title, String menu, String loca, String addr, String tel, String time,
+	public Restaurant(String title, String type, String menu, String loca, String addr, String tel, String time,
 			String comment, String img, String thumb) {
 		super();
 		this.title = title;
+		this.type = type;
 		this.menu = menu;
 		this.loca = loca;
 		this.addr = addr;
@@ -32,7 +34,14 @@ public class Restaurant {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getMenu() {
 		return menu;
 	}

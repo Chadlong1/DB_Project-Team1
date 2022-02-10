@@ -13,6 +13,7 @@ public class Repository {
 		String createTable = "create table if not exists BPM ("
 				+ "	id INT PRIMARY KEY AUTO_INCREMENT"
 				+ "	, title VARCHAR(300) NOT NULL"
+				+ " , type VARCHAR (10) NOT NULL"
 				+ "	, menu VARCHAR(200) NOT NULL"
 				+ "	, loca VARCHAR(20) NOT NULL"
 				+ "	, addr VARCHAR(200) NOT NULL"
@@ -32,9 +33,9 @@ public class Repository {
 		}
 	}
 	public int[] insertAll(List<Restaurant> apis) {
-		String insertTable = "INSERT INTO BPM (title, menu, loca,"
+		String insertTable = "INSERT INTO BPM (title, type, menu, loca,"
 				+ "addr, tel, time, comment, img, thumb) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
 		int[] result = null;
 		// 연결 만들기
 		Connection conn = null;
@@ -48,14 +49,15 @@ public class Repository {
 				// batch
 				for (Restaurant res : apis) {
 					stmt.setString(1, res.getTitle());
-					stmt.setString(2, res.getMenu());
-					stmt.setString(3, res.getLoca());
-					stmt.setString(4, res.getAddr());
-					stmt.setString(5, res.getTel());
-					stmt.setString(6, res.getTime());
-					stmt.setString(7, res.getComment());
-					stmt.setString(8, res.getImg());
-					stmt.setString(9, res.getThumb());
+					stmt.setString(2, res.getType());
+					stmt.setString(3, res.getMenu());
+					stmt.setString(4, res.getLoca());
+					stmt.setString(5, res.getAddr());
+					stmt.setString(6, res.getTel());
+					stmt.setString(7, res.getTime());
+					stmt.setString(8, res.getComment());
+					stmt.setString(9, res.getImg());
+					stmt.setString(10, res.getThumb());
 					stmt.addBatch();
 				}
 				result = stmt.executeBatch();

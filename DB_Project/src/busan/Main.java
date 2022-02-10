@@ -7,7 +7,7 @@ import CommentAndRatings.CommentDB.CommentRepository;
 public class Main {
 	public static void main(String[] args) {
 		Repository repo = new Repository();
-		repo.dropTable();
+//		repo.dropTable();
 		repo.createTable();
 
 		CommentRepository crepo = new CommentRepository();
@@ -19,5 +19,6 @@ public class Main {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 }
