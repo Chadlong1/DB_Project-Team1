@@ -19,7 +19,8 @@ public class SearchActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Container c = frame.getContentPane();
 		CardLayout card = frame.getCard();
-		card.next(c);
+//		card.next(c);
+		card.show(c, "SecondScreen");
 
 	}
 }

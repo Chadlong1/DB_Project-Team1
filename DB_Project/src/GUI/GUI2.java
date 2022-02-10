@@ -6,16 +6,24 @@ import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import actionlisteners.SearchActionListener;
 
@@ -28,15 +36,15 @@ public class GUI2 extends JFrame {
 	private JComboBox<String> foodComboBox;
 	private JComboBox<String> timeComboBox;
 
-	public String selectedItemFromZCB() {
+	public String selectedItemFromZone() {
 		return (String) zoneComboBox.getSelectedItem();
 	}
 
-	public String selectedItemFromFCB() {
+	public String selectedItemFromFood() {
 		return (String) foodComboBox.getSelectedItem();
 	}
 
-	public String selectedItemFromTCB() {
+	public String selectedItemFromTime() {
 		return (String) timeComboBox.getSelectedItem();
 	}
 
@@ -86,22 +94,8 @@ public class GUI2 extends JFrame {
 			}
 		};
 		panel1.setBackground(new Color(255, 255, 255));
-		contentPane.add(panel1, "name_114456732679800");
+		contentPane.add(panel1, "FirstScreen");
 		panel1.setLayout(null);
-
-		JPanel panel2 = new JPanel();
-		panel2.setBackground(new Color(255, 255, 255));
-		contentPane.add(panel2, "name_114486151427400");
-		panel2.setLayout(null);
-
-		JButton btnNewButton = new JButton("넘기기");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				card.next(c);
-			}
-		});
-		btnNewButton.setBounds(282, 314, 97, 23);
-		panel2.add(btnNewButton);
 
 		JLabel lblNewLabel = new JLabel("돼동여지도");
 		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -138,5 +132,63 @@ public class GUI2 extends JFrame {
 		panel1.add(searchButton);
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 
+		JPanel panel2 = new JPanel();
+		panel2.setBackground(new Color(255, 255, 255));
+		contentPane.add(panel2, "SecondScreen");
+
+		JButton goBackButton = new JButton("뒤로가기");
+		goBackButton.setBounds(869, 648, 97, 32);
+		goBackButton.setBackground(new Color(135, 206, 235));
+		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		goBackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				card.next(c);
+				card.show(c, "FirstScreen");
+			}
+		});
+		panel2.setLayout(null);
+		panel2.add(goBackButton);
+
+		JList list = new JList();
+		list.setBounds(20, 449, 357, 217);
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] { "눅눅", "윽윽" };
+
+			public int getSize() {
+				return values.length;
+			}
+
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+
+		list.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		list.setBorder(new LineBorder(new Color(128, 128, 128)));
+		list.setValueIsAdjusting(true);
+		panel2.add(list);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(20, 20, 938, 360);
+		panel.setBorder(new LineBorder(new Color(128, 128, 128)));
+		panel.setBackground(new Color(255, 255, 255));
+		panel2.add(panel);
+		panel.setLayout(null);
+		
+		Image image = null;
+		try {
+			URL url = new URL("https://www.visitbusan.net/uploadImgs/files/cntnts/20191216135832825_thumbL");
+			image = ImageIO.read(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setBounds(499, 10, 427, 330);
+		panel.add(lblNewLabel_1);
+		lblNewLabel_1.setIcon(new ImageIcon(image));
+		
+		
+		
+		
 	}
 }
