@@ -23,16 +23,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import SEARCHINFO.SEARCHTOOLS;
 import listeners.SearchActionListener;
+import listeners.SecondPanelListListener;
 
 public class GUI2 extends JFrame {
 
@@ -57,54 +55,63 @@ public class GUI2 extends JFrame {
 	private JLabel restCntctTEL;
 	private JLabel restUsageTime;
 	private JLabel restItemCntnts;
-	private JScrollBar scrollBar;
+
+	public void setThumbL(String RestURL) {
+		try {
+			URL url = new URL(RestURL);
+			image = ImageIO.read(url);
+			thumbL.setIcon(new ImageIcon(image));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	public JLabel getRestTitle() {
 		return restTitle;
 	}
 
-	public void setRestTitle(JLabel restTitle) {
-		this.restTitle = restTitle;
+	public void setRestTitle(String restTitle) {
+		this.restTitle.setText(restTitle);
 	}
 
 	public JLabel getRestRprsntvMenu() {
 		return restRprsntvMenu;
 	}
 
-	public void setRestRprsntvMenu(JLabel restRprsntvMenu) {
-		this.restRprsntvMenu = restRprsntvMenu;
+	public void setRestRprsntvMenu(String restRprsntvMenu) {
+		this.restRprsntvMenu.setText("• 주요 메뉴 : " + restRprsntvMenu);
 	}
 
 	public JLabel getRestADDR() {
 		return restADDR;
 	}
 
-	public void setRestADDR(JLabel restADDR) {
-		this.restADDR = restADDR;
+	public void setRestADDR(String restADDR) {
+		this.restADDR.setText("• 주소지 : " + restADDR);
 	}
 
 	public JLabel getRestCntctTEL() {
 		return restCntctTEL;
 	}
 
-	public void setRestCntctTEL(JLabel restCntctTEL) {
-		this.restCntctTEL = restCntctTEL;
+	public void setRestCntctTEL(String restCntctTEL) {
+		this.restCntctTEL.setText("• 연락처 : " + restCntctTEL);
 	}
 
 	public JLabel getRestUsageTime() {
 		return restUsageTime;
 	}
 
-	public void setRestUsageTime(JLabel restUsageTime) {
-		this.restUsageTime = restUsageTime;
+	public void setRestUsageTime(String restUsageTime) {
+		this.restUsageTime.setText("• 영업시간 : " + restUsageTime);
 	}
 
 	public JLabel getRestItemCntnts() {
 		return restItemCntnts;
 	}
 
-	public void setRestItemCntnts(JLabel restItemCntnts) {
-		this.restItemCntnts = restItemCntnts;
+	public void setRestItemCntnts(String restItemCntnts) {
+		this.restItemCntnts.setText("• 소개 : " + restItemCntnts);
 	}
 
 	public JList<String> getSearchingList() {
@@ -215,6 +222,7 @@ public class GUI2 extends JFrame {
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 
 		JPanel secondPanel = new JPanel();
+		secondPanel.setLayout(null);
 		secondPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(secondPanel, "SecondScreen");
 
@@ -224,11 +232,9 @@ public class GUI2 extends JFrame {
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		goBackButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				card.next(c);
 				card.show(c, "FirstScreen");
 			}
 		});
-		secondPanel.setLayout(null);
 		secondPanel.add(goBackButton);
 
 		JPanel secondMainPanel = new JPanel();
@@ -246,7 +252,7 @@ public class GUI2 extends JFrame {
 		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
 		secondMainPanel.add(thumbL);
 
-		restTitle = new JLabel("가게 이름");
+		restTitle = new JLabel("목록에서 식당을 선택하세요");
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		restTitle.setBounds(27, 26, 337, 47);
 		secondMainPanel.add(restTitle);
@@ -290,7 +296,7 @@ public class GUI2 extends JFrame {
 		listScrollPane.setBounds(20, 395, 400, 280);
 
 		secondPanel.add(listScrollPane);
-		
+
 		searchingList = new JList<>();
 		listScrollPane.setViewportView(searchingList);
 		searchingList.setVisibleRowCount(10);
@@ -309,55 +315,8 @@ public class GUI2 extends JFrame {
 		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		searchingList.setBorder(new LineBorder(new Color(128, 128, 128)));
 		searchingList.setValueIsAdjusting(true);
-		
-	
-		searchingList.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (searchingList.getSelectedIndex() == 0) {
-					restTitle.setText("만호갈미 샤브샤브");
-					rprsntvMenu = "만호갈미 샤브샤브";
-					restRprsntvMenu.setText("• 주요 메뉴 : " + rprsntvMenu);
-					aDDR = "강서구 르노삼성대로 602";
-					restADDR.setText("• 주소지 : " + aDDR);
-					cntctTEL = "051-271-4389";
-					restCntctTEL.setText("• 영업시간 : " + usageTime);
-					usageTime = "12:00p.m. ~ 21:30p.m.";
-					restUsageTime.setText("• 연락처 : " + cntctTEL);
-					itemCntnts = "샤브샤브, 수육, 구이 등 다양한 방식으로 갈미조개를 요리하는 갈미조개 전문 식당. 국물이 맛있기로 유명한 이 곳은 갈미샤브샤브와 갈미수육이 대표메뉴이다.";
-					restItemCntnts.setText("• 소개 : " + itemCntnts);
-					try {
-						url = new URL("https://www.visitbusan.net/uploadImgs/files/cntnts/20191216135832825_thumbL");
-						image = ImageIO.read(url);
-						thumbL.setIcon(new ImageIcon(image));
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-
-				} else if (searchingList.getSelectedIndex() == 1) {
-					restTitle.setText("민물가든");
-					rprsntvMenu = "묵은지붕어조림, 붕어찜";
-					restRprsntvMenu.setText("• 주요 메뉴 : " + rprsntvMenu);
-					aDDR = "강서구 둔치중앙길5(봉림동)";
-					restADDR.setText("• 주소지 : " + aDDR);
-					cntctTEL = "051-971-8428";
-					restCntctTEL.setText("• 영업시간 : " + usageTime);
-					usageTime = "11:00p.m. ~ 21:00p.m.";
-					restUsageTime.setText("• 연락처 : " + cntctTEL);
-					itemCntnts = "30년간 운영해온 생선찜전문점으로, 전통방식인 나무통을 사용하여 조리하는 것이 특징이다. 20가지 이상의 재료로 만든 양념을 사용하는 이 곳은 묵은지 붕어조림과 붕어찜이 대표메뉴이다.";
-					restItemCntnts.setText("• 소개 : " + itemCntnts);
-					try {
-						url = new URL("https://www.visitbusan.net/uploadImgs/files/cntnts/20191217101816206_thumbL");
-						image = ImageIO.read(url);
-						thumbL.setIcon(new ImageIcon(image));
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-
-			}
-		});
+		searchingList.addListSelectionListener(new SecondPanelListListener(this));
+		// listeners 패키지 SecondPanelListListener 클래스의 리스너를 add
 
 	}
 }

@@ -14,11 +14,14 @@ import busan.Restaurant;
 
 public class SEARCHTOOLS {
 	// 임시 파라미터 (추가 예정)
+
+	// 검색버튼 액션리스너에서 사용됨
 	public static List<String> searchDB(String loca, String food) {
-		GUI2 frame = new GUI2();
 		List<String> list = new ArrayList<>();
+
 		String searchDB = "";
 		int caseKey = 0;
+
 		if (loca.equals("부산 전체")) {
 			if (food.equals("분류 없음")) {
 				searchDB = "SELECT Title FROM BUSAN.BPM;";
@@ -35,7 +38,6 @@ public class SEARCHTOOLS {
 				searchDB = "SELECT Title FROM BUSAN.BPM WHERE loca = ? and type = ?;";
 				caseKey = 4;
 			}
-
 		}
 
 		switch (caseKey) {
@@ -52,6 +54,7 @@ public class SEARCHTOOLS {
 				e.printStackTrace();
 			}
 			break;
+
 		case 2:
 			try (Connection conn = ConnectionProvider.getConnection();
 					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
@@ -66,6 +69,7 @@ public class SEARCHTOOLS {
 				e.printStackTrace();
 			}
 			break;
+
 		case 3:
 			try (Connection conn = ConnectionProvider.getConnection();
 					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
@@ -80,6 +84,7 @@ public class SEARCHTOOLS {
 				e.printStackTrace();
 			}
 			break;
+
 		case 4:
 			try (Connection conn = ConnectionProvider.getConnection();
 					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
@@ -95,6 +100,7 @@ public class SEARCHTOOLS {
 				e.printStackTrace();
 			}
 			break;
+
 		default:
 			break;
 		}
@@ -102,7 +108,28 @@ public class SEARCHTOOLS {
 		return list;
 	}
 
-	private Restaurant RestaurantList(ResultSet rs) throws SQLException {
+	public static Restaurant searchRestaurant(String title) {
+		Restaurant tempRest = null;
+		String searchRestaurant = "SELECT * FROM BUSAN.BPM WHERE title = ?;";
+
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(searchRestaurant);) {
+			stmt.setString(1, title);
+
+			try (ResultSet rs = stmt.executeQuery();) {
+				while (rs.next()) {
+					tempRest = RestaurantList(rs);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(1);
+		}
+
+		return tempRest;
+	}
+
+	private static Restaurant RestaurantList(ResultSet rs) throws SQLException {
 		String title = rs.getString("title");
 		String type = rs.getString("type");
 		String menu = rs.getString("menu");

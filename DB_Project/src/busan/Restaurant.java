@@ -34,14 +34,15 @@ public class Restaurant {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public String getMenu() {
 		return menu;
 	}
@@ -108,9 +109,8 @@ public class Restaurant {
 
 	@Override
 	public String toString() {
-		return "Restaurant [title=" + title + ", menu=" + menu + ", loca=" + loca + ", addr=" + addr
-				+ ", tel=" + tel + ", time=" + time + ", comment=" + comment + ", img=" + img + ", thumb=" + thumb
-				+ "]";
+		return "Restaurant [title=" + title + ", menu=" + menu + ", loca=" + loca + ", addr=" + addr + ", tel=" + tel
+				+ ", time=" + time + ", comment=" + comment + ", img=" + img + ", thumb=" + thumb + "]";
 	}
 
 }

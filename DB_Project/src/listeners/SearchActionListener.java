@@ -15,7 +15,16 @@ import SEARCHINFO.SEARCHTOOLS;
 public class SearchActionListener implements ActionListener {
 	private GUI2 frame;
 	private JList<String> searchingList;
-	
+	private List<String> list;
+	private static int listSize;
+
+	public static int getListSize() {
+		return listSize;
+	}
+
+	public List<String> getList() {
+		return list;
+	}
 
 	public SearchActionListener(GUI2 frame) {
 		super();
@@ -26,14 +35,14 @@ public class SearchActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String loca = frame.selectedItemFromZone();
 		String type = frame.selectedItemFromFood();
-		List<String> list = SEARCHTOOLS.searchDB(loca, type);
-		int size = list.size();
-		String[] arr = list.toArray(new String[size]);
-		
-		searchingList = frame.getSearchingList();					
+		list = SEARCHTOOLS.searchDB(loca, type);
+		listSize = list.size();
+		String[] arr = list.toArray(new String[listSize]);
+
+		searchingList = frame.getSearchingList();
 		searchingList.setModel(new AbstractListModel<String>() {
 			String[] values = arr;
-			
+
 			public int getSize() {
 				return values.length;
 			}
@@ -43,7 +52,7 @@ public class SearchActionListener implements ActionListener {
 			}
 		});
 		frame.setSearchingList(searchingList);
-		
+
 		Container c = frame.getContentPane();
 		CardLayout card = frame.getCard();
 		card.show(c, "SecondScreen");
