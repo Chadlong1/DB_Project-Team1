@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -49,6 +50,7 @@ public class GUI2 extends JFrame {
 	private JLabel restCntctTEL;
 	private JLabel restUsageTime;
 	private JLabel restItemCntnts2;
+	private JLabel pin;
 
 	public void setThumbL(String RestURL) {
 		try {
@@ -192,6 +194,52 @@ public class GUI2 extends JFrame {
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
 		zoneComboBox.setBounds(50, 90, 80, 30);
+		zoneComboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String loca = selectedItemFromZone();
+				ImageIcon pinIcon = new ImageIcon("pin.png");
+				pin = new JLabel(pinIcon);
+				pin.removeAll();
+				
+				List<MapPin> localist = new ArrayList<>();
+				localist.add(new MapPin(0,0));
+				localist.add(new MapPin(570,320));
+				localist.add(new MapPin(500,320));
+				localist.add(new MapPin(550,220));
+				localist.add(new MapPin(640,380));
+				localist.add(new MapPin(525,400));
+				localist.add(new MapPin(550,440));
+				localist.add(new MapPin(580,385));
+				localist.add(new MapPin(325,390));
+				localist.add(new MapPin(660,350));
+				localist.add(new MapPin(600,260));
+				localist.add(new MapPin(630,300));
+				localist.add(new MapPin(720,280));
+				localist.add(new MapPin(600,460));
+				localist.add(new MapPin(630,160));
+				localist.add(new MapPin(480,440));
+				
+				System.out.println(localist);
+					
+//					{570, 320}, {500, 320}, {550, 220}, {640, 380}, {525, 400}, {550, 440}, {580, 385}
+//					,{325, 390}, {660, 350}, {600, 260}, {630, 300}, {720, 280}, {600, 460} ,{630, 160}
+//					,{480, 440}
+					
+				for (int i = 0; i < 16; i++) {
+					if (loca == zone[i]) {
+						pin.setBounds(localist.get(i).getX(),localist.get(i).getY(), 100, 100);
+						
+						firstPanel.add(pin);
+						System.out.println(i);
+						firstPanel.revalidate();
+			            firstPanel.repaint();
+					}
+				}
+				
+			}
+		});
 		firstPanel.add(zoneComboBox);
 
 		foodComboBox = new JComboBox(food);
