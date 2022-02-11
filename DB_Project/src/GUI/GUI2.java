@@ -40,12 +40,6 @@ public class GUI2 extends JFrame {
 	private JComboBox<String> zoneComboBox;
 	private JComboBox<String> foodComboBox;
 	private JComboBox<String> ratingComboBox;
-	private String rprsntvMenu;
-	private String aDDR;
-	private String cntctTEL;
-	private String usageTime;
-	private String itemCntnts;
-	private URL url;
 	private Image image;
 	private JList<String> searchingList;
 	private JLabel thumbL;
@@ -54,7 +48,7 @@ public class GUI2 extends JFrame {
 	private JLabel restADDR;
 	private JLabel restCntctTEL;
 	private JLabel restUsageTime;
-	private JLabel restItemCntnts;
+	private JLabel restItemCntnts2;
 
 	public void setThumbL(String RestURL) {
 		try {
@@ -107,11 +101,11 @@ public class GUI2 extends JFrame {
 	}
 
 	public JLabel getRestItemCntnts() {
-		return restItemCntnts;
+		return restItemCntnts2;
 	}
 
-	public void setRestItemCntnts(String restItemCntnts) {
-		this.restItemCntnts.setText("• 소개 : " + restItemCntnts);
+	public void setRestItemCntnts2(String restItemCntnts2) {
+		this.restItemCntnts2.setText("<html><p style=\"width:300px;\">" + restItemCntnts2 + "</p></html>");
 	}
 
 	public JList<String> getSearchingList() {
@@ -161,11 +155,9 @@ public class GUI2 extends JFrame {
 		contentPane.setBorder(new EmptyBorder(3, 3, 3, 3));
 		setContentPane(contentPane);
 
-		ImageIcon icon = new ImageIcon("부산_리사이징.png");
-
 		contentPane.setLayout(card);
 		c = getContentPane();
-
+		ImageIcon icon = new ImageIcon("부산_리사이징.png");
 		JPanel firstPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				// Approach 1: Dispaly image at at full size
@@ -184,10 +176,10 @@ public class GUI2 extends JFrame {
 		contentPane.add(firstPanel, "FirstScreen");
 		firstPanel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("돼동여지도");
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		lblNewLabel.setBounds(50, 30, 133, 39);
-		firstPanel.add(lblNewLabel);
+		JLabel programMainTitle = new JLabel("돼동여지도");
+		programMainTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		programMainTitle.setBounds(50, 30, 133, 39);
+		firstPanel.add(programMainTitle);
 
 		String[] zone = { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
@@ -244,8 +236,6 @@ public class GUI2 extends JFrame {
 		secondPanel.add(secondMainPanel);
 		secondMainPanel.setLayout(null);
 
-		image = null;
-
 		thumbL = new JLabel("");
 		thumbL.setHorizontalAlignment(SwingConstants.CENTER);
 		thumbL.setBounds(494, 15, 427, 330);
@@ -254,47 +244,47 @@ public class GUI2 extends JFrame {
 
 		restTitle = new JLabel("목록에서 식당을 선택하세요");
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		restTitle.setBounds(27, 26, 337, 47);
+		restTitle.setBounds(27, 20, 337, 47);
 		secondMainPanel.add(restTitle);
 
-		rprsntvMenu = "";
-		restRprsntvMenu = new JLabel("• 주요 메뉴 : " + rprsntvMenu);
+		restRprsntvMenu = new JLabel("• 주요 메뉴 : ");
 		restRprsntvMenu.setVerticalAlignment(SwingConstants.TOP);
 		restRprsntvMenu.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restRprsntvMenu.setBounds(27, 94, 449, 25);
+		restRprsntvMenu.setBounds(27, 85, 449, 25);
 		secondMainPanel.add(restRprsntvMenu);
 
-		aDDR = "";
-		restADDR = new JLabel("• 주소지 : " + aDDR);
+		restADDR = new JLabel("• 주소지 : ");
 		restADDR.setVerticalAlignment(SwingConstants.TOP);
 		restADDR.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restADDR.setBounds(27, 129, 449, 25);
+		restADDR.setBounds(27, 120, 449, 25);
 		secondMainPanel.add(restADDR);
 
-		cntctTEL = "";
-		restCntctTEL = new JLabel("• 연락처 : " + cntctTEL);
+		restCntctTEL = new JLabel("• 연락처 : ");
 		restCntctTEL.setVerticalAlignment(SwingConstants.TOP);
 		restCntctTEL.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restCntctTEL.setBounds(27, 164, 449, 25);
+		restCntctTEL.setBounds(27, 155, 449, 25);
 		secondMainPanel.add(restCntctTEL);
 
-		usageTime = "";
-		restUsageTime = new JLabel("• 영업시간 : " + usageTime);
+		restUsageTime = new JLabel("• 영업시간 : ");
 		restUsageTime.setVerticalAlignment(SwingConstants.TOP);
 		restUsageTime.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restUsageTime.setBounds(27, 199, 449, 25);
+		restUsageTime.setBounds(27, 190, 449, 25);
 		secondMainPanel.add(restUsageTime);
 
-		itemCntnts = "";
-		restItemCntnts = new JLabel("• 소개 : " + itemCntnts);
+		JLabel restItemCntnts = new JLabel("• 소개 : ");
 		restItemCntnts.setVerticalAlignment(SwingConstants.TOP);
 		restItemCntnts.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restItemCntnts.setBounds(27, 234, 449, 80);
+		restItemCntnts.setBounds(27, 225, 60, 111);
 		secondMainPanel.add(restItemCntnts);
+
+		restItemCntnts2 = new JLabel("");
+		restItemCntnts2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		restItemCntnts2.setVerticalAlignment(SwingConstants.TOP);
+		restItemCntnts2.setBounds(83, 225, 388, 125);
+		secondMainPanel.add(restItemCntnts2);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setBounds(20, 395, 400, 280);
-
 		secondPanel.add(listScrollPane);
 
 		searchingList = new JList<>();

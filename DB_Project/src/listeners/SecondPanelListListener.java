@@ -1,11 +1,5 @@
 package listeners;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -35,7 +29,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 				frame.setRestADDR(tempRest.getAddr());
 				frame.setRestCntctTEL(tempRest.getTel());
 				frame.setRestUsageTime(tempRest.getTime());
-				frame.setRestItemCntnts(tempRest.getComment());
+				frame.setRestItemCntnts2(tempRest.getComment());
 				frame.setThumbL(tempRest.getThumb());
 			}
 		}
