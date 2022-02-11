@@ -38,7 +38,6 @@ import SEARCHINFO.SEARCHTOOLS;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
 
-
 public class GUI2 extends JFrame {
 
 	private JPanel contentPane;
@@ -152,51 +151,49 @@ public class GUI2 extends JFrame {
 			}
 		});
 	}
+
 	// 리뷰 다이얼로그 창
-	   class reviewDialog extends JDialog {
-	      public reviewDialog(JFrame parent) {
-	            super(parent, "리뷰창", true);
-	            
-	            setLayout(new BorderLayout());
-	            
-	            
-	            JTextArea text = new JTextArea(12, 21);
-	            TextField box = new TextField(30);
-	            
-	            Container c = getContentPane();
-	            
-	            JButton btn = new JButton("확인");
-	            JButton btn1 = new JButton("닫기");
-	            
-	            
-	              c.add(box);
-	            c.add(new JScrollPane(text));
-	            
-	             btn.addActionListener(new ActionListener(){
-	                      @Override
-	                      public void actionPerformed(ActionEvent e) {
-	                          text.append(box.getText()+"\n");
-	                      }
-	                  });
-	             setLayout(new FlowLayout());
-	             
-	             btn1.addActionListener(new ActionListener() {
-	                @Override
-	                public void actionPerformed(ActionEvent e) {
-	                   reviewDialog.this.dispose();
-	               }
-	            });
-	            add(text);
-	            add(box);
+	class reviewDialog extends JDialog {
+		public reviewDialog(JFrame parent) {
+			super(parent, "리뷰창", true);
 
-	            add(btn);
-	            add(btn1);
+			setLayout(new BorderLayout());
 
-	            setSize(300, 300);
-	            setLocation(1085, 200);
-	         }
-	      }
+			JTextArea text = new JTextArea(12, 21);
+			TextField box = new TextField(30);
 
+			Container c = getContentPane();
+
+			JButton btn = new JButton("확인");
+			JButton btn1 = new JButton("닫기");
+
+			c.add(box);
+			c.add(new JScrollPane(text));
+
+			btn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					text.append(box.getText() + "\n");
+				}
+			});
+			setLayout(new FlowLayout());
+
+			btn1.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					reviewDialog.this.dispose();
+				}
+			});
+			add(text);
+			add(box);
+
+			add(btn);
+			add(btn1);
+
+			setSize(300, 300);
+			setLocation(1085, 200);
+		}
+	}
 
 	public GUI2() {
 		setTitle("돼동여지도");
@@ -241,54 +238,54 @@ public class GUI2 extends JFrame {
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
 		List<String> list = searchTool.searchLoca();
 
+		ImageIcon pinIcon = new ImageIcon("pin.png");
+		pin = new JLabel(pinIcon);
 		zoneComboBox = new JComboBox(zone);
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
 		zoneComboBox.setBounds(50, 90, 80, 30);
 		zoneComboBox.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String loca = selectedItemFromZone();
-				ImageIcon pinIcon = new ImageIcon("pin.png");
-				pin = new JLabel(pinIcon);
-				pin.removeAll();
-				
+
+				firstPanel.remove(pin);
+
 				List<MapPin> localist = new ArrayList<>();
-				localist.add(new MapPin(0,0));
-				localist.add(new MapPin(570,320));
-				localist.add(new MapPin(500,320));
-				localist.add(new MapPin(550,220));
-				localist.add(new MapPin(640,380));
-				localist.add(new MapPin(525,400));
-				localist.add(new MapPin(550,440));
-				localist.add(new MapPin(580,385));
-				localist.add(new MapPin(325,390));
-				localist.add(new MapPin(660,350));
-				localist.add(new MapPin(600,260));
-				localist.add(new MapPin(630,300));
-				localist.add(new MapPin(720,280));
-				localist.add(new MapPin(600,460));
-				localist.add(new MapPin(630,160));
-				localist.add(new MapPin(480,440));
-				
-				System.out.println(localist);
-					
+				localist.add(new MapPin(0, 0));
+				localist.add(new MapPin(570, 320));
+				localist.add(new MapPin(500, 320));
+				localist.add(new MapPin(550, 220));
+				localist.add(new MapPin(640, 380));
+				localist.add(new MapPin(525, 400));
+				localist.add(new MapPin(550, 440));
+				localist.add(new MapPin(570, 380));
+				localist.add(new MapPin(325, 380));
+				localist.add(new MapPin(660, 350));
+				localist.add(new MapPin(600, 260));
+				localist.add(new MapPin(630, 300));
+				localist.add(new MapPin(720, 280));
+				localist.add(new MapPin(600, 460));
+				localist.add(new MapPin(630, 160));
+				localist.add(new MapPin(480, 440));
+
 //					{570, 320}, {500, 320}, {550, 220}, {640, 380}, {525, 400}, {550, 440}, {580, 385}
 //					,{325, 390}, {660, 350}, {600, 260}, {630, 300}, {720, 280}, {600, 460} ,{630, 160}
 //					,{480, 440}
-					
+
 				for (int i = 0; i < 16; i++) {
 					if (loca == zone[i]) {
-						pin.setBounds(localist.get(i).getX(),localist.get(i).getY(), 100, 100);
-						
+						pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
+
 						firstPanel.add(pin);
-						System.out.println(i);
 						firstPanel.revalidate();
-			            firstPanel.repaint();
+						firstPanel.repaint();
+						
+
 					}
 				}
-				
+
 			}
 		});
 		firstPanel.add(zoneComboBox);
@@ -340,8 +337,6 @@ public class GUI2 extends JFrame {
 		thumbL.setBounds(494, 15, 427, 330);
 		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
 		secondMainPanel.add(thumbL);
-		
-	         
 
 		restTitle = new JLabel("목록에서 식당을 선택하세요");
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -383,27 +378,25 @@ public class GUI2 extends JFrame {
 		restItemCntnts2.setVerticalAlignment(SwingConstants.TOP);
 		restItemCntnts2.setBounds(83, 225, 388, 125);
 		secondMainPanel.add(restItemCntnts2);
-		
 
-		 JButton btn1 = new JButton("review");
-	     secondMainPanel.add(btn1);
-	     btn1.setBounds(400, 320, 80, 20);
+		JButton btn1 = new JButton("review");
+		secondMainPanel.add(btn1);
+		btn1.setBounds(400, 320, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setBounds(20, 395, 400, 280);
 		secondPanel.add(listScrollPane);
-		
-		  // 리뷰창 팝업 액션리스너
 
-        btn1.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-              reviewDialog dialog = new reviewDialog(GUI2.this);
-              dialog.setVisible(true);
+		// 리뷰창 팝업 액션리스너
 
-           }
-        });
+		btn1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reviewDialog dialog = new reviewDialog(GUI2.this);
+				dialog.setVisible(true);
 
+			}
+		});
 
 		searchingList = new JList<>();
 		listScrollPane.setViewportView(searchingList);
