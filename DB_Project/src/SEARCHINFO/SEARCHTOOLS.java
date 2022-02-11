@@ -1,4 +1,4 @@
-       package SEARCHINFO;
+package SEARCHINFO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class SEARCHTOOLS {
 			try (Connection conn = ConnectionProvider.getConnection();
 					Statement stmt = conn.createStatement();
 					ResultSet rs = stmt.executeQuery(searchDB);) {
-				
+
 				while (rs.next()) {
 					list.add(rs.getString("title"));
 				}

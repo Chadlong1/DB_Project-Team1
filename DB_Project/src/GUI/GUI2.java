@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -24,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -49,6 +50,62 @@ public class GUI2 extends JFrame {
 	private URL url;
 	private Image image;
 	private JList<String> searchingList;
+	private JLabel thumbL;
+	private JLabel restTitle;
+	private JLabel restRprsntvMenu;
+	private JLabel restADDR;
+	private JLabel restCntctTEL;
+	private JLabel restUsageTime;
+	private JLabel restItemCntnts;
+	private JScrollBar scrollBar;
+
+	public JLabel getRestTitle() {
+		return restTitle;
+	}
+
+	public void setRestTitle(JLabel restTitle) {
+		this.restTitle = restTitle;
+	}
+
+	public JLabel getRestRprsntvMenu() {
+		return restRprsntvMenu;
+	}
+
+	public void setRestRprsntvMenu(JLabel restRprsntvMenu) {
+		this.restRprsntvMenu = restRprsntvMenu;
+	}
+
+	public JLabel getRestADDR() {
+		return restADDR;
+	}
+
+	public void setRestADDR(JLabel restADDR) {
+		this.restADDR = restADDR;
+	}
+
+	public JLabel getRestCntctTEL() {
+		return restCntctTEL;
+	}
+
+	public void setRestCntctTEL(JLabel restCntctTEL) {
+		this.restCntctTEL = restCntctTEL;
+	}
+
+	public JLabel getRestUsageTime() {
+		return restUsageTime;
+	}
+
+	public void setRestUsageTime(JLabel restUsageTime) {
+		this.restUsageTime = restUsageTime;
+	}
+
+	public JLabel getRestItemCntnts() {
+		return restItemCntnts;
+	}
+
+	public void setRestItemCntnts(JLabel restItemCntnts) {
+		this.restItemCntnts = restItemCntnts;
+	}
 
 	public JList<String> getSearchingList() {
 		return searchingList;
@@ -162,7 +219,7 @@ public class GUI2 extends JFrame {
 		contentPane.add(secondPanel, "SecondScreen");
 
 		JButton goBackButton = new JButton("뒤로가기");
-		goBackButton.setBounds(861, 636, 97, 32);
+		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		goBackButton.addActionListener(new ActionListener() {
@@ -182,64 +239,64 @@ public class GUI2 extends JFrame {
 		secondMainPanel.setLayout(null);
 
 		image = null;
-		try {
-			url = new URL("https://www.visitbusan.net/uploadImgs/files/cntnts/20191216135832825_thumbL");
-			image = ImageIO.read(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		JLabel thumbL = new JLabel("");
+
+		thumbL = new JLabel("");
 		thumbL.setHorizontalAlignment(SwingConstants.CENTER);
-		thumbL.setBounds(499, 10, 427, 330);
+		thumbL.setBounds(494, 15, 427, 330);
 		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
 		secondMainPanel.add(thumbL);
 
-		JLabel restTitle = new JLabel("가게 이름");
+		restTitle = new JLabel("가게 이름");
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		restTitle.setBounds(27, 26, 337, 47);
 		secondMainPanel.add(restTitle);
 
 		rprsntvMenu = "";
-		JLabel restRprsntvMenu = new JLabel("• 주요 메뉴 : " + rprsntvMenu);
+		restRprsntvMenu = new JLabel("• 주요 메뉴 : " + rprsntvMenu);
 		restRprsntvMenu.setVerticalAlignment(SwingConstants.TOP);
 		restRprsntvMenu.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restRprsntvMenu.setBounds(27, 94, 449, 25);
 		secondMainPanel.add(restRprsntvMenu);
 
 		aDDR = "";
-		JLabel restADDR = new JLabel("• 주소지 : " + aDDR);
+		restADDR = new JLabel("• 주소지 : " + aDDR);
 		restADDR.setVerticalAlignment(SwingConstants.TOP);
 		restADDR.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restADDR.setBounds(27, 129, 449, 25);
 		secondMainPanel.add(restADDR);
 
 		cntctTEL = "";
-		JLabel restCntctTEL = new JLabel("• 연락처 : " + cntctTEL);
+		restCntctTEL = new JLabel("• 연락처 : " + cntctTEL);
 		restCntctTEL.setVerticalAlignment(SwingConstants.TOP);
 		restCntctTEL.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restCntctTEL.setBounds(27, 164, 449, 25);
 		secondMainPanel.add(restCntctTEL);
 
 		usageTime = "";
-		JLabel restUsageTime = new JLabel("• 영업시간 : " + usageTime);
+		restUsageTime = new JLabel("• 영업시간 : " + usageTime);
 		restUsageTime.setVerticalAlignment(SwingConstants.TOP);
 		restUsageTime.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restUsageTime.setBounds(27, 199, 449, 25);
 		secondMainPanel.add(restUsageTime);
 
 		itemCntnts = "";
-		JLabel restItemCntnts = new JLabel("• 소개 : " + itemCntnts);
+		restItemCntnts = new JLabel("• 소개 : " + itemCntnts);
 		restItemCntnts.setVerticalAlignment(SwingConstants.TOP);
 		restItemCntnts.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restItemCntnts.setBounds(27, 234, 449, 80);
 		secondMainPanel.add(restItemCntnts);
 
+		JScrollPane listScrollPane = new JScrollPane();
+		listScrollPane.setBounds(20, 395, 400, 280);
+
+		secondPanel.add(listScrollPane);
 		
 		searchingList = new JList<>();
-		searchingList.setBounds(20, 396, 400, 272);
+		listScrollPane.setViewportView(searchingList);
+		searchingList.setVisibleRowCount(10);
 		searchingList.setModel(new AbstractListModel<String>() {
 			String[] values = new String[] {};
-			
+
 			public int getSize() {
 				return values.length;
 			}
@@ -249,10 +306,11 @@ public class GUI2 extends JFrame {
 			}
 		});
 
-		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		searchingList.setBorder(new LineBorder(new Color(128, 128, 128)));
 		searchingList.setValueIsAdjusting(true);
-		secondPanel.add(searchingList);
+		
+	
 		searchingList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {

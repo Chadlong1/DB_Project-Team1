@@ -9,10 +9,9 @@
 //import javax.swing.event.ListSelectionListener;
 //
 //import GUI.GUI2;
-//import teacher.MyFrame;
 //
 //public class SecondPanelListListener implements ListSelectionListener{
-//	private MyFrame frame;
+//	private GUI2 frame;
 //	
 //	public SecondPanelListListener(GUI2 frame) {
 //		super();
