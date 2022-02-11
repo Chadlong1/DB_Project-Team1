@@ -1,13 +1,16 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -20,11 +23,13 @@ import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -32,6 +37,7 @@ import javax.swing.border.LineBorder;
 import SEARCHINFO.SEARCHTOOLS;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
+
 
 public class GUI2 extends JFrame {
 
@@ -146,6 +152,51 @@ public class GUI2 extends JFrame {
 			}
 		});
 	}
+	// 리뷰 다이얼로그 창
+	   class reviewDialog extends JDialog {
+	      public reviewDialog(JFrame parent) {
+	            super(parent, "리뷰창", true);
+	            
+	            setLayout(new BorderLayout());
+	            
+	            
+	            JTextArea text = new JTextArea(12, 21);
+	            TextField box = new TextField(30);
+	            
+	            Container c = getContentPane();
+	            
+	            JButton btn = new JButton("확인");
+	            JButton btn1 = new JButton("닫기");
+	            
+	            
+	              c.add(box);
+	            c.add(new JScrollPane(text));
+	            
+	             btn.addActionListener(new ActionListener(){
+	                      @Override
+	                      public void actionPerformed(ActionEvent e) {
+	                          text.append(box.getText()+"\n");
+	                      }
+	                  });
+	             setLayout(new FlowLayout());
+	             
+	             btn1.addActionListener(new ActionListener() {
+	                @Override
+	                public void actionPerformed(ActionEvent e) {
+	                   reviewDialog.this.dispose();
+	               }
+	            });
+	            add(text);
+	            add(box);
+
+	            add(btn);
+	            add(btn1);
+
+	            setSize(300, 300);
+	            setLocation(1085, 200);
+	         }
+	      }
+
 
 	public GUI2() {
 		setTitle("돼동여지도");
@@ -289,6 +340,8 @@ public class GUI2 extends JFrame {
 		thumbL.setBounds(494, 15, 427, 330);
 		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
 		secondMainPanel.add(thumbL);
+		
+	         
 
 		restTitle = new JLabel("목록에서 식당을 선택하세요");
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -330,10 +383,27 @@ public class GUI2 extends JFrame {
 		restItemCntnts2.setVerticalAlignment(SwingConstants.TOP);
 		restItemCntnts2.setBounds(83, 225, 388, 125);
 		secondMainPanel.add(restItemCntnts2);
+		
+
+		 JButton btn1 = new JButton("review");
+	     secondMainPanel.add(btn1);
+	     btn1.setBounds(400, 320, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setBounds(20, 395, 400, 280);
 		secondPanel.add(listScrollPane);
+		
+		  // 리뷰창 팝업 액션리스너
+
+        btn1.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+              reviewDialog dialog = new reviewDialog(GUI2.this);
+              dialog.setVisible(true);
+
+           }
+        });
+
 
 		searchingList = new JList<>();
 		listScrollPane.setViewportView(searchingList);
