@@ -254,27 +254,23 @@ public class GUI2 extends JFrame {
 
 				List<MapPin> localist = new ArrayList<>();
 				localist.add(new MapPin(0, 0));
-				localist.add(new MapPin(570, 320));
-				localist.add(new MapPin(500, 320));
-				localist.add(new MapPin(550, 220));
-				localist.add(new MapPin(640, 380));
-				localist.add(new MapPin(525, 400));
-				localist.add(new MapPin(550, 440));
-				localist.add(new MapPin(570, 380));
-				localist.add(new MapPin(325, 380));
-				localist.add(new MapPin(660, 350));
-				localist.add(new MapPin(600, 260));
-				localist.add(new MapPin(630, 300));
-				localist.add(new MapPin(720, 280));
-				localist.add(new MapPin(600, 460));
-				localist.add(new MapPin(630, 160));
-				localist.add(new MapPin(480, 440));
+				localist.add(new MapPin(570, 320)); //부산진구
+				localist.add(new MapPin(500, 320)); //사상구
+				localist.add(new MapPin(550, 220)); //북구
+				localist.add(new MapPin(640, 380)); //남구
+				localist.add(new MapPin(525, 400)); //서구
+				localist.add(new MapPin(550, 440)); //중구
+				localist.add(new MapPin(570, 380)); //동구
+				localist.add(new MapPin(325, 380)); //강서구
+				localist.add(new MapPin(660, 350)); //수영구
+				localist.add(new MapPin(600, 260)); //동래구
+				localist.add(new MapPin(630, 300)); //연제구
+				localist.add(new MapPin(720, 280)); //해운대구
+				localist.add(new MapPin(600, 460)); //영도구
+				localist.add(new MapPin(630, 160)); //금정구
+				localist.add(new MapPin(480, 440)); //사하구
 
-//					{570, 320}, {500, 320}, {550, 220}, {640, 380}, {525, 400}, {550, 440}, {580, 385}
-//					,{325, 390}, {660, 350}, {600, 260}, {630, 300}, {720, 280}, {600, 460} ,{630, 160}
-//					,{480, 440}
-
-				for (int i = 0; i < 16; i++) {
+				for (int i = 1; i < 16; i++) {
 					if (loca == zone[i]) {
 						pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
 
