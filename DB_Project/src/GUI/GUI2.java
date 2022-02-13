@@ -152,49 +152,6 @@ public class GUI2 extends JFrame {
 		});
 	}
 
-	// 리뷰 다이얼로그 창
-	class reviewDialog extends JDialog {
-		public reviewDialog(JFrame parent) {
-			super(parent, "리뷰창", true);
-
-			setLayout(new BorderLayout());
-
-			JTextArea text = new JTextArea(12, 21);
-			TextField box = new TextField(30);
-
-			Container c = getContentPane();
-
-			JButton btn = new JButton("확인");
-			JButton btn1 = new JButton("닫기");
-
-			c.add(box);
-			c.add(new JScrollPane(text));
-
-			btn.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					text.append(box.getText() + "\n");
-				}
-			});
-			setLayout(new FlowLayout());
-
-			btn1.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					reviewDialog.this.dispose();
-				}
-			});
-			add(text);
-			add(box);
-
-			add(btn);
-			add(btn1);
-
-			setSize(300, 300);
-			setLocation(1085, 200);
-		}
-	}
-
 	public GUI2() {
 		setTitle("돼동여지도");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -375,9 +332,9 @@ public class GUI2 extends JFrame {
 		restItemCntnts2.setBounds(83, 225, 388, 125);
 		secondMainPanel.add(restItemCntnts2);
 
-		JButton btn1 = new JButton("review");
-		secondMainPanel.add(btn1);
-		btn1.setBounds(400, 320, 80, 20);
+		JButton btnReviewDialogPopUp = new JButton("review");
+		secondMainPanel.add(btnReviewDialogPopUp);
+		btnReviewDialogPopUp.setBounds(400, 320, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setBounds(20, 395, 400, 280);
@@ -385,7 +342,7 @@ public class GUI2 extends JFrame {
 
 		// 리뷰창 팝업 액션리스너
 
-		btn1.addActionListener(new ActionListener() {
+		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reviewDialog dialog = new reviewDialog(GUI2.this);

@@ -39,24 +39,21 @@ public class ReviewRepository {
 		}
 	}
 
-
-	public void joinBpmReview() {
+	// busan.bpm과 busan.review를 조인하여 리뷰와 평점만 리스트로 리턴
+	public List<ReviewInput> joinBpmReview() {
 		String join = "SELECT * FROM busan.bpm AS A " + "LEFT JOIN busan.review AS B " + "ON A.id = B.bpm_id;";
-//		List<ReviewInput> list = new ArrayList<>();
-		System.out.println(join);
+		List<ReviewInput> list = new ArrayList<>();
 		try (Connection conn = ConnectionProvider.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(join);) {
 			while (rs.next()) {
-				String review = rs.getString("review");
-				Double rating = rs.getDouble("rating");
-//				List.add(new ReviewInput(review, rating));
-				System.out.println("review" + "rating");
+				list.add(returnReview(rs));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return list;
 	}
 	
 	//ResultSet 입력받으면 ReviewInput객체 반환

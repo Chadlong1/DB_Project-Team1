@@ -34,7 +34,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 			}
 		}
 //		System.out.println(searchingList.getMaxSelectionIndex());
-
+	
 	}
 
 }

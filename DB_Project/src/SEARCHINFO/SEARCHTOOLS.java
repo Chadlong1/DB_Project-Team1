@@ -176,5 +176,20 @@ public class SEARCHTOOLS {
 		}
 		return list;
 	}
+	// 상호명 입력시 테이블id 번호 리턴
+	public int searchIdNum(String title) {
+		String getIdNum = "SELECT ID FROM BUSAN.BPM WHERE title = ?;";
+		int idNum = 0;
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(getIdNum);) {
+			stmt.setString(1, title);
+			try (ResultSet rs = stmt.executeQuery();) {
+				idNum = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return idNum;
+	}
 
 }
