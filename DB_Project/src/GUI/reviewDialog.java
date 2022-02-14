@@ -29,14 +29,13 @@ class reviewDialog extends JDialog {
 		JButton btnOK = new JButton("확인");
 		JButton btnCloseDialog = new JButton("닫기");
 
-
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text.append(box.getText() + "\n");
-
+//				int idNum = SEARCHTOOLS.searchIdNum(title);
+//				ReviewRepository.insert(new ReviewInput(box.getText()), idNum);
 				box.setText("");
-				
 				
 			}
 		});

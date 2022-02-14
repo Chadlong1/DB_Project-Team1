@@ -25,13 +25,13 @@ public class ReviewRepository {
 	}
 
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
-	public void insert(ReviewInput reviewInput) {
+	public void insert(ReviewInput reviewInput, int idNum) {
 		String insert = "INSERT INTO comment (comment, rating, BPM_id)" + "VALUES (?, ?, ?);";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());
 			stmt.setDouble(2, reviewInput.getRating());
-//			stmt.setDouble(3, '선택한 음식점의 id');
+			stmt.setDouble(3, idNum);
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {

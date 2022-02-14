@@ -15,8 +15,9 @@ import GUI.MapPin;
 public class ComboBoxListener implements ActionListener {
 
 	private GUI2 frame;
-	private JLabel pin;
 	private ImageIcon pinIcon = new ImageIcon("pin.png");
+	private JLabel pin = new JLabel(pinIcon);
+	
 
 	public ComboBoxListener(GUI2 frame) {
 		super();
@@ -27,7 +28,6 @@ public class ComboBoxListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JPanel framePanel = frame.getFirstPanel();
 		String loca = frame.selectedItemFromZone();
-		pin = new JLabel(pinIcon);
 		String[] zone = frame.getZones();
 
 		framePanel.remove(pin);
