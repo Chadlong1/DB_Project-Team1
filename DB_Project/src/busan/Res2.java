@@ -192,8 +192,6 @@ public class Res2 {
 			String thumb = (String) tmp.get("MAIN_IMG_THUMB");
 			
 			// api = 오픈api에서 필요한 정보들을 반복문을 통해 하나씩 저장
-			// api = 오픈api에서 필요한 정보들을 반복문을 통해 하나씩 저장
-			// api = 오픈api에서 필요한 정보들을 반복문을 통해 하나씩 저장
 			Restaurant api = new Restaurant(title, type, menu, loca, addr, tel, time, comment, img, thumb);
 			
 			// 저장한 api값들을 apis라는 리스트에 추가
