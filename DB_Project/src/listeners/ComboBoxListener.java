@@ -18,18 +18,17 @@ public class ComboBoxListener implements ActionListener {
 	private ImageIcon pinIcon = new ImageIcon("pin.png");
 	private JLabel pin = new JLabel(pinIcon);
 	
-
+	
 	public ComboBoxListener(GUI2 frame) {
 		super();
 		this.frame = frame;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JPanel framePanel = frame.getFirstPanel();
 		String loca = frame.selectedItemFromZone();
 		String[] zone = frame.getZones();
-
 		framePanel.remove(pin);
 
 		List<MapPin> localist = new ArrayList<>();
@@ -49,7 +48,7 @@ public class ComboBoxListener implements ActionListener {
 		localist.add(new MapPin(600, 460)); // 영도구
 		localist.add(new MapPin(630, 160)); // 금정구
 		localist.add(new MapPin(480, 440)); // 사하구
-
+		
 		for (int i = 1; i < 16; i++) {
 			if (loca == zone[i]) {
 				pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
