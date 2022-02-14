@@ -9,6 +9,7 @@ public class Main {
 		Repository repo = new Repository();
 //		repo.dropTable();
 		repo.createTable();
+		System.out.println("테이블 생성");
 
 		ReviewRepository reviewRepo= new ReviewRepository();
 		reviewRepo.createReviewTable();
