@@ -27,14 +27,13 @@ import listeners.SearchActionListener;
 //리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
-
+	double rating;
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
 		setLayout(new BorderLayout());
-		
-		JPanel reviewInputInfo = new JPanel(new GridLayout(1,2));
-		
+
+		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
 		JTextArea text = new JTextArea(18, 31);
 		TextField box = new TextField(30);
@@ -48,19 +47,50 @@ class reviewDialog extends JDialog {
 		c.add(text);
 		JButton btnOK = new JButton("확인");
 		JButton btnCloseDialog = new JButton("닫기");
+
+		String[] star = new String[] { "★", "★★", "★★★", "★★★★", "★★★★★" };
 		
+		JComboBox starComboBox = new JComboBox(star);
+		starComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		starComboBox.setBackground(Color.WHITE);
+		starComboBox.setBounds(50, 90, 80, 30);
+		
+		reviewInputInfo.add(box);
+		reviewInputInfo.add(starComboBox);
 		// 리뷰 다이얼로그에서 확인 버튼 누를 시 busan.review테이블에 리뷰 및 평점 저장
+
+		starComboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String countStar = (String) starComboBox.getSelectedItem();
+				System.out.println(countStar);
+				if (countStar == star[0]) {
+					rating = 1.0;
+				} else if (countStar == star[1]) {
+					rating = 2.0;
+				} else if (countStar == star[2]) {
+					rating = 3.0;
+				} else if (countStar == star[3]) {
+					rating = 4.0;
+				} else if (countStar == star[4]) {
+					rating = 5.0;
+				}
+
+			}
+		});
+		
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text.append(box.getText() + "\n");
+				
 				for (int i = 0; i < SearchActionListener.getListSize(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
-						System.out.println(searchingList.getSelectedIndex());
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 						int idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput("장사 이렇게 하면 안되는데", 5.0), idNum);
+						ReviewRepository.insert(new ReviewInput(box.getText(), rating), idNum);
 					}
 				}
 //				List<ReviewInput> reviewList = new ArrayList<>();
@@ -69,42 +99,9 @@ class reviewDialog extends JDialog {
 
 			}
 		});
-		
-		String[] star = new String[] { "★", "★★", "★★★", "★★★★", "★★★★★" };
-		
-		 JComboBox starComboBox = new JComboBox(star);
-	      starComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-	      starComboBox.setBackground(Color.WHITE);
-	      starComboBox.setBounds(50, 90, 80, 30);
-	      
-	      
-	      reviewInputInfo.add(box);
-	      reviewInputInfo.add(starComboBox);
-		
-	      starComboBox.addActionListener(new ActionListener() {
-	          
-	          @Override
-	          public void actionPerformed(ActionEvent e) {
-	             Object selectedItemFromstarComboBox = null;
-				double rating;
-				if(selectedItemFromstarComboBox == star[0]) {
-	                rating = 1.0;
-	                System.out.println(rating);
-	             } else if(selectedItemFromstarComboBox == star[1]) {
-	                rating = 2.0;
-	             } else if(selectedItemFromstarComboBox == star[2]) {
-	            	 rating = 3.0;
-	             } else if(selectedItemFromstarComboBox == star[3]) {
-	            	 rating = 4.0;
-	             } else if(selectedItemFromstarComboBox == star[4]) {
-	            	 rating = 5.0;
-	             }
-	             
-	          }
-	       });
 
-	      
-		
+
+
 		setLayout(new FlowLayout());
 
 		btnCloseDialog.addActionListener(new ActionListener() {
@@ -116,11 +113,10 @@ class reviewDialog extends JDialog {
 		});
 		add(text);
 		add(box);
+		add(reviewInputInfo);
 
 		add(btnOK);
 		add(btnCloseDialog);
-		
-		add(reviewInputInfo);
 
 
 		setSize(400, 400);
