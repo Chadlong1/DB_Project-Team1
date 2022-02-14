@@ -33,7 +33,7 @@ public class Repository {
 		}
 	}
 	public int[] insertAll(List<Restaurant> apis) {
-		String insertTable = "REPLACE INTO BPM (title, type, menu, loca,"
+		String insertTable = "INSERT INTO BPM (title, type, menu, loca,"
 				+ "addr, tel, time, comment, img, thumb) "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
 		int[] result = null;

@@ -26,10 +26,10 @@ public class ConnectionProvider {
 		Statement stmt = conn.createStatement();
 		String createDatabase = "CREATE DATABASE if not exists busan";
 		String useDatabase = "USE busan";
-		stmt.executeUpdate(createDatabase);
+		stmt.executeUpdate(createDatabase); 
 		stmt.executeUpdate(useDatabase);
 		
-		stmt.close();
+		stmt.close(); 
 		
 		return conn;
 	}
