@@ -12,7 +12,8 @@ public class Main {
 
 		ReviewRepository reviewRepo = new ReviewRepository();
 		reviewRepo.createReviewTable();
-		while (repo.selectId()) {
+		
+		while (repo.discriminant()) {
 			try {
 				List<Restaurant> apis = Res2.getOpneApiData();
 				repo.insertAll(apis);

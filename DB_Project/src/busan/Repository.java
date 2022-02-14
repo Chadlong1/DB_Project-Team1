@@ -93,9 +93,9 @@ public class Repository {
 			e.printStackTrace();
 		}
 	}
-	
-	public boolean selectId() {
-		String query = "SELECT id FROM BUSAN.BPM WHERE id = 133;";
+	// DB중복 insert방지 판별
+	public boolean discriminant() {
+		String query = "SELECT id FROM BUSAN.BPM WHERE id = 1;";
 		boolean b = true;
 		try(Connection conn = ConnectionProvider.getConnection(); 
 				Statement stmt = conn.createStatement();) {
@@ -103,7 +103,7 @@ public class Repository {
 			
 			while(rs.next()) {
 				int idNum = rs.getInt("id");
-				if (idNum == 133) {
+				if (idNum == 1) {
 					b = false;
 				}
 			}
