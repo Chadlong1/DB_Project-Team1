@@ -7,7 +7,6 @@ import ReviewAndRatings.ReviewDB.ReviewRepository;
 public class Main {
 	public static void main(String[] args) {
 		Repository repo = new Repository();
-//		repo.dropTable();
 		repo.createTable();
 		System.out.println("테이블 생성");
 
