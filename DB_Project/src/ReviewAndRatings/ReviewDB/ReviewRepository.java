@@ -57,7 +57,7 @@ public class ReviewRepository {
 	}
 	
 	//ResultSet 입력받으면 ReviewInput객체 반환
-	private ReviewInput returnReview(ResultSet rs) throws SQLException {
+	private static ReviewInput returnReview(ResultSet rs) throws SQLException {
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
 		
@@ -65,7 +65,7 @@ public class ReviewRepository {
 	}
 	
 	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewInput 객체(후기, 평점)를 반환
-	public List<ReviewInput> viewReviewAtBpmId(int id) {
+	public static List<ReviewInput> viewReviewAtBpmId(int id) {
 		List<ReviewInput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.bpm" 
 				+ " WHERE bpm_id = ?";
