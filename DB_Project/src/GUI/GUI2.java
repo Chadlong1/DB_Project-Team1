@@ -1,21 +1,17 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.SystemColor;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -23,13 +19,11 @@ import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -56,9 +50,11 @@ public class GUI2 extends JFrame {
 	private JLabel restCntctTEL;
 	private JLabel restUsageTime;
 	private JLabel restItemCntnts2;
-	private JLabel pin;
 	private JPanel firstPanel;
 	private String[] zones;
+	private JLabel mapTitleLabel;
+	private JPanel staticMapPanel;
+	private JLabel staitcMap;
 
 	public String[] getZones() {
 		return zones;
@@ -77,6 +73,16 @@ public class GUI2 extends JFrame {
 			URL url = new URL(RestURL);
 			image = ImageIO.read(url);
 			thumbL.setIcon(new ImageIcon(image));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public void setStaitcMap(String RestURL) {
+		try {
+			URL url = new URL(RestURL);
+			image = ImageIO.read(url);
+			staitcMap.setIcon(new ImageIcon(image));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -198,11 +204,11 @@ public class GUI2 extends JFrame {
 
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
-		String[] food = { "음식종류", "분류 없음", "한식", "중식", "양식", "일식", "분식" };
+		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", "분식" };
 		String[] rating = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
 		List<String> list = searchTool.searchLoca();
-		
+
 		zoneComboBox = new JComboBox(zones);
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
@@ -246,6 +252,7 @@ public class GUI2 extends JFrame {
 		secondPanel.add(goBackButton);
 
 		JPanel secondMainPanel = new JPanel();
+		secondMainPanel.setForeground(Color.GRAY);
 		secondMainPanel.setBounds(20, 20, 938, 360);
 		secondMainPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		secondMainPanel.setBackground(new Color(255, 255, 255));
@@ -253,6 +260,7 @@ public class GUI2 extends JFrame {
 		secondMainPanel.setLayout(null);
 
 		thumbL = new JLabel("");
+		thumbL.setForeground(Color.GRAY);
 		thumbL.setHorizontalAlignment(SwingConstants.CENTER);
 		thumbL.setBounds(494, 15, 427, 330);
 		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
@@ -304,11 +312,11 @@ public class GUI2 extends JFrame {
 		btnReviewDialogPopUp.setBounds(400, 320, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
-		listScrollPane.setBounds(20, 395, 400, 280);
+		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));
+		listScrollPane.setBounds(20, 425, 350, 250);
 		secondPanel.add(listScrollPane);
 
 		// 리뷰창 팝업 액션리스너
-
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -319,6 +327,8 @@ public class GUI2 extends JFrame {
 		});
 
 		searchingList = new JList<>();
+		searchingList.setForeground(Color.BLACK);
+		searchingList.setBorder(new LineBorder(Color.WHITE));
 		listScrollPane.setViewportView(searchingList);
 		searchingList.setVisibleRowCount(10);
 		searchingList.setModel(new AbstractListModel<String>() {
@@ -334,10 +344,34 @@ public class GUI2 extends JFrame {
 		});
 
 		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		searchingList.setBorder(new LineBorder(new Color(128, 128, 128)));
 		searchingList.setValueIsAdjusting(true);
 		searchingList.addListSelectionListener(new SecondPanelListListener(this));
 		// listeners 패키지 SecondPanelListListener 클래스의 리스너를 add
+
+		JLabel restList = new JLabel("식당 목록");
+		restList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		restList.setVerticalAlignment(SwingConstants.BOTTOM);
+		restList.setBounds(23, 390, 90, 30);
+		secondPanel.add(restList);
+
+		mapTitleLabel = new JLabel("지도");
+		mapTitleLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		mapTitleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+		mapTitleLabel.setBounds(403, 390, 50, 30);
+		secondPanel.add(mapTitleLabel);
+
+		staticMapPanel = new JPanel();
+		staticMapPanel.setForeground(Color.GRAY);
+		staticMapPanel.setBorder(new LineBorder(Color.GRAY));
+		staticMapPanel.setBackground(Color.WHITE);
+		staticMapPanel.setBounds(400, 425, 350, 250);
+		secondPanel.add(staticMapPanel);
+		staticMapPanel.setLayout(null);
+
+		staitcMap = new JLabel("");
+		staitcMap.setBounds(3, 3, 344, 244);
+		staitcMap.setHorizontalAlignment(SwingConstants.CENTER);
+		staticMapPanel.add(staitcMap);
 
 	}
 }
