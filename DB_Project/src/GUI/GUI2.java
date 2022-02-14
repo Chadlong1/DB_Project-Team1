@@ -35,6 +35,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import SEARCHINFO.SEARCHTOOLS;
+import listeners.ComboBoxListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
 
@@ -56,6 +57,20 @@ public class GUI2 extends JFrame {
 	private JLabel restUsageTime;
 	private JLabel restItemCntnts2;
 	private JLabel pin;
+	private JPanel firstPanel;
+	private String[] zones;
+
+	public String[] getZones() {
+		return zones;
+	}
+
+	public JPanel getFirstPanel() {
+		return firstPanel;
+	}
+
+	public void setFirstPanel(JPanel firstPanel) {
+		this.firstPanel = firstPanel;
+	}
 
 	public void setThumbL(String RestURL) {
 		try {
@@ -165,17 +180,10 @@ public class GUI2 extends JFrame {
 		contentPane.setLayout(card);
 		c = getContentPane();
 		ImageIcon icon = new ImageIcon("부산_리사이징.png");
-		JPanel firstPanel = new JPanel() {
+		firstPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				// Approach 1: Dispaly image at at full size
 				g.drawImage(icon.getImage(), 0, 0, null);
-				// Approach 2: Scale image to size of component
-				// Dimension d = getSize();
-				// g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
-				// Approach 3: Fix the image position in the scroll pane
-				// Point p = scrollPane.getViewport().getViewPosition();
-				// g.drawImage(icon.getImage(), p.x, p.y, null);
-				setOpaque(false); // 그림을 표시하게 설정,투명하게 조절
+				setOpaque(false);
 				super.paintComponent(g);
 			}
 		};
@@ -188,59 +196,18 @@ public class GUI2 extends JFrame {
 		programMainTitle.setBounds(50, 30, 133, 39);
 		firstPanel.add(programMainTitle);
 
-		String[] zone = { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
+		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
 		String[] food = { "음식종류", "분류 없음", "한식", "중식", "양식", "일식", "분식" };
 		String[] rating = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
 		List<String> list = searchTool.searchLoca();
-
-		ImageIcon pinIcon = new ImageIcon("pin.png");
-		pin = new JLabel(pinIcon);
-		zoneComboBox = new JComboBox(zone);
+		
+		zoneComboBox = new JComboBox(zones);
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
 		zoneComboBox.setBounds(50, 90, 80, 30);
-		zoneComboBox.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String loca = selectedItemFromZone();
-
-				firstPanel.remove(pin);
-
-				List<MapPin> localist = new ArrayList<>();
-				localist.add(new MapPin(0, 0));
-				localist.add(new MapPin(570, 320)); //부산진구
-				localist.add(new MapPin(500, 320)); //사상구
-				localist.add(new MapPin(550, 220)); //북구
-				localist.add(new MapPin(640, 380)); //남구
-				localist.add(new MapPin(525, 400)); //서구
-				localist.add(new MapPin(550, 440)); //중구
-				localist.add(new MapPin(570, 380)); //동구
-				localist.add(new MapPin(325, 380)); //강서구
-				localist.add(new MapPin(660, 350)); //수영구
-				localist.add(new MapPin(600, 260)); //동래구
-				localist.add(new MapPin(630, 300)); //연제구
-				localist.add(new MapPin(720, 280)); //해운대구
-				localist.add(new MapPin(600, 460)); //영도구
-				localist.add(new MapPin(630, 160)); //금정구
-				localist.add(new MapPin(480, 440)); //사하구
-
-				for (int i = 1; i < 16; i++) {
-					if (loca == zone[i]) {
-						pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
-
-						firstPanel.add(pin);
-						firstPanel.revalidate();
-						firstPanel.repaint();
-						
-
-					}
-				}
-
-			}
-		});
+		zoneComboBox.addActionListener(new ComboBoxListener(GUI2.this));
 		firstPanel.add(zoneComboBox);
 
 		foodComboBox = new JComboBox(food);
