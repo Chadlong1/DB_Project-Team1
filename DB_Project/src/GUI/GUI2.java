@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import SEARCHINFO.SEARCHTOOLS;
+import busan.Main;
 import listeners.ComboBoxListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
@@ -161,6 +162,8 @@ public class GUI2 extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		Main busanDB = new Main();
+		busanDB.main(args);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
