@@ -1,18 +1,20 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -30,10 +32,17 @@ class reviewDialog extends JDialog {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
 		setLayout(new BorderLayout());
+		
+		JPanel reviewInputInfo = new JPanel(new GridLayout(1,2));
+		
 
-		JTextArea text = new JTextArea(12, 21);
+		JTextArea text = new JTextArea(18, 31);
 		TextField box = new TextField(30);
 
+		JScrollPane textScrollPane = new JScrollPane();
+		textScrollPane.setBounds(20, 395, 400, 280);
+		textScrollPane.setViewportView(text);
+		add(textScrollPane);
 		Container c = getContentPane();
 
 		c.add(text);
@@ -45,7 +54,6 @@ class reviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text.append(box.getText() + "\n");
-				System.out.println(searchingList.getSelectedIndex());
 				for (int i = 0; i < SearchActionListener.getListSize(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						System.out.println(searchingList.getSelectedIndex());
@@ -61,6 +69,42 @@ class reviewDialog extends JDialog {
 
 			}
 		});
+		
+		String[] star = new String[] { "★", "★★", "★★★", "★★★★", "★★★★★" };
+		
+		 JComboBox starComboBox = new JComboBox(star);
+	      starComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+	      starComboBox.setBackground(Color.WHITE);
+	      starComboBox.setBounds(50, 90, 80, 30);
+	      
+	      
+	      reviewInputInfo.add(box);
+	      reviewInputInfo.add(starComboBox);
+		
+	      starComboBox.addActionListener(new ActionListener() {
+	          
+	          @Override
+	          public void actionPerformed(ActionEvent e) {
+	             Object selectedItemFromstarComboBox = null;
+				double rating;
+				if(selectedItemFromstarComboBox == star[0]) {
+	                rating = 1.0;
+	                System.out.println(rating);
+	             } else if(selectedItemFromstarComboBox == star[1]) {
+	                rating = 2.0;
+	             } else if(selectedItemFromstarComboBox == star[2]) {
+	            	 rating = 3.0;
+	             } else if(selectedItemFromstarComboBox == star[3]) {
+	            	 rating = 4.0;
+	             } else if(selectedItemFromstarComboBox == star[4]) {
+	            	 rating = 5.0;
+	             }
+	             
+	          }
+	       });
+
+	      
+		
 		setLayout(new FlowLayout());
 
 		btnCloseDialog.addActionListener(new ActionListener() {
@@ -75,13 +119,11 @@ class reviewDialog extends JDialog {
 
 		add(btnOK);
 		add(btnCloseDialog);
+		
+		add(reviewInputInfo);
 
-		JScrollPane textScrollPane = new JScrollPane();
-		textScrollPane.setBounds(20, 395, 400, 280);
-		textScrollPane.setViewportView(text);
-		add(textScrollPane);
 
-		setSize(300, 300);
+		setSize(400, 400);
 		setLocation(1085, 200);
 	}
 }
