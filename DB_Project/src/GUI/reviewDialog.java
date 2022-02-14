@@ -13,6 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import ReviewAndRatings.ReviewDB.ReviewInput;
+import ReviewAndRatings.ReviewDB.ReviewRepository;
+import SEARCHINFO.SEARCHTOOLS;
+
 //리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	public reviewDialog(JFrame parent) {
@@ -33,8 +37,8 @@ class reviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				text.append(box.getText() + "\n");
-//				int idNum = SEARCHTOOLS.searchIdNum(title);
-//				ReviewRepository.insert(new ReviewInput(box.getText()), idNum);
+				int idNum = SEARCHTOOLS.searchIdNum("민물가든");
+				ReviewRepository.insert(new ReviewInput("맛있다",5.0), idNum);
 				box.setText("");
 				
 			}

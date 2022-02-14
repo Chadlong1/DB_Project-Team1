@@ -25,8 +25,8 @@ public class ReviewRepository {
 	}
 
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
-	public void insert(ReviewInput reviewInput, int idNum) {
-		String insert = "INSERT INTO comment (comment, rating, BPM_id)" + "VALUES (?, ?, ?);";
+	public static void insert(ReviewInput reviewInput, int idNum) {
+		String insert = "INSERT INTO review (review, rating, BPM_id)" + "VALUES (?, ?, ?);";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());
