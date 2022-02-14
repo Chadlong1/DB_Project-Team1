@@ -10,14 +10,15 @@ public class Main {
 		repo.createTable();
 		System.out.println("테이블 생성");
 
-		ReviewRepository reviewRepo= new ReviewRepository();
+		ReviewRepository reviewRepo = new ReviewRepository();
 		reviewRepo.createReviewTable();
-		
-		try {
-			List<Restaurant> apis = Res2.getOpneApiData();
-			repo.insertAll(apis);
-		} catch (Exception e) {
-			e.printStackTrace();
+		while (repo.selectId()) {
+			try {
+				List<Restaurant> apis = Res2.getOpneApiData();
+				repo.insertAll(apis);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

@@ -2,6 +2,7 @@ package busan;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -93,4 +94,22 @@ public class Repository {
 		}
 	}
 	
+	public boolean selectId() {
+		String query = "SELECT id FROM BUSAN.BPM WHERE id = 133;";
+		boolean b = true;
+		try(Connection conn = ConnectionProvider.getConnection(); 
+				Statement stmt = conn.createStatement();) {
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				int idNum = rs.getInt("id");
+				if (idNum == 133) {
+					b = false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
 }
