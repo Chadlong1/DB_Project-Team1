@@ -204,7 +204,7 @@ public class GUI2 extends JFrame {
 
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
-		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", "분식" };
+		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
 		String[] rating = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
 		List<String> list = searchTool.searchLoca();
