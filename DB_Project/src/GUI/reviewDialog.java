@@ -58,9 +58,6 @@ class reviewDialog extends JDialog {
 			}
 		}
 		
-		
-		
-		
 		JScrollPane reviewScrollPane = new JScrollPane();
 		reviewScrollPane.setBounds(20, 395, 400, 280);
 		reviewScrollPane.setViewportView(reviewPanel);
