@@ -15,7 +15,7 @@ public class ReviewRepository {
 	public void createReviewTable() {
 		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(no INT PRIMARY KEY AUTO_INCREMENT"
 				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
-		System.out.println(createReviewTable);
+		System.out.println("리뷰 테이블 생성");
 
 		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createReviewTable);
@@ -67,9 +67,9 @@ public class ReviewRepository {
 	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewInput 객체(후기, 평점)를 반환
 	public static List<ReviewInput> viewReviewAtBpmId(int id) {
 		List<ReviewInput> list = new ArrayList<>();
-		String view = "SELECT * FROM busan.bpm" 
-				+ " WHERE bpm_id = ?";
-
+		String view = "SELECT * FROM busan.review" 
+				+ " WHERE bpm_id = ?;";
+		System.out.println(view);
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(view);) {
 			stmt.setInt(1, id);

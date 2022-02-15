@@ -9,10 +9,13 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,6 +31,7 @@ import listeners.SearchActionListener;
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
 	double rating;
+
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
@@ -35,16 +39,34 @@ class reviewDialog extends JDialog {
 
 		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
-		JTextArea text = new JTextArea(18, 31);
 		TextField box = new TextField(30);
-
-		JScrollPane textScrollPane = new JScrollPane();
-		textScrollPane.setBounds(20, 395, 400, 280);
-		textScrollPane.setViewportView(text);
-		add(textScrollPane);
-		Container c = getContentPane();
-
-		c.add(text);
+		JPanel reviewPanel = new JPanel(new GridLayout(0,2));
+		
+		int idNum;
+		for (int i = 0; i < SearchActionListener.getListSize(); i++) {
+			if (searchingList.getSelectedIndex() == i) {
+				String selectedItemStr = searchingList.getSelectedValue();
+				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+				idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+				ReviewRepository.viewReviewAtBpmId(idNum);
+				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
+					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
+					JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
+					reviewPanel.add(review);
+					reviewPanel.add(rating);
+				}
+			}
+		}
+		
+		
+		
+		
+		JScrollPane reviewScrollPane = new JScrollPane();
+		reviewScrollPane.setBounds(20, 395, 400, 280);
+		reviewScrollPane.setViewportView(reviewPanel);
+		add(reviewScrollPane);
+		
+		
 		JButton btnOK = new JButton("확인");
 		JButton btnCloseDialog = new JButton("닫기");
 
@@ -64,7 +86,6 @@ class reviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String countStar = (String) starComboBox.getSelectedItem();
-				System.out.println(countStar);
 				if (countStar == star[0]) {
 					rating = 1.0;
 				} else if (countStar == star[1]) {
@@ -83,7 +104,6 @@ class reviewDialog extends JDialog {
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				text.append(box.getText() + "\n");
 				
 				for (int i = 0; i < SearchActionListener.getListSize(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
@@ -100,7 +120,7 @@ class reviewDialog extends JDialog {
 			}
 		});
 
-
+ 
 
 		setLayout(new FlowLayout());
 
@@ -111,7 +131,7 @@ class reviewDialog extends JDialog {
 				reviewDialog.this.dispose();
 			}
 		});
-		add(text);
+		add(reviewPanel);
 		add(box);
 		add(reviewInputInfo);
 

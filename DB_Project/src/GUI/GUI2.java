@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -28,8 +29,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import ReviewAndRatings.ReviewDB.ReviewInput;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
+import busan.Restaurant;
 import listeners.ComboBoxListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
@@ -325,7 +328,6 @@ public class GUI2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				reviewDialog dialog = new reviewDialog(GUI2.this);
 				dialog.setVisible(true);
-
 			}
 		});
 
