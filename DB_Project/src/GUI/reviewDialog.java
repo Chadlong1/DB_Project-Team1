@@ -28,6 +28,7 @@ import busan.Restaurant;
 import listeners.SearchActionListener;
 
 //리뷰 다이얼로그 창
+//리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
 	double rating;
