@@ -39,9 +39,14 @@ class reviewDialog extends JDialog {
 
 		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
-		TextField box = new TextField(30);
+		// 리뷰Label과 평점Label이 표기될 패널
 		JPanel reviewPanel = new JPanel(new GridLayout(0,2));
 		
+		// 리뷰작성 텍스트필드
+		TextField box = new TextField(30);
+		
+		
+		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
 		int idNum;
 		for (int i = 0; i < SearchActionListener.getListSize(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
@@ -98,6 +103,7 @@ class reviewDialog extends JDialog {
 			}
 		});
 		
+		// 리뷰다이얼로그 창에서 확인버튼 누를시 작성한 리뷰와 선택한 평점이 ReviewInput 테이블에 Insert 됨
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -112,8 +118,8 @@ class reviewDialog extends JDialog {
 				}
 //				List<ReviewInput> reviewList = new ArrayList<>();
 //				ReviewRepository.viewReviewAtBpmId(idNum);
-				box.setText("");
 
+				box.setText("");
 			}
 		});
 
