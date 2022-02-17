@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -35,15 +36,24 @@ class reviewDialog extends JDialog {
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
-
-		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
-
-		// 리뷰Label과 평점Label이 표기될 패널
-		JPanel reviewPanel = new JPanel(new GridLayout(0,1));
 		
+		setLayout(null);
+		setBackground(Color.white);
+		
+		JPanel dialogPane = new JPanel();
+		dialogPane.setLayout(new BoxLayout(dialogPane,BoxLayout.Y_AXIS));
+		dialogPane.setBackground(Color.white);
+		
+		
+		
+		JPanel reviewInputInfo = new JPanel(new GridLayout(0, 2));
+		reviewInputInfo.setBackground(Color.white);
+		JPanel bottomPanel = new JPanel(new GridLayout(0,2));
+		// 리뷰Label과 평점Label이 표기될 패널
+		JPanel reviewPanel = new JPanel(new GridLayout(0,2));
+		reviewPanel.setBackground(Color.white);
 		// 리뷰작성 텍스트필드
 		TextField box = new TextField(35);
-		
 		
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
 		int idNum;
@@ -64,11 +74,10 @@ class reviewDialog extends JDialog {
 				}
 			}
 		}
-		
 		JScrollPane reviewScrollPane = new JScrollPane();
-		reviewScrollPane.setBounds(20, 395, 400, 280);
+		reviewScrollPane.setBounds(1085,200, 200,200);
 		reviewScrollPane.setViewportView(reviewPanel);
-		add(reviewScrollPane);
+		dialogPane.add(reviewScrollPane);
 		
 		
 		JButton btnOK = new JButton("확인");
@@ -122,6 +131,8 @@ class reviewDialog extends JDialog {
 				}
 				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getReview());
 				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getRating()));
+				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
 				revalidate();
@@ -142,16 +153,19 @@ class reviewDialog extends JDialog {
 				reviewDialog.this.dispose();
 			}
 		});
-		add(reviewPanel);
-		add(box);
-		add(reviewInputInfo);
-
-		add(btnOK);
-		add(btnCloseDialog);
-
-	
+		reviewInputInfo.add(box);
+		reviewInputInfo.add(starComboBox);
 		
-		setSize(400, 400);
+		bottomPanel.add(btnOK);
+		bottomPanel.add(btnCloseDialog);
+
+		dialogPane.add(reviewPanel);
+		dialogPane.add(reviewInputInfo);
+		dialogPane.add(bottomPanel);
+		
+		add(dialogPane);
+		setResizable(false);
+		setSize(400,400);
 		setLocation(1085, 200);
 	}
 }
