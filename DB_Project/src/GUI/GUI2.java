@@ -13,8 +13,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.ArrayList;
-
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
@@ -31,11 +29,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import SEARCHINFO.SEARCHTOOLS;
-import ReviewAndRatings.ReviewDB.ReviewInput;
-import ReviewAndRatings.ReviewDB.ReviewRepository;
 import busan.Main;
 import listeners.ComboBoxListener;
 import listeners.GoBackActionListener;
+import listeners.MapZoneSelectionMouseListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
 
@@ -62,6 +59,10 @@ public class GUI2 extends JFrame {
 	private JLabel mapTitleLabel;
 	private JPanel staticMapPanel;
 	private JLabel staitcMap;
+
+	public void setZoneComboBox(String zone) {
+		zoneComboBox.setSelectedItem(zone);
+	}
 
 	public String[] getZones() {
 		return zones;
@@ -94,12 +95,13 @@ public class GUI2 extends JFrame {
 			e1.printStackTrace();
 		}
 	}
+
 	public JLabel getRating() {
 		return rating;
 	}
 
 	public void setRating(String rating) {
-		this.rating.setText(rating+"/5");
+		this.rating.setText(rating + "/5");
 	}
 
 	public void setThumbLEmpty() {
@@ -222,6 +224,7 @@ public class GUI2 extends JFrame {
 		firstPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(firstPanel, "FirstScreen");
 		firstPanel.setLayout(null);
+		firstPanel.addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
 
 		JLabel programMainTitle = new JLabel("돼동여지도");
 		programMainTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
@@ -258,8 +261,8 @@ public class GUI2 extends JFrame {
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		searchButton.setBackground(new Color(190, 204, 216));
 		searchButton.setBounds(350, 90, 80, 30);
-		firstPanel.add(searchButton);
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
+		firstPanel.add(searchButton);
 
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
@@ -293,9 +296,9 @@ public class GUI2 extends JFrame {
 		restTitle.setBounds(27, 20, 337, 47);
 		secondMainPanel.add(restTitle);
 
-		rating=new JLabel("평점");
+		rating = new JLabel("평점");
 		rating.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-		rating.setBounds(400, 20, 337, 47);
+		rating.setBounds(400, 20, 82, 47);
 		secondMainPanel.add(rating);
 		secondMainPanel.revalidate();
 		secondMainPanel.repaint();
@@ -402,6 +405,4 @@ public class GUI2 extends JFrame {
 		staticMapPanel.add(staitcMap);
 
 	}
-
-	
 }
