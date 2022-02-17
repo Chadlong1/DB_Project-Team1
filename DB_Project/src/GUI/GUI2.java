@@ -264,12 +264,8 @@ public class GUI2 extends JFrame {
 		JButton searchButton = new JButton("검색");
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		searchButton.setBackground(new Color(190, 204, 216));
-<<<<<<< HEAD
-		searchButton.setBounds(350, 90, 80, 30);
-		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-=======
 		searchButton.setBounds(370, 90, 80, 30);
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
+		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 		firstPanel.add(searchButton);
 
@@ -355,11 +351,8 @@ public class GUI2 extends JFrame {
 		btnReviewDialogPopUp.setBounds(400, 320, 80, 32);
 		btnReviewDialogPopUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		secondMainPanel.add(btnReviewDialogPopUp);
-<<<<<<< HEAD
 		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
-=======
 		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));

@@ -56,14 +56,9 @@ class reviewDialog extends JDialog {
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
 					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
 					JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
-<<<<<<< HEAD
-					review.setPreferredSize(new Dimension(200, 30));
-					rating.setPreferredSize(new Dimension(50, 30));
-=======
 				    review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 					reviewPanel.add(review);
 					reviewPanel.add(rating);
 				}
