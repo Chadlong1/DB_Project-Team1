@@ -48,8 +48,12 @@ public class ComboBoxListener implements ActionListener {
 		localist.add(new MapPin(600, 460)); // 영도구
 		localist.add(new MapPin(630, 160)); // 금정구
 		localist.add(new MapPin(480, 440)); // 사하구
+		localist.add(new MapPin(770, 100)); // 기장군
+	
+
+	
 		
-		for (int i = 1; i < 16; i++) {
+		for (int i = 1; i < 17; i++) {
 			if (loca == zone[i]) {
 				pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
 
