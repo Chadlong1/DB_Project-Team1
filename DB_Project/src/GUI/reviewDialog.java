@@ -9,8 +9,6 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import ReviewAndRatings.ReviewDB.ReviewInput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
@@ -108,18 +105,24 @@ class reviewDialog extends JDialog {
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				int idNum = 0;
 				for (int i = 0; i < SearchActionListener.getListSize(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						int idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+						idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 						ReviewRepository.insert(new ReviewInput(box.getText(), rating), idNum);
+						
+						
 					}
 				}
-//				List<ReviewInput> reviewList = new ArrayList<>();
-//				ReviewRepository.viewReviewAtBpmId(idNum);
-
+				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getReview());
+				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getRating()));
+				reviewPanel.add(review);
+				reviewPanel.add(rating);
+				revalidate();
+				repaint();
+				
 				box.setText("");
 			}
 		});
@@ -142,7 +145,8 @@ class reviewDialog extends JDialog {
 		add(btnOK);
 		add(btnCloseDialog);
 
-
+	
+		
 		setSize(400, 400);
 		setLocation(1085, 200);
 	}
