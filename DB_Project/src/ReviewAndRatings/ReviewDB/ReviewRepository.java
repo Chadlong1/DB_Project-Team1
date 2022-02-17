@@ -69,7 +69,6 @@ public class ReviewRepository {
 		List<ReviewInput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.review" 
 				+ " WHERE bpm_id = ?;";
-		System.out.println(view);
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(view);) {
 			stmt.setInt(1, id);
@@ -83,6 +82,27 @@ public class ReviewRepository {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	// 음식점 이름 옆에 나타낼 평점
+	public static double viewRatig(int id) {
+		double ratingAverage = 0.0;
+		String viewR = "Select sum(rating) / count(*)"
+				+ " from review where bpm_id = ?"
+				+ " and rating > 0";
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(viewR);) {
+			stmt.setInt(1, id);
+
+			try (ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					ratingAverage = rs.getDouble(1);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ratingAverage;
 	}
 }
 

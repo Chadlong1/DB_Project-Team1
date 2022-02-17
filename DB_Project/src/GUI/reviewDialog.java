@@ -28,6 +28,7 @@ import busan.Restaurant;
 import listeners.SearchActionListener;
 
 //리뷰 다이얼로그 창
+//리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
 	double rating;
@@ -62,9 +63,6 @@ class reviewDialog extends JDialog {
 				}
 			}
 		}
-		
-		
-		
 		
 		JScrollPane reviewScrollPane = new JScrollPane();
 		reviewScrollPane.setBounds(20, 395, 400, 280);

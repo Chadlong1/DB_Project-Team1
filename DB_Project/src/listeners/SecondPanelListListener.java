@@ -7,6 +7,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import GUI.GUI2;
+import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 import maps.Geocoding;
@@ -37,6 +38,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 				frame.setRestUsageTime(tempRest.getTime());
 				frame.setRestItemCntnts2(tempRest.getComment());
 				frame.setThumbL(tempRest.getThumb());
+				frame.setRating(String.valueOf(ReviewRepository.viewRatig(i)));
 				frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
 			}
 		}

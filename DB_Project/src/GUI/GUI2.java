@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.ArrayList;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
@@ -29,6 +31,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import SEARCHINFO.SEARCHTOOLS;
+import ReviewAndRatings.ReviewDB.ReviewInput;
+import ReviewAndRatings.ReviewDB.ReviewRepository;
 import busan.Main;
 import listeners.ComboBoxListener;
 import listeners.GoBackActionListener;
@@ -47,6 +51,7 @@ public class GUI2 extends JFrame {
 	private JList<String> searchingList;
 	private JLabel thumbL;
 	private JLabel restTitle;
+	private JLabel rating;
 	private JLabel restRprsntvMenu;
 	private JLabel restADDR;
 	private JLabel restCntctTEL;
@@ -88,6 +93,13 @@ public class GUI2 extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+	public JLabel getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating.setText(rating+"/5");
 	}
 
 	public void setThumbLEmpty() {
@@ -219,7 +231,7 @@ public class GUI2 extends JFrame {
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
 				"영도구", "금정구", "사하구" };
 		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
-		String[] rating = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
+		String[] stars = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
 		List<String> list = searchTool.searchLoca();
 
@@ -236,7 +248,7 @@ public class GUI2 extends JFrame {
 		foodComboBox.setBounds(150, 90, 80, 30);
 		firstPanel.add(foodComboBox);
 
-		ratingComboBox = new JComboBox(rating);
+		ratingComboBox = new JComboBox(stars);
 		ratingComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		ratingComboBox.setBackground(Color.WHITE);
 		ratingComboBox.setBounds(250, 90, 80, 30);
@@ -280,6 +292,13 @@ public class GUI2 extends JFrame {
 		restTitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		restTitle.setBounds(27, 20, 337, 47);
 		secondMainPanel.add(restTitle);
+
+		rating=new JLabel("평점");
+		rating.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+		rating.setBounds(400, 20, 337, 47);
+		secondMainPanel.add(rating);
+		secondMainPanel.revalidate();
+		secondMainPanel.repaint();
 
 		restRprsntvMenu = new JLabel("• 주요 메뉴 : ");
 		restRprsntvMenu.setVerticalAlignment(SwingConstants.TOP);
@@ -332,6 +351,7 @@ public class GUI2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				reviewDialog dialog = new reviewDialog(GUI2.this);
 				dialog.setVisible(true);
+
 			}
 		});
 
@@ -382,4 +402,6 @@ public class GUI2 extends JFrame {
 		staticMapPanel.add(staitcMap);
 
 	}
+
+	
 }
