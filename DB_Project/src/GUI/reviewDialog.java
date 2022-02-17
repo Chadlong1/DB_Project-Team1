@@ -71,9 +71,10 @@ class reviewDialog extends JDialog {
 		
 		
 		JButton btnOK = new JButton("확인");
+		btnOK.setEnabled(false);
 		JButton btnCloseDialog = new JButton("닫기");
 
-		String[] star = new String[] { "★", "★★", "★★★", "★★★★", "★★★★★" };
+		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 		
 		JComboBox starComboBox = new JComboBox(star);
 		starComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -85,22 +86,21 @@ class reviewDialog extends JDialog {
 		// 리뷰 다이얼로그에서 확인 버튼 누를 시 busan.review테이블에 리뷰 및 평점 저장
 
 		starComboBox.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String countStar = (String) starComboBox.getSelectedItem();
-				if (countStar == star[0]) {
+				if (countStar == star[1]) {
 					rating = 1.0;
-				} else if (countStar == star[1]) {
-					rating = 2.0;
 				} else if (countStar == star[2]) {
-					rating = 3.0;
+					rating = 2.0;
 				} else if (countStar == star[3]) {
-					rating = 4.0;
+					rating = 3.0;
 				} else if (countStar == star[4]) {
+					rating = 4.0;
+				} else if (countStar == star[5]) {
 					rating = 5.0;
 				}
-
+				btnOK.setEnabled(true);
 			}
 		});
 		

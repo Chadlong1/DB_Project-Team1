@@ -38,7 +38,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 				frame.setRestUsageTime(tempRest.getTime());
 				frame.setRestItemCntnts2(tempRest.getComment());
 				frame.setThumbL(tempRest.getThumb());
-				frame.setRating(String.valueOf(ReviewRepository.viewRatig(i)));
+				frame.setRating(String.valueOf(ReviewRepository.viewRatig(i+1)));
 				frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
 			}
 		}
