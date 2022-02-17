@@ -232,7 +232,7 @@ public class GUI2 extends JFrame {
 		firstPanel.add(programMainTitle);
 
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
-				"영도구", "금정구", "사하구" };
+				"영도구", "금정구", "사하구" ,"기장군" };
 		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
 		String[] stars = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
@@ -254,13 +254,13 @@ public class GUI2 extends JFrame {
 		ratingComboBox = new JComboBox(stars);
 		ratingComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		ratingComboBox.setBackground(Color.WHITE);
-		ratingComboBox.setBounds(250, 90, 80, 30);
+		ratingComboBox.setBounds(250, 90, 100, 30);
 		firstPanel.add(ratingComboBox);
 
 		JButton searchButton = new JButton("검색");
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		searchButton.setBackground(new Color(190, 204, 216));
-		searchButton.setBounds(350, 90, 80, 30);
+		searchButton.setBounds(370, 90, 80, 30);
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 		firstPanel.add(searchButton);
 
@@ -341,7 +341,7 @@ public class GUI2 extends JFrame {
 
 		JButton btnReviewDialogPopUp = new JButton("review");
 		secondMainPanel.add(btnReviewDialogPopUp);
-		btnReviewDialogPopUp.setBounds(400, 320, 80, 20);
+		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));

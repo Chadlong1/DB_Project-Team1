@@ -97,5 +97,17 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 				frame.setZoneComboBox("강서구");
 			}
 		}
+		if (430 <= e.getX() && e.getX() <= 530) {
+			if (300 <= e.getY() && e.getY() <= 380) {
+				frame.setZoneComboBox("강서구");
+			}
+		}
+	
+		if (800 <= e.getX() && e.getX() <= 880) {
+			if (150 <= e.getY() && e.getY() <= 200) {
+				frame.setZoneComboBox("기장군");
+			}
+		}
+		
 	}
 }

@@ -38,10 +38,10 @@ class reviewDialog extends JDialog {
 		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
 		// 리뷰Label과 평점Label이 표기될 패널
-		JPanel reviewPanel = new JPanel(new GridLayout(0,2));
+		JPanel reviewPanel = new JPanel(new GridLayout(0,1));
 		
 		// 리뷰작성 텍스트필드
-		TextField box = new TextField(30);
+		TextField box = new TextField(35);
 		
 		
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
@@ -55,6 +55,9 @@ class reviewDialog extends JDialog {
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
 					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
 					JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
+				    review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+
 					reviewPanel.add(review);
 					reviewPanel.add(rating);
 				}
