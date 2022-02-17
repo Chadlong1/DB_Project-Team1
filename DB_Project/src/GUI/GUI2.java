@@ -3,6 +3,7 @@ package GUI;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -67,7 +68,10 @@ public class GUI2 extends JFrame {
 	public String[] getZones() {
 		return zones;
 	}
-
+	
+	public void setCursor(Cursor cursor) {
+		firstPanel.setCursor(cursor);
+	}
 	public JPanel getFirstPanel() {
 		return firstPanel;
 	}
@@ -225,7 +229,7 @@ public class GUI2 extends JFrame {
 		contentPane.add(firstPanel, "FirstScreen");
 		firstPanel.setLayout(null);
 		firstPanel.addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
-
+		
 		JLabel programMainTitle = new JLabel("돼동여지도");
 		programMainTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		programMainTitle.setBounds(50, 30, 133, 39);
@@ -261,6 +265,7 @@ public class GUI2 extends JFrame {
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		searchButton.setBackground(new Color(190, 204, 216));
 		searchButton.setBounds(350, 90, 80, 30);
+		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 		firstPanel.add(searchButton);
 
@@ -273,6 +278,7 @@ public class GUI2 extends JFrame {
 		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		goBackButton.setCursor(new Cursor((Cursor.HAND_CURSOR)));
 		goBackButton.addActionListener(new GoBackActionListener(GUI2.this));
 		secondPanel.add(goBackButton);
 
@@ -340,8 +346,12 @@ public class GUI2 extends JFrame {
 		secondMainPanel.add(restItemCntnts2);
 
 		JButton btnReviewDialogPopUp = new JButton("review");
+		btnReviewDialogPopUp.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		btnReviewDialogPopUp.setBackground(new Color(135, 206, 235));
+		btnReviewDialogPopUp.setBounds(400, 320, 80, 32);
+		btnReviewDialogPopUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		secondMainPanel.add(btnReviewDialogPopUp);
-		btnReviewDialogPopUp.setBounds(400, 320, 80, 20);
+		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));
@@ -357,6 +367,7 @@ public class GUI2 extends JFrame {
 
 			}
 		});
+		
 
 		searchingList = new JList<>();
 		searchingList.setForeground(Color.BLACK);

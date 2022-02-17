@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -33,7 +35,6 @@ class reviewDialog extends JDialog {
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
-		setLayout(new BorderLayout());
 
 		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
@@ -55,6 +56,8 @@ class reviewDialog extends JDialog {
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
 					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
 					JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
+					review.setPreferredSize(new Dimension(200, 30));
+					rating.setPreferredSize(new Dimension(50, 30));
 					reviewPanel.add(review);
 					reviewPanel.add(rating);
 				}
