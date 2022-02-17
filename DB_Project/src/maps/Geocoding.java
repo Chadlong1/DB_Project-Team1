@@ -20,7 +20,7 @@ public class Geocoding {
 	public static ArrayList<String> getGeocoding(String fullADDR) {
 		String addr = null;
 		ArrayList<String> list = new ArrayList<String>();
-		
+
 		try {
 			addr = URLEncoder.encode(fullADDR, "utf-8");
 		} catch (UnsupportedEncodingException e1) {
@@ -53,7 +53,6 @@ public class Geocoding {
 			String x = "";
 			String y = "";
 
-			// 트리형태로 온 JSON 파싱 :: 멋쟁이인중(saltkeeper) 블로그에서 도움 받음. 감사합니다^^
 			try {
 				jsonObject = (JSONObject) parser.parse(sb.toString());
 			} catch (ParseException e) {

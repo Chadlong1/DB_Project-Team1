@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -29,11 +28,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import ReviewAndRatings.ReviewDB.ReviewInput;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
-import busan.Restaurant;
 import listeners.ComboBoxListener;
+import listeners.GoBackActionListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
 
@@ -90,6 +88,16 @@ public class GUI2 extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public void setThumbLEmpty() {
+		ImageIcon image = new ImageIcon("emptyImg.png");
+		thumbL.setIcon(image);
+	}
+
+	public void setStaitcMapEmpty() {
+		ImageIcon image = new ImageIcon("emptyImg.png");
+		staitcMap.setIcon(image);
 	}
 
 	public JLabel getRestTitle() {
@@ -250,11 +258,7 @@ public class GUI2 extends JFrame {
 		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		goBackButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				card.show(c, "FirstScreen");
-			}
-		});
+		goBackButton.addActionListener(new GoBackActionListener(GUI2.this));
 		secondPanel.add(goBackButton);
 
 		JPanel secondMainPanel = new JPanel();
@@ -351,7 +355,6 @@ public class GUI2 extends JFrame {
 		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		searchingList.setValueIsAdjusting(true);
 		searchingList.addListSelectionListener(new SecondPanelListListener(this));
-		// listeners 패키지 SecondPanelListListener 클래스의 리스너를 add
 
 		JLabel restList = new JLabel("식당 목록");
 		restList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
