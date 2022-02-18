@@ -29,6 +29,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+				Integer searchIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				ArrayList<String> geoList = Geocoding.getGeocoding(tempRest.getAddr());
 				
 				frame.setRestTitle(tempRest.getTitle());
@@ -38,7 +39,12 @@ public class SecondPanelListListener implements ListSelectionListener {
 				frame.setRestUsageTime(tempRest.getTime());
 				frame.setRestItemCntnts2(tempRest.getComment());
 				frame.setThumbL(tempRest.getThumb());
-				frame.setRating(String.valueOf(ReviewRepository.viewRatig(i+1)));
+//				if(tempRest.getRating()=="") {
+//					frame.setVisible(false);
+//				} else {
+//					frame.setRating(tempRest.getRating());
+//				}
+				frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
 				frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
 			}
 		}

@@ -101,7 +101,7 @@ public class GUI2 extends JFrame {
 	}
 
 	public void setRating(String rating) {
-		this.rating.setText(rating + "/5");
+		this.rating.setText(rating);
 	}
 
 	public void setThumbLEmpty() {
