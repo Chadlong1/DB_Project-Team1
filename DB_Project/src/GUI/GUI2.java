@@ -3,6 +3,7 @@ package GUI;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -39,7 +40,6 @@ import listeners.SecondPanelListListener;
 public class GUI2 extends JFrame {
 
 	private JPanel contentPane;
-	private Container c;
 	private CardLayout card = new CardLayout(0, 0);
 	private JComboBox<String> zoneComboBox;
 	private JComboBox<String> foodComboBox;
@@ -67,7 +67,10 @@ public class GUI2 extends JFrame {
 	public String[] getZones() {
 		return zones;
 	}
-
+	
+	public void setCursor(Cursor cursor) {
+		firstPanel.setCursor(cursor);
+	}
 	public JPanel getFirstPanel() {
 		return firstPanel;
 	}
@@ -212,7 +215,6 @@ public class GUI2 extends JFrame {
 		setContentPane(contentPane);
 
 		contentPane.setLayout(card);
-		c = getContentPane();
 		ImageIcon icon = new ImageIcon("부산_리사이징.png");
 		firstPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -225,14 +227,14 @@ public class GUI2 extends JFrame {
 		contentPane.add(firstPanel, "FirstScreen");
 		firstPanel.setLayout(null);
 		firstPanel.addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
-
+		
 		JLabel programMainTitle = new JLabel("돼동여지도");
 		programMainTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		programMainTitle.setBounds(50, 30, 133, 39);
 		firstPanel.add(programMainTitle);
 
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
-				"영도구", "금정구", "사하구" };
+				"영도구", "금정구", "사하구", "기장군" };
 		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
 		String[] stars = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
@@ -254,13 +256,14 @@ public class GUI2 extends JFrame {
 		ratingComboBox = new JComboBox(stars);
 		ratingComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		ratingComboBox.setBackground(Color.WHITE);
-		ratingComboBox.setBounds(250, 90, 80, 30);
+		ratingComboBox.setBounds(250, 90, 100, 30);
 		firstPanel.add(ratingComboBox);
 
 		JButton searchButton = new JButton("검색");
 		searchButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		searchButton.setBackground(new Color(190, 204, 216));
-		searchButton.setBounds(350, 90, 80, 30);
+		searchButton.setBounds(370, 90, 80, 30);
+		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 		firstPanel.add(searchButton);
 
@@ -273,6 +276,7 @@ public class GUI2 extends JFrame {
 		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		goBackButton.setCursor(new Cursor((Cursor.HAND_CURSOR)));
 		goBackButton.addActionListener(new GoBackActionListener(GUI2.this));
 		secondPanel.add(goBackButton);
 
@@ -340,8 +344,13 @@ public class GUI2 extends JFrame {
 		secondMainPanel.add(restItemCntnts2);
 
 		JButton btnReviewDialogPopUp = new JButton("review");
+		btnReviewDialogPopUp.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		btnReviewDialogPopUp.setBackground(new Color(135, 206, 235));
+		btnReviewDialogPopUp.setBounds(400, 320, 80, 32);
+		btnReviewDialogPopUp.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		secondMainPanel.add(btnReviewDialogPopUp);
-		btnReviewDialogPopUp.setBounds(400, 320, 80, 20);
+		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
+		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));
@@ -357,6 +366,7 @@ public class GUI2 extends JFrame {
 
 			}
 		});
+		
 
 		searchingList = new JList<>();
 		searchingList.setForeground(Color.BLACK);

@@ -25,31 +25,33 @@ public class SecondPanelListListener implements ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		for (int i = 0; i < SearchActionListener.getListSize(); i++) {
-			if (searchingList.getSelectedIndex() == i) {
-				String selectedItemStr = searchingList.getSelectedValue();
-				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-				Integer searchIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-				ArrayList<String> geoList = Geocoding.getGeocoding(tempRest.getAddr());
-				
-				frame.setRestTitle(tempRest.getTitle());
-				frame.setRestRprsntvMenu(tempRest.getMenu());
-				frame.setRestADDR(tempRest.getAddr());
-				frame.setRestCntctTEL(tempRest.getTel());
-				frame.setRestUsageTime(tempRest.getTime());
-				frame.setRestItemCntnts2(tempRest.getComment());
-				frame.setThumbL(tempRest.getThumb());
-//				if(tempRest.getRating()=="") {
-//					frame.setVisible(false);
-//				} else {
-//					frame.setRating(tempRest.getRating());
-//				}
-				frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
-				frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
+		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+			if (!e.getValueIsAdjusting()) {
+				if (searchingList.getSelectedIndex() == i) {
+					String selectedItemStr = searchingList.getSelectedValue();
+					Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+					Integer searchIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+					ArrayList<String> geoList = Geocoding.getGeocoding(tempRest.getAddr());
+					
+					frame.setRestTitle(tempRest.getTitle());
+					frame.setRestRprsntvMenu(tempRest.getMenu());
+					frame.setRestADDR(tempRest.getAddr());
+					frame.setRestCntctTEL(tempRest.getTel());
+					frame.setRestUsageTime(tempRest.getTime());
+					frame.setRestItemCntnts2(tempRest.getComment());
+					frame.setThumbL(tempRest.getThumb());
+	//				if(tempRest.getRating()=="") {
+	//					frame.setVisible(false);
+	//				} else {
+	//					frame.setRating(tempRest.getRating());
+	//				}
+					frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
+					frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
+				}
 			}
-		}
 //		System.out.println(searchingList.getMaxSelectionIndex());
 	
+		}
 	}
 
 }

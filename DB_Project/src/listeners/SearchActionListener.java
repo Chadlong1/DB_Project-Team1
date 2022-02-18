@@ -15,17 +15,7 @@ import SEARCHINFO.SEARCHTOOLS;
 public class SearchActionListener implements ActionListener {
 	private GUI2 frame;
 	private JList<String> searchingList;
-	private List<String> list;
-	private static int listSize;
-
-	public static int getListSize() {
-		return listSize;
-	}
-
-	public List<String> getList() {
-		return list;
-	}
-
+	
 	public SearchActionListener(GUI2 frame) {
 		super();
 		this.frame = frame;
@@ -35,11 +25,10 @@ public class SearchActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String loca = frame.selectedItemFromZone();
 		String type = frame.selectedItemFromFood();
-		list = SEARCHTOOLS.searchDB(loca, type);
-		listSize = list.size();
-		String[] arr = list.toArray(new String[listSize]);
-
+		List<String> list = SEARCHTOOLS.searchDB(loca, type);
+		String[] arr = list.toArray(new String[list.size()]);
 		searchingList = frame.getSearchingList();
+
 		searchingList.setModel(new AbstractListModel<String>() {
 			String[] values = arr;
 
