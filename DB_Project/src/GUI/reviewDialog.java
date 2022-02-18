@@ -156,8 +156,9 @@ class reviewDialog extends JDialog {
 		dialogPane.add(bottomPanel);
 
 		add(dialogPane);
-		setResizable(false);
-		setSize(400, 400);
+//		setResizable(false);
+//		setSize(400, 400);
+		pack();
 		setLocation(1085, 200);
 	}
 }
