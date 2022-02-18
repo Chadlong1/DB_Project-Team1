@@ -50,7 +50,7 @@ class reviewDialog extends JDialog {
 
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
 		int idNum;
-		for (int i = 0; i < searchingList.getLastVisibleIndex(); i++) {
+		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
@@ -112,7 +112,7 @@ class reviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idNum = 0;
-				for (int i = 0; i < searchingList.getLastVisibleIndex(); i++) {
+				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
