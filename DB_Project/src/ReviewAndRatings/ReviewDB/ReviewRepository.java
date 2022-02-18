@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import busan.ConnectionProvider;
@@ -14,9 +15,8 @@ public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
 		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(no INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
+				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
-
 		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createReviewTable);
 		} catch (SQLException e) {
@@ -103,6 +103,25 @@ public class ReviewRepository {
 			e.printStackTrace();
 		}
 		return ratingAverage;
+	}
+	
+	// BUSAN.review 테이블의 no 번호를 입력시 작성 일자 리턴
+	public static LocalDate getTimeStamp(int no) {
+		String getTimeStamp = "SELECT writingTime FROM WHERE no = ?;";
+		LocalDate date = null;
+		try(Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(getTimeStamp);) {
+			stmt.setInt(1, no);
+			
+			try(ResultSet rs = stmt.executeQuery();) {
+				if(rs.next()) {
+					date = rs.getDate("writingTime").toLocalDate();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
 }
 
