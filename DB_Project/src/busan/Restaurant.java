@@ -11,6 +11,15 @@ public class Restaurant {
 	private String comment;
 	private String img;
 	private String thumb;
+	private String rating;
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 
 	public Restaurant(String title, String type, String menu, String loca, String addr, String tel, String time,
 			String comment, String img, String thumb) {
