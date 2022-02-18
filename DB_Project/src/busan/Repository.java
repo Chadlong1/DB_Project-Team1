@@ -48,7 +48,7 @@ public class Repository {
 			// 여러개의 음식점 row Insert
 			try (PreparedStatement stmt = conn.prepareStatement(insertTable)) {
 				// batch
-				for (Restaurant res : apis) {
+				for (Restaurant res : apis) {					
 					stmt.setString(1, res.getTitle());
 					stmt.setString(2, res.getType());
 					stmt.setString(3, res.getMenu());

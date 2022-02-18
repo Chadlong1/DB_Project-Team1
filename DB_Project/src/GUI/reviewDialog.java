@@ -1,8 +1,10 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import ReviewAndRatings.ReviewDB.ReviewInput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
@@ -74,6 +77,22 @@ class reviewDialog extends JDialog {
 				}
 			}
 		}
+		
+		JPanel jpList = new JPanel();
+		jpList.setLayout(new GridBagLayout());
+		JScrollPane scrollSingle = new JScrollPane(jpList,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		//JScrollPane reviewScrollPane = new JScrollPane(dialogPane);
+		//reviewScrollPane.setBounds(0,0,30,30);
+		//reviewScrollPane.setViewportView(reviewPanel);
+		//dialogPane.add(reviewScrollPane);
+		//dialogPane.add(jpList);
+		dialogPane.add(scrollSingle);
+		
+		scrollSingle.setPreferredSize(new Dimension(400,200));
+	
+		
+		
 		JScrollPane reviewScrollPane = new JScrollPane();
 		reviewScrollPane.setBounds(1085, 200, 200, 200);
 		reviewScrollPane.setViewportView(reviewPanel);
@@ -132,6 +151,9 @@ class reviewDialog extends JDialog {
 				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum)
 						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getRating()));
 				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+	            scrollSingle.add(review);
+	            scrollSingle.add(rating);
 				rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
@@ -162,9 +184,15 @@ class reviewDialog extends JDialog {
 		dialogPane.add(bottomPanel);
 
 		add(dialogPane);
+<<<<<<< HEAD
 //		setResizable(false);
 //		setSize(400, 400);
 		pack();
+=======
+		setResizable(false);
+		setSize(700,400);
+		setSize(400, 400);
+>>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 		setLocation(1085, 200);
 	}
 }
