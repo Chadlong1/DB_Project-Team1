@@ -17,9 +17,6 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		super.mouseClicked(e);
-//		System.out.println("X좌표 : " + e.getX());
-//		System.out.println("Y좌표 : " + e.getY());
-
 		if (505 <= e.getX() && e.getX() <= 550) {
 			if (505 <= e.getY() && e.getY() <= 550) {
 				frame.setZoneComboBox("사하구");
@@ -52,7 +49,6 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 		}
 		if (665 <= e.getX() && e.getX() <= 700) {
 			if (440 <= e.getY() && e.getY() <= 470) {
-
 				frame.setZoneComboBox("남구");
 			}
 		}
@@ -88,7 +84,6 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 		}
 		if (620 <= e.getX() && e.getX() <= 680) {
 			if (520 <= e.getY() && e.getY() <= 550) {
-
 				frame.setZoneComboBox("영도구");
 			}
 		}
@@ -102,12 +97,11 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 				frame.setZoneComboBox("강서구");
 			}
 		}
-	
 		if (800 <= e.getX() && e.getX() <= 880) {
 			if (150 <= e.getY() && e.getY() <= 200) {
 				frame.setZoneComboBox("기장군");
 			}
 		}
-		
+
 	}
 }

@@ -38,15 +38,14 @@ class reviewDialog extends JDialog {
 		JPanel reviewInputInfo = new JPanel(new GridLayout(1, 2));
 
 		// 리뷰Label과 평점Label이 표기될 패널
-		JPanel reviewPanel = new JPanel(new GridLayout(0,1));
-		
+		JPanel reviewPanel = new JPanel(new GridLayout(0, 1));
+
 		// 리뷰작성 텍스트필드
 		TextField box = new TextField(35);
-		
-		
+
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
 		int idNum;
-		for (int i = 0; i < SearchActionListener.getListSize(); i++) {
+		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
@@ -54,33 +53,33 @@ class reviewDialog extends JDialog {
 				ReviewRepository.viewReviewAtBpmId(idNum);
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
 					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
-					JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
-				    review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-		            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+					JLabel rating = new JLabel(
+							String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
+					review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+					rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
 					reviewPanel.add(review);
 					reviewPanel.add(rating);
 				}
 			}
 		}
-		
+
 		JScrollPane reviewScrollPane = new JScrollPane();
 		reviewScrollPane.setBounds(20, 395, 400, 280);
 		reviewScrollPane.setViewportView(reviewPanel);
 		add(reviewScrollPane);
-		
-		
+
 		JButton btnOK = new JButton("확인");
 		btnOK.setEnabled(false);
 		JButton btnCloseDialog = new JButton("닫기");
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-		
+
 		JComboBox starComboBox = new JComboBox(star);
 		starComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		starComboBox.setBackground(Color.WHITE);
 		starComboBox.setBounds(50, 90, 80, 30);
-		
+
 		reviewInputInfo.add(box);
 		reviewInputInfo.add(starComboBox);
 		// 리뷰 다이얼로그에서 확인 버튼 누를 시 busan.review테이블에 리뷰 및 평점 저장
@@ -103,34 +102,33 @@ class reviewDialog extends JDialog {
 				btnOK.setEnabled(true);
 			}
 		});
-		
+
 		// 리뷰다이얼로그 창에서 확인버튼 누를시 작성한 리뷰와 선택한 평점이 ReviewInput 테이블에 Insert 됨
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int idNum = 0;
-				for (int i = 0; i < SearchActionListener.getListSize(); i++) {
+				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 						idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 						ReviewRepository.insert(new ReviewInput(box.getText(), rating), idNum);
-						
-						
+
 					}
 				}
-				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getReview());
-				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(ReviewRepository.viewReviewAtBpmId(idNum).size()-1).getRating()));
+				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum)
+						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getReview());
+				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum)
+						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getRating()));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
 				revalidate();
 				repaint();
-				
+
 				box.setText("");
 			}
 		});
-
- 
 
 		setLayout(new FlowLayout());
 
@@ -148,8 +146,6 @@ class reviewDialog extends JDialog {
 		add(btnOK);
 		add(btnCloseDialog);
 
-	
-		
 		setSize(400, 400);
 		setLocation(1085, 200);
 	}

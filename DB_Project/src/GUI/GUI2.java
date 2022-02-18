@@ -39,7 +39,6 @@ import listeners.SecondPanelListListener;
 public class GUI2 extends JFrame {
 
 	private JPanel contentPane;
-	private Container c;
 	private CardLayout card = new CardLayout(0, 0);
 	private JComboBox<String> zoneComboBox;
 	private JComboBox<String> foodComboBox;
@@ -212,7 +211,6 @@ public class GUI2 extends JFrame {
 		setContentPane(contentPane);
 
 		contentPane.setLayout(card);
-		c = getContentPane();
 		ImageIcon icon = new ImageIcon("부산_리사이징.png");
 		firstPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -232,7 +230,7 @@ public class GUI2 extends JFrame {
 		firstPanel.add(programMainTitle);
 
 		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
-				"영도구", "금정구", "사하구" ,"기장군" };
+				"영도구", "금정구", "사하구", "기장군" };
 		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
 		String[] stars = { "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
