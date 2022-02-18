@@ -40,10 +40,10 @@ public class SecondPanelListListener implements ListSelectionListener {
 					frame.setRestUsageTime(tempRest.getTime());
 					frame.setRestItemCntnts2(tempRest.getComment());
 					frame.setThumbL(tempRest.getThumb());
-	//				if(tempRest.getRating()=="") {
-	//					frame.setVisible(false);
+	//				if(평점이 0점이면 ) {
+	//					평점이 안 뜨게;
 	//				} else {
-	//					frame.setRating(tempRest.getRating());
+	//					frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
 	//				}
 					frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
 					frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
