@@ -2,6 +2,7 @@ package listeners;
 
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -40,12 +41,11 @@ public class SecondPanelListListener implements ListSelectionListener {
 					frame.setRestUsageTime(tempRest.getTime());
 					frame.setRestItemCntnts2(tempRest.getComment());
 					frame.setThumbL(tempRest.getThumb());
-	//				if(평점이 0점이면 ) {
-	//					평점이 안 뜨게;
-	//				} else {
-	//					frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
-	//				}
-					frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
+					if(ReviewRepository.viewRating(searchIdNum)==0) {
+						frame.setRating("");
+					} else {
+						frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
+					}
 					frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
 				}
 			}
