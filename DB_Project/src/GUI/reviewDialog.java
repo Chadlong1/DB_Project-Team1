@@ -60,7 +60,7 @@ class reviewDialog extends JDialog {
 				idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				ReviewRepository.viewReviewAtBpmId(idNum);
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
-					JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview());
+					JLabel review = new JLabel("<html><p style=\"width:200px;\">"+ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview()+"</p></html>");
 					JLabel rating = new JLabel(
 							String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
 					review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
@@ -72,25 +72,25 @@ class reviewDialog extends JDialog {
 			}
 		}
 		
-		JPanel jpList = new JPanel();
-		jpList.setLayout(new GridBagLayout());
-		JScrollPane scrollSingle = new JScrollPane(jpList,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+//		JPanel jpList = new JPanel();
+//		jpList.setLayout(new GridBagLayout());
+		JScrollPane scrollSingle = new JScrollPane(reviewPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		//JScrollPane reviewScrollPane = new JScrollPane(dialogPane);
 		//reviewScrollPane.setBounds(0,0,30,30);
 		//reviewScrollPane.setViewportView(reviewPanel);
 		//dialogPane.add(reviewScrollPane);
 		//dialogPane.add(jpList);
-		dialogPane.add(scrollSingle);
+		
 		
 		scrollSingle.setPreferredSize(new Dimension(400,200));
 	
 		
 		
-		JScrollPane reviewScrollPane = new JScrollPane();
-		reviewScrollPane.setBounds(1085, 200, 200, 200);
-		reviewScrollPane.setViewportView(reviewPanel);
-		dialogPane.add(reviewScrollPane);
+//		JScrollPane reviewScrollPane = new JScrollPane();
+//		reviewScrollPane.setBounds(1085, 200, 200, 200);
+//		reviewScrollPane.setViewportView(reviewPanel);
+//		dialogPane.add(reviewScrollPane);
 
 		JButton btnOK = new JButton("확인");
 		btnOK.setEnabled(false);
@@ -146,9 +146,6 @@ class reviewDialog extends JDialog {
 						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getRating()));
 				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-	            scrollSingle.add(review);
-	            scrollSingle.add(rating);
-				rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
 				revalidate();
@@ -173,14 +170,14 @@ class reviewDialog extends JDialog {
 		bottomPanel.add(btnOK);
 		bottomPanel.add(btnCloseDialog);
 
-		dialogPane.add(reviewPanel);
+		dialogPane.add(scrollSingle);
+//		dialogPane.add(reviewPanel);
 		dialogPane.add(reviewInputInfo);
 		dialogPane.add(bottomPanel);
 
 		add(dialogPane);
 		setResizable(false);
-		setSize(700,400);
-		setSize(400, 400);
+		setSize(550,400);
 		setLocation(1085, 200);
 	}
 }

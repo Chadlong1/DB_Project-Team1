@@ -87,7 +87,7 @@ public class ReviewRepository {
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
-		String viewR = "select avg(rating)"
+		String viewR = "select round(avg(rating),2)"
 				+ "from busan.review group by BPM_id having BPM_id =?";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewR);) {
