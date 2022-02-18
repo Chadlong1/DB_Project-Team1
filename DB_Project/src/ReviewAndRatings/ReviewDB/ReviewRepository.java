@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import busan.ConnectionProvider;
@@ -14,9 +16,8 @@ public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
 		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(no INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
+				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
-
 		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createReviewTable);
 		} catch (SQLException e) {
@@ -103,6 +104,39 @@ public class ReviewRepository {
 		}
 		return ratingAverage;
 	}
+	// BUSAN.review 테이블의 no 번호를 입력시 작성 일자 리턴
+		public static LocalDateTime getTimeStamp(int no) {
+			String getTimeStamp = "SELECT writingTime FROM BUSAN.review WHERE no = ?;";
+			LocalDateTime timeStamp = null;
+			try(Connection conn = ConnectionProvider.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(getTimeStamp);) {
+				stmt.setInt(1, no);
+				
+				try(ResultSet rs = stmt.executeQuery();) {
+					if(rs.next()) {
+						timeStamp = rs.getTimestamp("writingTime").toLocalDateTime();
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return timeStamp;
+		}
+		
+		public static void CreateReCommentTable() {
+			String CreateReCommentTable = "CREATE TABLE IF NOT EXISTS RECOMMENT (" 
+									+ "recomment_no INT PRIMARY KEY AUTO_INCREMENT" 
+									+ ", ripple VARCHAR(100) , review_no INT" 
+									+ ", time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" 
+									+ ", FOREIGN KEY (review_no) REFERENCES review(no));";
+			System.out.println("ReCommentTable 생성완료");
+			try(Connection conn = ConnectionProvider.getConnection(); 
+					Statement stmt = conn.createStatement();) {
+				stmt.executeUpdate(CreateReCommentTable);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 }
 
 

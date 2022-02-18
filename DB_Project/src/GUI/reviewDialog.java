@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -30,7 +31,7 @@ import busan.Restaurant;
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
 	double rating;
-
+	private Date writingTime;
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
@@ -42,6 +43,8 @@ class reviewDialog extends JDialog {
 		dialogPane.setLayout(new BoxLayout(dialogPane, BoxLayout.Y_AXIS));
 		dialogPane.setBackground(Color.white);
 
+		
+		
 		JPanel reviewInputInfo = new JPanel(new GridLayout(0, 2));
 		reviewInputInfo.setBackground(Color.white);
 		JPanel bottomPanel = new JPanel(new GridLayout(0, 2));
@@ -154,7 +157,7 @@ class reviewDialog extends JDialog {
 				box.setText("");
 			}
 		});
-
+		System.out.println("timeStamp: " + ReviewRepository.getTimeStamp(1));
 		setLayout(new FlowLayout());
 
 		btnCloseDialog.addActionListener(new ActionListener() {

@@ -12,6 +12,7 @@ public class Main {
 
 		ReviewRepository reviewRepo = new ReviewRepository();
 		reviewRepo.createReviewTable();
+		reviewRepo.CreateReCommentTable();
 		
 		while (repo.discriminant()) {
 			try {
