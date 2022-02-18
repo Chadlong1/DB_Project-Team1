@@ -22,7 +22,7 @@ import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 
-//리뷰 다이얼로그 창
+
 //리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
