@@ -1,10 +1,7 @@
 package GUI;
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.awt.Dimension;
-=======
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -74,7 +71,6 @@ class reviewDialog extends JDialog {
 				}
 			}
 		}
-<<<<<<< HEAD
 		
 		JPanel jpList = new JPanel();
 		jpList.setLayout(new GridBagLayout());
@@ -91,13 +87,11 @@ class reviewDialog extends JDialog {
 	
 		
 		
-=======
 		JScrollPane reviewScrollPane = new JScrollPane();
 		reviewScrollPane.setBounds(1085, 200, 200, 200);
 		reviewScrollPane.setViewportView(reviewPanel);
 		dialogPane.add(reviewScrollPane);
 
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 		JButton btnOK = new JButton("확인");
 		btnOK.setEnabled(false);
 		JButton btnCloseDialog = new JButton("닫기");
@@ -151,15 +145,12 @@ class reviewDialog extends JDialog {
 				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum)
 						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getRating()));
 				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-<<<<<<< HEAD
 	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 	            scrollSingle.add(review);
 	            scrollSingle.add(rating);
-=======
 				rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 				revalidate();
 				repaint();
 
@@ -188,11 +179,8 @@ class reviewDialog extends JDialog {
 
 		add(dialogPane);
 		setResizable(false);
-<<<<<<< HEAD
 		setSize(700,400);
-=======
 		setSize(400, 400);
->>>>>>> branch 'master' of https://github.com/Chadlong1/DB_Project-Team1.git
 		setLocation(1085, 200);
 	}
 }
