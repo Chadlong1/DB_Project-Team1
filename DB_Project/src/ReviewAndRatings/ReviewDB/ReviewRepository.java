@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import busan.ConnectionProvider;
@@ -87,8 +88,9 @@ public class ReviewRepository {
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
-		String viewR = "select avg(rating)"
-				+ "from busan.review group by BPM_id having BPM_id =?";
+		String viewR = "Select sum(rating) / count(*)"
+				+ " from review where bpm_id = ?"
+				+ " and rating > 0";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewR);) {
 			stmt.setInt(1, id);
@@ -105,22 +107,37 @@ public class ReviewRepository {
 	}
 	
 	// BUSAN.review 테이블의 no 번호를 입력시 작성 일자 리턴
-	public static LocalDate getTimeStamp(int no) {
-		String getTimeStamp = "SELECT writingTime FROM WHERE no = ?;";
-		LocalDate date = null;
+	public static LocalDateTime getTimeStamp(int no) {
+		String getTimeStamp = "SELECT writingTime FROM BUSAN.review WHERE no = ?;";
+		LocalDateTime timeStamp = null;
 		try(Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(getTimeStamp);) {
 			stmt.setInt(1, no);
 			
 			try(ResultSet rs = stmt.executeQuery();) {
 				if(rs.next()) {
-					date = rs.getDate("writingTime").toLocalDate();
+					timeStamp = rs.getTimestamp("writingTime").toLocalDateTime();
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return date;
+		return timeStamp;
+	}
+	
+	public static void CreateReCommentTable() {
+		String CreateReCommentTable = "CREATE TABLE IF NOT EXISTS RECOMMENT (" 
+								+ "recomment_no INT PRIMARY KEY AUTO_INCREMENT" 
+								+ ", ripple VARCHAR(100) , review_no INT" 
+								+ ", time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" 
+								+ ", FOREIGN KEY (review_no) REFERENCES review(no));";
+		System.out.println("ReCommentTable 생성완료");
+		try(Connection conn = ConnectionProvider.getConnection(); 
+				Statement stmt = conn.createStatement();) {
+			stmt.executeUpdate(CreateReCommentTable);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

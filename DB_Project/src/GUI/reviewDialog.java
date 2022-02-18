@@ -160,7 +160,7 @@ class reviewDialog extends JDialog {
 				box.setText("");
 			}
 		});
-
+		System.out.println("timeStamp: " + ReviewRepository.getTimeStamp(1));
 		setLayout(new FlowLayout());
 
 		btnCloseDialog.addActionListener(new ActionListener() {
