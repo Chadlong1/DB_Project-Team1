@@ -8,6 +8,9 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Date;
 
 import javax.swing.BoxLayout;
@@ -53,6 +56,7 @@ class reviewDialog extends JDialog {
 		// 리뷰작성 텍스트필드
 		TextField box = new TextField(35);
 
+		
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
 		int idNum;
 		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
@@ -67,7 +71,13 @@ class reviewDialog extends JDialog {
 							String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
 					review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 					rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-
+					review.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							System.out.println("리뷰 클릭");
+							
+						}
+					});
 					reviewPanel.add(review);
 					reviewPanel.add(rating);
 				}

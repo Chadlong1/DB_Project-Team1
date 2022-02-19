@@ -213,6 +213,7 @@ public class GUI2 extends JFrame {
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(3, 3, 3, 3));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 
 		contentPane.setLayout(card);
 		ImageIcon icon = new ImageIcon("부산_리사이징.png");
