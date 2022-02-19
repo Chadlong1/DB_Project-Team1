@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -154,10 +153,10 @@ class reviewDialog extends JDialog {
 				revalidate();
 				repaint();
 
-				box.setText("");
+				box.setText(null);
 			}
 		});
-		System.out.println("timeStamp: " + ReviewRepository.getTimeStamp(1));
+//		System.out.println("timeStamp: " + ReviewRepository.getTimeStamp(1));
 		setLayout(new FlowLayout());
 
 		btnCloseDialog.addActionListener(new ActionListener() {
