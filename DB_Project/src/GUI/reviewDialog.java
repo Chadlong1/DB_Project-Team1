@@ -59,17 +59,17 @@ class reviewDialog extends JDialog {
 
 		
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
-		int idNum;
+		int bpmIdNum;
 		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-				idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-				ReviewRepository.viewReviewAtBpmId(idNum);
-				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(idNum).size(); j++) {
-					JLabel review = new JLabel("<html><p style=\"width:200px;\">"+ReviewRepository.viewReviewAtBpmId(idNum).get(j).getReview()+"</p></html>");
+				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+				ReviewRepository.viewReviewAtBpmId(bpmIdNum);
+				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
+					JLabel review = new JLabel("<html><p style=\"width:200px;\">"+ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getReview()+"</p></html>");
 					JLabel rating = new JLabel(
-							String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum).get(j).getRating()));
+							String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getRating()));
 					review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 					rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 					review.addMouseListener(new MouseAdapter() {
@@ -143,20 +143,22 @@ class reviewDialog extends JDialog {
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int idNum = 0;
+				int bpmIdNum = 0;
+				int bundleId = 0;
+				int depth = 0;
 				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						idNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(box.getText(), rating), idNum);
+						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+						ReviewRepository.insert(new ReviewInput(box.getText(), rating, bundleId, depth, bpmIdNum));
 
 					}
 				}
-				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(idNum)
-						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getReview());
-				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(idNum)
-						.get(ReviewRepository.viewReviewAtBpmId(idNum).size() - 1).getRating()));
+				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getReview());
+				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getRating()));
 				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
