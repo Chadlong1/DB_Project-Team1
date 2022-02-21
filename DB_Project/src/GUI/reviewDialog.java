@@ -22,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.LineBorder;
 
 import ReviewAndRatings.ReviewDB.ReviewInput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;

@@ -28,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
@@ -59,6 +61,7 @@ public class GUI2 extends JFrame {
 	private JLabel mapTitleLabel;
 	private JPanel staticMapPanel;
 	private JLabel staitcMap;
+	public JButton btnReviewDialogPopUp;
 
 	public void setZoneComboBox(String zone) {
 		zoneComboBox.setSelectedItem(zone);
@@ -344,7 +347,7 @@ public class GUI2 extends JFrame {
 		restItemCntnts2.setBounds(83, 225, 388, 125);
 		secondMainPanel.add(restItemCntnts2);
 
-		JButton btnReviewDialogPopUp = new JButton("review");
+		btnReviewDialogPopUp = new JButton("review");
 		btnReviewDialogPopUp.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		btnReviewDialogPopUp.setBackground(new Color(135, 206, 235));
 		btnReviewDialogPopUp.setBounds(400, 320, 80, 32);
@@ -352,6 +355,7 @@ public class GUI2 extends JFrame {
 		secondMainPanel.add(btnReviewDialogPopUp);
 		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
 		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
+		btnReviewDialogPopUp.setVisible(false);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));
@@ -388,7 +392,7 @@ public class GUI2 extends JFrame {
 
 		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		searchingList.setValueIsAdjusting(true);
-		searchingList.addListSelectionListener(new SecondPanelListListener(this));
+		searchingList.addListSelectionListener(new SecondPanelListListener(this,btnReviewDialogPopUp));
 
 		JLabel restList = new JLabel("식당 목록");
 		restList.setFont(new Font("맑은 고딕", Font.BOLD, 20));

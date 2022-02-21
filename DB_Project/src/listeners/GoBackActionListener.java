@@ -25,6 +25,7 @@ public class GoBackActionListener implements ActionListener {
 		frame.setRestItemCntnts2("");
 		frame.setThumbLEmpty();
 		frame.setStaitcMapEmpty();
+		frame.setRating("");
 
 		Container c = frame.getContentPane();
 		CardLayout card = frame.getCard();

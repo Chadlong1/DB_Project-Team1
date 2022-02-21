@@ -2,6 +2,7 @@ package listeners;
 
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
@@ -15,13 +16,16 @@ import maps.Geocoding;
 import maps.GoogleStaticMaps;
 
 public class SecondPanelListListener implements ListSelectionListener {
+	private JButton btnReviewDialogPopUp;
 	private GUI2 frame;
 	private JList<String> searchingList;
 
-	public SecondPanelListListener(GUI2 frame) {
+	public SecondPanelListListener(GUI2 frame, JButton btnReviewDialogPopUp) {
 		super();
 		this.frame = frame;
 		this.searchingList = frame.getSearchingList();
+		this.btnReviewDialogPopUp = frame.btnReviewDialogPopUp;
+		
 	}
 
 	@Override
@@ -52,6 +56,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 //		System.out.println(searchingList.getMaxSelectionIndex());
 	
 		}
+		btnReviewDialogPopUp.setVisible(true);
 	}
-
+	
 }
