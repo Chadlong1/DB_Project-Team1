@@ -15,9 +15,12 @@ import busan.ConnectionProvider;
 public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
-		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(no INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" + ", rating DOUBLE" + ", BPM_id INT" + ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" + ", FOREIGN KEY (BPM_id) REFERENCES BPM(id));";
+		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
+				+ ", review TEXT" + ", rating DOUBLE" + ", bundleId INT" + ", depth INT" + ", bpmId INT"
+				+ ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+				+ ", FOREIGN KEY (bpmId) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
+		System.out.println(createReviewTable);
 		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createReviewTable);
 		} catch (SQLException e) {
@@ -26,13 +29,15 @@ public class ReviewRepository {
 	}
 
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
-	public static void insert(ReviewInput reviewInput, int idNum) {
-		String insert = "INSERT INTO review (review, rating, BPM_id)" + "VALUES (?, ?, ?);";
+	public static void insert(ReviewInput reviewInput) {
+		String insert = "INSERT INTO review (review, rating, bundleId, depth, bpmId)" + "VALUES (?, ?, ?, ?, ?);";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());
 			stmt.setDouble(2, reviewInput.getRating());
-			stmt.setDouble(3, idNum);
+			stmt.setInt(3, reviewInput.getBundleId());
+			stmt.setInt(4, reviewInput.getDepth());
+			stmt.setDouble(5, reviewInput.getBpmId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -56,23 +61,25 @@ public class ReviewRepository {
 		}
 		return list;
 	}
-	
-	//ResultSet 입력받으면 ReviewInput객체 반환
+
+	// ResultSet 입력받으면 ReviewInput객체 반환
 	private static ReviewInput returnReview(ResultSet rs) throws SQLException {
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
-		
-		return new ReviewInput(review, rating);
+		int bundleId = rs.getInt("bundleId");
+		int depth = rs.getInt("depth");
+		int bpmId = rs.getInt("bpmId");
+
+		return new ReviewInput(review, rating, bundleId, depth, bpmId);
 	}
-	
+
 	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewInput 객체(후기, 평점)를 반환
-	public static List<ReviewInput> viewReviewAtBpmId(int id) {
+	public static List<ReviewInput> viewReviewAtBpmId(int bpmId) {
 		List<ReviewInput> list = new ArrayList<>();
-		String view = "SELECT * FROM busan.review" 
-				+ " WHERE bpm_id = ?;";
+		String view = "SELECT * FROM busan.review" + " WHERE bpmId = ?;";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(view);) {
-			stmt.setInt(1, id);
+			stmt.setInt(1, bpmId);
 
 			try (ResultSet rs = stmt.executeQuery();) {
 				while (rs.next()) {
@@ -84,12 +91,11 @@ public class ReviewRepository {
 		}
 		return list;
 	}
-	
+
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
-		String viewR = "select round(avg(rating),2)"
-				+ "from busan.review group by BPM_id having BPM_id =?";
+		String viewR = "select round(avg(rating),2)" + "from busan.review group by bpmId having bpmId =?";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewR);) {
 			stmt.setInt(1, id);
@@ -104,40 +110,40 @@ public class ReviewRepository {
 		}
 		return ratingAverage;
 	}
+
 	// BUSAN.review 테이블의 no 번호를 입력시 작성 일자 리턴
-		public static LocalDateTime getTimeStamp(int no) {
-			String getTimeStamp = "SELECT writingTime FROM BUSAN.review WHERE no = ?;";
-			LocalDateTime timeStamp = null;
-			try(Connection conn = ConnectionProvider.getConnection();
-					PreparedStatement stmt = conn.prepareStatement(getTimeStamp);) {
-				stmt.setInt(1, no);
-				
-				try(ResultSet rs = stmt.executeQuery();) {
-					if(rs.next()) {
-						timeStamp = rs.getTimestamp("writingTime").toLocalDateTime();
-					}
+	public static LocalDateTime getTimeStamp(int reviewNo) {
+		String getTimeStamp = "SELECT writingTime FROM BUSAN.review WHERE no = ?;";
+		LocalDateTime timeStamp = null;
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(getTimeStamp);) {
+			stmt.setInt(1, reviewNo);
+
+			try (ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					timeStamp = rs.getTimestamp("writingTime").toLocalDateTime();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
-			return timeStamp;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
-		public static void CreateReCommentTable() {
-			String CreateReCommentTable = "CREATE TABLE IF NOT EXISTS RECOMMENT (" 
-									+ "recomment_no INT PRIMARY KEY AUTO_INCREMENT" 
-									+ ", ripple VARCHAR(100) , review_no INT" 
-									+ ", time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" 
-									+ ", FOREIGN KEY (review_no) REFERENCES review(no));";
-			System.out.println("ReCommentTable 생성완료");
-			try(Connection conn = ConnectionProvider.getConnection(); 
-					Statement stmt = conn.createStatement();) {
-				stmt.executeUpdate(CreateReCommentTable);
-			} catch (SQLException e) {
-				e.printStackTrace();
+		return timeStamp;
+	}
+	
+	// 가장 최근에 삽입된 row의 id반환
+	public int getLastSelectReviewId() {
+		String getLastSelectReviewId = "SELECT LAST_INSERT_ID;";
+		int id = 0;
+		try(Connection conn = ConnectionProvider.getConnection();
+				Statement stmt = conn.createStatement();) {
+			ResultSet rs = stmt.executeQuery(getLastSelectReviewId);
+			while(rs.next()) {
+				id = rs.getInt("reviewId");
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return id;
+	}
+	
 }
-
-
-
