@@ -2,7 +2,6 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -28,8 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
@@ -62,6 +59,11 @@ public class GUI2 extends JFrame {
 	private JPanel staticMapPanel;
 	private JLabel staitcMap;
 	public JButton btnReviewDialogPopUp;
+	private JPanel[] zonePanArrs;
+
+	public JPanel[] getZonePanArrs() {
+		return zonePanArrs;
+	}
 
 	public void setZoneComboBox(String zone) {
 		zoneComboBox.setSelectedItem(zone);
@@ -70,10 +72,11 @@ public class GUI2 extends JFrame {
 	public String[] getZones() {
 		return zones;
 	}
-	
+
 	public void setCursor(Cursor cursor) {
 		firstPanel.setCursor(cursor);
 	}
+
 	public JPanel getFirstPanel() {
 		return firstPanel;
 	}
@@ -230,8 +233,7 @@ public class GUI2 extends JFrame {
 		firstPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(firstPanel, "FirstScreen");
 		firstPanel.setLayout(null);
-		firstPanel.addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
-		
+
 		JLabel programMainTitle = new JLabel("돼동여지도");
 		programMainTitle.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		programMainTitle.setBounds(50, 30, 133, 39);
@@ -270,6 +272,67 @@ public class GUI2 extends JFrame {
 		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		searchButton.addActionListener(new SearchActionListener(GUI2.this));
 		firstPanel.add(searchButton);
+
+		JPanel panelSAHA = new JPanel();
+		panelSAHA.setBounds(505, 505, 45, 45);
+
+		JPanel panelGEUMJEONG = new JPanel();
+		panelGEUMJEONG.setBounds(640, 220, 80, 40);
+
+		JPanel panelHAEUNDAE = new JPanel();
+		panelHAEUNDAE.setBounds(730, 335, 70, 35);
+
+		JPanel panelDONGNAE = new JPanel();
+		panelDONGNAE.setBounds(635, 315, 65, 35);
+
+		JPanel panelYEONJE = new JPanel();
+		panelYEONJE.setBounds(650, 350, 50, 25);
+
+		JPanel panelSUYEONG = new JPanel();
+		panelSUYEONG.setBounds(695, 385, 35, 30);
+
+		JPanel panelNAM = new JPanel();
+		panelNAM.setBounds(665, 440, 35, 30);
+
+		JPanel panelJIN = new JPanel();
+		panelJIN.setBounds(600, 385, 55, 30);
+
+		JPanel panelBUK = new JPanel();
+		panelBUK.setBounds(575, 280, 50, 35);
+
+		JPanel panelSASANG = new JPanel();
+		panelSASANG.setBounds(515, 380, 55, 35);
+
+		JPanel panelDONG = new JPanel();
+		panelDONG.setBounds(605, 445, 35, 25);
+
+		JPanel panelSEO = new JPanel();
+		panelSEO.setBounds(555, 455, 35, 30);
+
+		JPanel panelJUNG = new JPanel();
+		panelJUNG.setBounds(595, 484, 30, 32);
+
+		JPanel panelYEONGDO = new JPanel();
+		panelYEONGDO.setBounds(620, 520, 60, 35);
+
+		JPanel panelGANGSEO = new JPanel();
+		panelGANGSEO.setBounds(340, 440, 80, 50);
+
+		JPanel panelGANGSEO2 = new JPanel();
+		panelGANGSEO2.setBounds(430, 300, 80, 80);
+
+		JPanel panelGIJANG = new JPanel();
+		panelGIJANG.setBounds(800, 150, 80, 60);
+
+		zonePanArrs = new JPanel[] { panelSAHA, panelGEUMJEONG, panelHAEUNDAE, panelDONGNAE, panelYEONJE, panelSUYEONG,
+				panelNAM, panelJIN, panelBUK, panelSASANG, panelDONG, panelSEO, panelJUNG, panelYEONGDO, panelGANGSEO,
+				panelGANGSEO2, panelGIJANG };
+
+		for (int i = 0; i < 17; i++) {
+			firstPanel.add(zonePanArrs[i]);
+			zonePanArrs[i].setOpaque(false);
+			zonePanArrs[i].addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
+		}
 
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
@@ -371,7 +434,6 @@ public class GUI2 extends JFrame {
 
 			}
 		});
-		
 
 		searchingList = new JList<>();
 		searchingList.setForeground(Color.BLACK);
@@ -392,7 +454,7 @@ public class GUI2 extends JFrame {
 
 		searchingList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		searchingList.setValueIsAdjusting(true);
-		searchingList.addListSelectionListener(new SecondPanelListListener(this,btnReviewDialogPopUp));
+		searchingList.addListSelectionListener(new SecondPanelListListener(this, btnReviewDialogPopUp));
 
 		JLabel restList = new JLabel("식당 목록");
 		restList.setFont(new Font("맑은 고딕", Font.BOLD, 20));
