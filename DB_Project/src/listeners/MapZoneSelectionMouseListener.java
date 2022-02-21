@@ -15,8 +15,6 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 	private GUI2 frame;
 	private JPanel firstPanel;
 	
-//	JButton hide = new JButton("숨은 버튼");
-//	hide.
 	
 	public MapZoneSelectionMouseListener(GUI2 Frame) {
 		super();
@@ -111,9 +109,9 @@ public class MapZoneSelectionMouseListener extends MouseAdapter {
 		if (800 <= e.getX() && e.getX() <= 880) {
 			if (150 <= e.getY() && e.getY() <= 200) {
 				frame.setZoneComboBox("기장군");
+				
 			}
 		}
-		
 
 	}
 }
