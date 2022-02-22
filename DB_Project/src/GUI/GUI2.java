@@ -59,10 +59,10 @@ public class GUI2 extends JFrame {
 	private JPanel staticMapPanel;
 	private JLabel staitcMap;
 	public JButton btnReviewDialogPopUp;
-	private JPanel[] zonePanArrs;
+	private JPanel[] zonePanArr;
 
-	public JPanel[] getZonePanArrs() {
-		return zonePanArrs;
+	public JPanel[] getZonePanArr() {
+		return zonePanArr;
 	}
 
 	public void setZoneComboBox(String zone) {
@@ -324,16 +324,16 @@ public class GUI2 extends JFrame {
 		JPanel panelGIJANG = new JPanel();
 		panelGIJANG.setBounds(800, 150, 80, 60);
 
-		zonePanArrs = new JPanel[] { panelSAHA, panelGEUMJEONG, panelHAEUNDAE, panelDONGNAE, panelYEONJE, panelSUYEONG,
+		zonePanArr = new JPanel[] { panelSAHA, panelGEUMJEONG, panelHAEUNDAE, panelDONGNAE, panelYEONJE, panelSUYEONG,
 				panelNAM, panelJIN, panelBUK, panelSASANG, panelDONG, panelSEO, panelJUNG, panelYEONGDO, panelGANGSEO,
 				panelGANGSEO2, panelGIJANG };
 
-		for (int i = 0; i < 17; i++) {
-			firstPanel.add(zonePanArrs[i]);
-			zonePanArrs[i].setOpaque(false);
-			zonePanArrs[i].addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
+		for (int i = 0; i < zonePanArr.length; i++) {
+			firstPanel.add(zonePanArr[i]);
+			zonePanArr[i].setOpaque(false);
+			zonePanArr[i].addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
 		}
-
+		
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
 		secondPanel.setBackground(new Color(255, 255, 255));
@@ -343,7 +343,7 @@ public class GUI2 extends JFrame {
 		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
 		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		goBackButton.setCursor(new Cursor((Cursor.HAND_CURSOR)));
+		goBackButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		goBackButton.addActionListener(new GoBackActionListener(GUI2.this));
 		secondPanel.add(goBackButton);
 
@@ -359,7 +359,7 @@ public class GUI2 extends JFrame {
 		thumbL.setForeground(Color.GRAY);
 		thumbL.setHorizontalAlignment(SwingConstants.CENTER);
 		thumbL.setBounds(494, 15, 427, 330);
-		thumbL.setBorder(new LineBorder((new Color(128, 128, 128)), 1, false));
+		thumbL.setBorder(new LineBorder(new Color(128, 128, 128), 1, false));
 		secondMainPanel.add(thumbL);
 
 		restTitle = new JLabel("목록에서 식당을 선택하세요");
@@ -431,7 +431,6 @@ public class GUI2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				reviewDialog dialog = new reviewDialog(GUI2.this);
 				dialog.setVisible(true);
-
 			}
 		});
 
