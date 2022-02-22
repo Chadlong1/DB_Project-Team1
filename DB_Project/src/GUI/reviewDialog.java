@@ -29,12 +29,14 @@ import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 
-
 //리뷰 다이얼로그 창
 class reviewDialog extends JDialog {
 	private JList<String> searchingList;
 	double rating;
 	private Date writingTime;
+	private int depth = 0;
+	private int bpmIdNum;
+
 	public reviewDialog(GUI2 parent) {
 		super(parent, "리뷰창", true);
 		searchingList = parent.getSearchingList();
@@ -46,8 +48,6 @@ class reviewDialog extends JDialog {
 		dialogPane.setLayout(new BoxLayout(dialogPane, BoxLayout.Y_AXIS));
 		dialogPane.setBackground(Color.white);
 
-		
-		
 		JPanel reviewInputInfo = new JPanel(new GridLayout(0, 2));
 		reviewInputInfo.setBackground(Color.white);
 		JPanel bottomPanel = new JPanel(new GridLayout(0, 2));
@@ -57,9 +57,8 @@ class reviewDialog extends JDialog {
 		// 리뷰작성 텍스트필드
 		TextField box = new TextField(35);
 
-		
 		// 리뷰 다이얼로그 실행시 JList 상에 선택된 가게의 리뷰/평점 Label 생성 및 표시
-		int bpmIdNum;
+		
 		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
@@ -67,39 +66,59 @@ class reviewDialog extends JDialog {
 				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
-					JLabel review = new JLabel("<html><p style=\"width:200px;\">"+ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getReview()+"</p></html>");
-					JLabel rating = new JLabel(
+					JLabel reviewLbl = new JLabel("<html><p style=\"width:200px;\">"
+							+ ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getReview() + "</p></html>");
+					JLabel ratingLbl = new JLabel(
 							String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getRating()));
-					review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-					rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-					review.addMouseListener(new MouseAdapter() {
+					reviewLbl.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+					ratingLbl.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+					reviewLbl.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							System.out.println("리뷰 클릭");
-							
+							depth = 1;
+//							bpmIdNum = 0;
+//							for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+//								if (searchingList.getSelectedIndex() == i) {
+//									String selectedItemStr = searchingList.getSelectedValue();
+//									Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+//									bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+//									ReviewRepository.insert(new ReviewInput(box.getText(), rating, depth, bpmIdNum));
+//
+//								}
+//							}
+//							JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+//									.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getReview());
+//							JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+//									.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getRating()));
+//							review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+//							rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+//							reviewPanel.add(review);
+//							reviewPanel.add(rating);
+//							revalidate();
+//							repaint();
+//
+//							reply.setText(null);
 						}
 					});
-					reviewPanel.add(review);
-					reviewPanel.add(rating);
+					reviewPanel.add(reviewLbl);
+					reviewPanel.add(ratingLbl);
 				}
 			}
 		}
-		
+
 //		JPanel jpList = new JPanel();
 //		jpList.setLayout(new GridBagLayout());
-		JScrollPane scrollSingle = new JScrollPane(reviewPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane scrollSingle = new JScrollPane(reviewPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		//JScrollPane reviewScrollPane = new JScrollPane(dialogPane);
-		//reviewScrollPane.setBounds(0,0,30,30);
-		//reviewScrollPane.setViewportView(reviewPanel);
-		//dialogPane.add(reviewScrollPane);
-		//dialogPane.add(jpList);
-		
-		
-		scrollSingle.setPreferredSize(new Dimension(400,200));
-	
-		
-		
+		// JScrollPane reviewScrollPane = new JScrollPane(dialogPane);
+		// reviewScrollPane.setBounds(0,0,30,30);
+		// reviewScrollPane.setViewportView(reviewPanel);
+		// dialogPane.add(reviewScrollPane);
+		// dialogPane.add(jpList);
+
+		scrollSingle.setPreferredSize(new Dimension(400, 200));
+
 //		JScrollPane reviewScrollPane = new JScrollPane();
 //		reviewScrollPane.setBounds(1085, 200, 200, 200);
 //		reviewScrollPane.setViewportView(reviewPanel);
@@ -143,15 +162,13 @@ class reviewDialog extends JDialog {
 		btnOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int bpmIdNum = 0;
-				int bundleId = 0;
-				int depth = 0;
+				bpmIdNum = 0;
 				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 					if (searchingList.getSelectedIndex() == i) {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(box.getText(), rating, bundleId, depth, bpmIdNum));
+						ReviewRepository.insert(new ReviewInput(box.getText(), rating, depth, bpmIdNum));
 
 					}
 				}
@@ -160,7 +177,7 @@ class reviewDialog extends JDialog {
 				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
 						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getRating()));
 				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-	            rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				reviewPanel.add(review);
 				reviewPanel.add(rating);
 				revalidate();
@@ -192,7 +209,7 @@ class reviewDialog extends JDialog {
 
 		add(dialogPane);
 		setResizable(false);
-		setSize(550,400);
+		setSize(550, 400);
 		setLocation(1085, 200);
 	}
 }

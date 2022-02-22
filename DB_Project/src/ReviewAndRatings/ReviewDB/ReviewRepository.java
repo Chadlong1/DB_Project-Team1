@@ -16,11 +16,14 @@ public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
 		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" + ", rating DOUBLE" + ", bundleId INT" + ", depth INT" + ", bpmId INT"
+				+ ", review TEXT" 
+				+ ", rating DOUBLE" 
+				+ ", depth INT" 
+				+ ", bpmId INT"
 				+ ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
 				+ ", FOREIGN KEY (bpmId) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
-		System.out.println(createReviewTable);
+		
 		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
 			stmt.executeUpdate(createReviewTable);
 		} catch (SQLException e) {
@@ -30,14 +33,14 @@ public class ReviewRepository {
 
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
 	public static void insert(ReviewInput reviewInput) {
-		String insert = "INSERT INTO review (review, rating, bundleId, depth, bpmId)" + "VALUES (?, ?, ?, ?, ?);";
+		String insert = "INSERT INTO review (review, rating, depth, bpmId)" + "VALUES (?, ?, ?, ?);";
+		System.out.println(insert);
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());
 			stmt.setDouble(2, reviewInput.getRating());
-			stmt.setInt(3, reviewInput.getBundleId());
-			stmt.setInt(4, reviewInput.getDepth());
-			stmt.setDouble(5, reviewInput.getBpmId());
+			stmt.setInt(3, reviewInput.getDepth());
+			stmt.setDouble(4, reviewInput.getBpmId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -66,11 +69,10 @@ public class ReviewRepository {
 	private static ReviewInput returnReview(ResultSet rs) throws SQLException {
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
-		int bundleId = rs.getInt("bundleId");
 		int depth = rs.getInt("depth");
 		int bpmId = rs.getInt("bpmId");
 
-		return new ReviewInput(review, rating, bundleId, depth, bpmId);
+		return new ReviewInput(review, rating, depth, bpmId);
 	}
 
 	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewInput 객체(후기, 평점)를 반환
@@ -131,7 +133,7 @@ public class ReviewRepository {
 	}
 	
 	// 가장 최근에 삽입된 row의 id반환
-	public int getLastSelectReviewId() {
+	public static int getLastSelectReviewId() {
 		String getLastSelectReviewId = "SELECT LAST_INSERT_ID;";
 		int id = 0;
 		try(Connection conn = ConnectionProvider.getConnection();

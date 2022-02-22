@@ -7,14 +7,12 @@ public class ReviewInput {
 
 	private String review;
 	private Double rating;
-	private int bundleId;
 	private int depth;
 	private int bpmId;
-	public ReviewInput(String review, Double rating, int bundleId, int depth, int bpmId){
+	public ReviewInput(String review, Double rating, int depth, int bpmId){
 		super();
 		this.review = review;
 		this.rating = rating;
-		this.bundleId = bundleId;
 		this.depth = depth;
 		this.bpmId = bpmId;
 	}
@@ -29,12 +27,6 @@ public class ReviewInput {
 	}
 	public void setRating(Double rating) {
 		this.rating = rating;
-	}
-	public int getBundleId() {
-		return bundleId;
-	}
-	public void setBundleId(int bundleId) {
-		this.bundleId = bundleId;
 	}
 	public int getDepth() {
 		return depth;
@@ -51,7 +43,7 @@ public class ReviewInput {
 	@Override
 	public String toString() {
 		return "ReviewInput [reviewId=" + ", review=" + review + ", rating=" + rating + ", bundleId="
-				+ bundleId + ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" +"]";
+				+ ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" +"]";
 	}
 	
 	
