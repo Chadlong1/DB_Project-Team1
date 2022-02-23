@@ -60,6 +60,11 @@ public class GUI2 extends JFrame {
 	private JLabel staitcMap;
 	public JButton btnReviewDialogPopUp;
 	private JPanel[] zonePanArr;
+	private JLabel loadingLabel;
+
+	public void setLoadingLabel(ImageIcon ii) {
+		loadingLabel.setIcon(ii);
+	}
 
 	public JPanel[] getZonePanArr() {
 		return zonePanArr;
@@ -114,12 +119,12 @@ public class GUI2 extends JFrame {
 	}
 
 	public void setThumbLEmpty() {
-		ImageIcon image = new ImageIcon("emptyImg.png");
+		ImageIcon image = new ImageIcon("");
 		thumbL.setIcon(image);
 	}
 
 	public void setStaitcMapEmpty() {
-		ImageIcon image = new ImageIcon("emptyImg.png");
+		ImageIcon image = new ImageIcon("");
 		staitcMap.setIcon(image);
 	}
 
@@ -333,11 +338,16 @@ public class GUI2 extends JFrame {
 			zonePanArr[i].setOpaque(false);
 			zonePanArr[i].addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
 		}
-		
+
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
 		secondPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(secondPanel, "SecondScreen");
+
+		loadingLabel = new JLabel();
+		loadingLabel.setOpaque(false);
+		loadingLabel.setBounds(297, 264, 400, 200);
+		secondPanel.add(loadingLabel);
 
 		JButton goBackButton = new JButton("뒤로가기");
 		goBackButton.setBounds(861, 643, 97, 32);
