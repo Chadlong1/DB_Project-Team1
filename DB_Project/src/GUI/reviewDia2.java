@@ -9,6 +9,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -221,8 +224,21 @@ public class reviewDia2 extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				commentField.setText("");
-				commentField.setForeground(Color.BLACK);
+				if (commentField.getText().equals("후기를 입력해주세요")) {
+					commentField.setText("");
+					commentField.setForeground(Color.BLACK);
+				}
+				
+			}
+		});
+		commentField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				if (commentField.getText().equals("후기를 입력해주세요")) {
+					commentField.setText("");
+					commentField.setForeground(Color.BLACK);
+				}
 			}
 		});
 
@@ -259,13 +275,25 @@ public class reviewDia2 extends JDialog {
 		replyCommentField.setColumns(10);
 		replyCommentField.setBounds(12, 12, 430, 70);
 		replyComment.add(replyCommentField);
-
 		replyCommentField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				commentField.setText("");
-				commentField.setForeground(Color.BLACK);
+				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+					replyCommentField.setText("");
+					replyCommentField.setForeground(Color.BLACK);
+				}
+				
+			}
+		});
+		replyCommentField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+					replyCommentField.setText("");
+					replyCommentField.setForeground(Color.BLACK);
+				}
 			}
 		});
 
