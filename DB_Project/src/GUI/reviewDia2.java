@@ -4,10 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,6 +23,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -35,10 +40,14 @@ public class reviewDia2 extends JDialog {
 	private double rating;
 
 	private final JPanel contentPanel = new JPanel();
+	private JTextField commentField;
 	private JTextField replyCommentField;
 	private JPanel commentCard;
 	private JPanel tempReviewPanel;
 	private CardLayout card = new CardLayout(0, 0);
+	private JPanel commentScreen;
+	private int count;
+	private JScrollPane scrollPane;
 
 	public CardLayout getCard() {
 		return card;
@@ -172,24 +181,148 @@ public class reviewDia2 extends JDialog {
 		scoreCount_1.setBounds(55, 95, 59, 15);
 		ratingPanel_2.add(scoreCount_1);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 40, 396, 286);
 		scrollPane.setBorder(null);
 		commentLayout.add(scrollPane);
 
-		JPanel commentScreen = new JPanel();
+		commentScreen = new JPanel(null);
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
 		scrollPane.setViewportView(commentScreen);
-		commentScreen.setLayout(null);
 
-		JPanel tempReviewPanel = new JPanel();
+		JLabel resTitleReview = new JLabel("가게이름 리뷰");
+		resTitleReview.setVerticalAlignment(SwingConstants.TOP);
+		resTitleReview.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
+		resTitleReview.setBounds(12, 12, 396, 28);
+		commentLayout.add(resTitleReview);
+
+		commentCard = new JPanel();
+		commentCard.setBounds(10, 358, 564, 93);
+		contentPanel.add(commentCard);
+		commentCard.setLayout(card);
+
+		JPanel normalComment = new JPanel();
+		normalComment.setBorder(new LineBorder(SystemColor.activeCaption));
+		normalComment.setBackground(SystemColor.inactiveCaptionBorder);
+		commentCard.add(normalComment, "NORMAL");
+		normalComment.setLayout(null);
+
+		commentField = new JTextField();
+		commentField.setForeground(Color.GRAY);
+		commentField.setHorizontalAlignment(SwingConstants.LEFT);
+		commentField.setText("후기를 입력해주세요");
+		commentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		commentField.setBounds(12, 12, 430, 70);
+		normalComment.add(commentField);
+		commentField.setColumns(10);
+		commentField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				if (commentField.getText().equals("후기를 입력해주세요")) {
+					commentField.setText("");
+					commentField.setForeground(Color.BLACK);
+				}
+				
+			}
+		});
+		commentField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				if (commentField.getText().equals("후기를 입력해주세요")) {
+					commentField.setText("");
+					commentField.setForeground(Color.BLACK);
+				}
+			}
+		});
+
+		JButton leaveBtn = new JButton("등록");
+		leaveBtn.setBackground(new Color(135, 206, 235));
+		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		leaveBtn.setBounds(455, 12, 97, 29);
+		normalComment.add(leaveBtn);
+		leaveBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				leaveComment(count++);
+
+			}
+		});
+
+		JComboBox scoreComboBox = new JComboBox();
+		scoreComboBox.setBackground(Color.WHITE);
+		scoreComboBox.setBounds(455, 53, 97, 29);
+		normalComment.add(scoreComboBox);
+
+		JPanel replyComment = new JPanel();
+		replyComment.setBorder(new LineBorder(SystemColor.activeCaption));
+		replyComment.setBackground(SystemColor.inactiveCaptionBorder);
+		commentCard.add(replyComment, "ReplyComment");
+		replyComment.setLayout(null);
+
+		replyCommentField = new JTextField();
+		replyCommentField.setText("대댓글을 작성해주세요");
+		replyCommentField.setForeground(Color.GRAY);
+		replyCommentField.setHorizontalAlignment(SwingConstants.LEFT);
+		replyCommentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		replyCommentField.setColumns(10);
+		replyCommentField.setBounds(12, 12, 430, 70);
+		replyComment.add(replyCommentField);
+		replyCommentField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+					replyCommentField.setText("");
+					replyCommentField.setForeground(Color.BLACK);
+				}
+				
+			}
+		});
+		replyCommentField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				super.keyTyped(e);
+				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+					replyCommentField.setText("");
+					replyCommentField.setForeground(Color.BLACK);
+				}
+			}
+		});
+
+		JButton replyLeaveBtn = new JButton("등록");
+		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		replyLeaveBtn.setBackground(new Color(135, 206, 235));
+		replyLeaveBtn.setBounds(455, 12, 97, 29);
+		replyLeaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		replyComment.add(replyLeaveBtn);
+
+		JButton replyGoBackBtn = new JButton("뒤로가기");
+		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		replyGoBackBtn.setBackground(new Color(135, 206, 235));
+		replyGoBackBtn.setBounds(455, 53, 97, 29);
+		replyGoBackBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		replyComment.add(replyGoBackBtn);
+		replyGoBackBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getCard().show(commentCard, "NORMAL");
+			}
+		});
+
+	}
+
+	public void leaveComment(int count) {
+		JPanel tempReviewPanel = new JPanel(null);
 		tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		tempReviewPanel.setBackground(Color.WHITE);
-		tempReviewPanel.setBounds(12, 10, 330, 85);
-		commentScreen.add(tempReviewPanel);
-		tempReviewPanel.setLayout(null);
+		tempReviewPanel.setBounds(12, 12 + (97 * count), 330, 85);
 		tempReviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		commentScreen.add(tempReviewPanel);
 		tempReviewPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -198,6 +331,7 @@ public class reviewDia2 extends JDialog {
 				card.show(commentCard, "ReplyComment");
 				System.out.println("클릭반응");
 			}
+
 		});
 
 		JLabel comment = new JLabel("<html><p style=\"width:230px;\">"
@@ -213,11 +347,13 @@ public class reviewDia2 extends JDialog {
 		reviewDate.setBounds(222, 65, 96, 15);
 		tempReviewPanel.add(reviewDate);
 
-		JLabel resTitleReview = new JLabel("가게이름 리뷰");
-		resTitleReview.setVerticalAlignment(SwingConstants.TOP);
-		resTitleReview.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
-		resTitleReview.setBounds(12, 12, 396, 28);
-		commentLayout.add(resTitleReview);
+		if (count >= 2) {
+			Dimension size = new Dimension();
+			int y = 286 + (97 * (count - 1));
+			size.setSize(396, y);
+			commentScreen.setPreferredSize(size);
+			scrollPane.setViewportView(commentScreen);
+		}
 
 		commentCard = new JPanel();
 		commentCard.setBounds(10, 358, 564, 93);
@@ -330,6 +466,8 @@ public class reviewDia2 extends JDialog {
 			}
 		});
 
+		commentScreen.repaint();
+		commentScreen.revalidate();
 	}
 
 	void createStarLabel(int rating) {
