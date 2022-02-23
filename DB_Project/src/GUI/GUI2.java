@@ -429,7 +429,7 @@ public class GUI2 extends JFrame {
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				reviewDialog dialog = new reviewDialog(GUI2.this);
+				reviewDia2 dialog = new reviewDia2(GUI2.this);
 				dialog.setVisible(true);
 			}
 		});
