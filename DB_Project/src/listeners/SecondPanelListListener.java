@@ -25,7 +25,6 @@ public class SecondPanelListListener implements ListSelectionListener {
 		this.frame = frame;
 		this.searchingList = frame.getSearchingList();
 		this.btnReviewDialogPopUp = frame.btnReviewDialogPopUp;
-		
 	}
 
 	@Override
@@ -51,12 +50,11 @@ public class SecondPanelListListener implements ListSelectionListener {
 						frame.setRating((String)String.valueOf(ReviewRepository.viewRating(searchIdNum)));
 					}
 					frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
+					btnReviewDialogPopUp.setVisible(true);
 				}
 			}
 //		System.out.println(searchingList.getMaxSelectionIndex());
-	
 		}
-		btnReviewDialogPopUp.setVisible(true);
 	}
-	
 }
+

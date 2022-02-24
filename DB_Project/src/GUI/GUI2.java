@@ -339,14 +339,6 @@ public class GUI2 extends JFrame {
 		secondPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(secondPanel, "SecondScreen");
 
-		JButton goBackButton = new JButton("뒤로가기");
-		goBackButton.setBounds(861, 643, 97, 32);
-		goBackButton.setBackground(new Color(135, 206, 235));
-		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		goBackButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		goBackButton.addActionListener(new GoBackActionListener(GUI2.this));
-		secondPanel.add(goBackButton);
-
 		JPanel secondMainPanel = new JPanel();
 		secondMainPanel.setForeground(Color.GRAY);
 		secondMainPanel.setBounds(20, 20, 938, 360);
@@ -419,6 +411,14 @@ public class GUI2 extends JFrame {
 		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
 		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
 		btnReviewDialogPopUp.setVisible(false);
+		
+		JButton goBackButton = new JButton("뒤로가기");
+		goBackButton.setBounds(861, 643, 97, 32);
+		goBackButton.setBackground(new Color(135, 206, 235));
+		goBackButton.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		goBackButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		goBackButton.addActionListener(new GoBackActionListener(this, btnReviewDialogPopUp));
+		secondPanel.add(goBackButton);
 
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));

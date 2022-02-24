@@ -29,6 +29,15 @@ public class reviewDia2 extends JDialog {
 	private JTextField replyCommentField;
 	private JPanel commentCard;
 	private CardLayout card = new CardLayout(0, 0);
+	private JLabel avgScore;
+
+	public JLabel getAvgScore() {
+		return avgScore;
+	}
+
+	public void setAvgScore(JLabel avgScore) {
+		this.avgScore = avgScore;
+	}
 
 	public CardLayout getCard() {
 		return card;
@@ -73,9 +82,11 @@ public class reviewDia2 extends JDialog {
 		commentLayout.add(ratingPanel);
 		ratingPanel.setLayout(null);
 
-		JLabel avgScore = new JLabel("0.0");
+		avgScore = new JLabel("");
 		avgScore.setBounds(25, 35, 80, 50);
 		ratingPanel.add(avgScore);
+		ratingPanel.revalidate();
+		ratingPanel.repaint();
 		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 43));
 		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
 

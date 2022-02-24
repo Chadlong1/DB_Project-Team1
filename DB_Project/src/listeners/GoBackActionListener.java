@@ -5,14 +5,19 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+
 import GUI.GUI2;
 
 public class GoBackActionListener implements ActionListener {
+	private JButton btnReviewDialogPopUp;
 	private GUI2 frame;
-
-	public GoBackActionListener(GUI2 frame) {
+	
+	
+	public GoBackActionListener(GUI2 frame, JButton btnReviewDialogPopUp) {
 		super();
 		this.frame = frame;
+		this.btnReviewDialogPopUp = frame.btnReviewDialogPopUp;
 	}
 
 	@Override
@@ -30,6 +35,7 @@ public class GoBackActionListener implements ActionListener {
 		Container c = frame.getContentPane();
 		CardLayout card = frame.getCard();
 		card.show(c, "FirstScreen");
+		btnReviewDialogPopUp.setVisible(false);
 	}
 
 }
