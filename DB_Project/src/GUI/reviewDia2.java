@@ -208,15 +208,25 @@ public class reviewDia2 extends JDialog {
 
 				createRatingPanel1(ReviewRepository.viewRating(bpmIdNum));
 
-				int[] arr = new int[5];
+				int[] arr = {0,0,0,0,0};
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
 					List<ReviewInput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 					
-					
-					arr = insertRatingArr(list.get(j).getRating());
-					
 					leaveComment(list.get(j), numOfReview++);
+					
+					double ratingArr = list.get(j).getRating();
+					if (ratingArr == 1.0) {
+						arr[0]++;
+					} else if (ratingArr == 2.0) {
+						arr[1]++;
+					} else if (ratingArr == 3.0) {
+						arr[2]++;
+					} else if (ratingArr == 4.0) {
+						arr[3]++;
+					} else if (ratingArr == 5.0) {
+						arr[4]++;
+					}  
 				}
 				createRatingPanel2(arr);
 			}
@@ -656,20 +666,5 @@ public class reviewDia2 extends JDialog {
 		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		scoreCount_1.setBounds(55, 95, 59, 15);
 		ratingPanel_2.add(scoreCount_1);
-	}
-	private int[] insertRatingArr(double ratingArr) {
-		int[] arr = {0,0,0,0,0};
-		if (ratingArr == 1.0) {
-			arr[0]++;
-		} else if (ratingArr == 2.0) {
-			arr[1]++;
-		} else if (ratingArr == 3.0) {
-			arr[2]++;
-		} else if (ratingArr == 4.0) {
-			arr[3]++;
-		} else if (ratingArr == 5.0) {
-			arr[4]++;
-		}  
-		return arr;
 	}
 }
