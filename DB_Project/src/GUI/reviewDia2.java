@@ -15,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -47,10 +49,11 @@ public class reviewDia2 extends JDialog {
 	private JPanel tempReviewPanel;
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
-	private int count;
+	private int numOfReview;
 	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
-
+	private JPanel commentLayout;
+	private int rating1,rating2,rating3,rating4,rating5;
 	public CardLayout getCard() {
 		return card;
 	}
@@ -66,7 +69,7 @@ public class reviewDia2 extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		JPanel commentLayout = new JPanel();
+		commentLayout = new JPanel();
 		commentLayout.setBorder(new LineBorder(SystemColor.activeCaption));
 		commentLayout.setBackground(SystemColor.inactiveCaptionBorder);
 		commentLayout.setBounds(10, 10, 564, 338);
@@ -193,8 +196,8 @@ public class reviewDia2 extends JDialog {
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
 		scrollPane.setViewportView(commentScreen);
-		
-		//  JList로 선택된 음식점 정보 
+
+		// JList로 선택된 음식점 정보 (tempReviewPanel 패널에 노출)
 		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 			if (searchingList.getSelectedIndex() == i) {
 				String selectedItemStr = searchingList.getSelectedValue();
@@ -202,19 +205,29 @@ public class reviewDia2 extends JDialog {
 				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 				resTitleReview = new JLabel(tempRest.getTitle());
-				
+
+				createRatingPanel1(ReviewRepository.viewRating(bpmIdNum));
+
+				int[] arr = new int[5];
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
+					List<ReviewInput> list = new ArrayList<>();
+					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 					
+					
+					arr = insertRatingArr(list.get(j).getRating());
+					
+					leaveComment(list.get(j), numOfReview++);
 				}
+				createRatingPanel2(arr);
 			}
 		}
-		//  -----------------------------------------------------------
+		// -----------------------------------------------------------
 		
 		resTitleReview.setVerticalAlignment(SwingConstants.TOP);
 		resTitleReview.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
 		resTitleReview.setBounds(12, 12, 396, 28);
 		commentLayout.add(resTitleReview);
-		
+
 		commentCard = new JPanel();
 		commentCard.setBounds(10, 358, 564, 93);
 		contentPanel.add(commentCard);
@@ -242,7 +255,7 @@ public class reviewDia2 extends JDialog {
 					commentField.setText("");
 					commentField.setForeground(Color.BLACK);
 				}
-				
+
 			}
 		});
 		commentField.addKeyListener(new KeyAdapter() {
@@ -262,14 +275,14 @@ public class reviewDia2 extends JDialog {
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		leaveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				leaveComment(count++);
+//		leaveBtn.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				leaveComment(count++);
+//
+//			}
+//		});
 
-			}
-		});
-		
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
 		JComboBox scoreComboBox = new JComboBox(star);
@@ -299,7 +312,7 @@ public class reviewDia2 extends JDialog {
 					replyCommentField.setText("");
 					replyCommentField.setForeground(Color.BLACK);
 				}
-				
+
 			}
 		});
 		replyCommentField.addKeyListener(new KeyAdapter() {
@@ -335,7 +348,10 @@ public class reviewDia2 extends JDialog {
 
 	}
 
-	public void leaveComment(int count) {
+
+
+	// tempReviewPanel 패널에 리뷰 생성 메소드 ----------------------------
+	public void leaveComment(ReviewInput ri, int count) {
 		JPanel tempReviewPanel = new JPanel(null);
 		tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		tempReviewPanel.setBackground(Color.WHITE);
@@ -352,18 +368,66 @@ public class reviewDia2 extends JDialog {
 			}
 
 		});
-
-		JLabel comment = new JLabel("<html><p style=\"width:230px;\">"
-				+ "222222222222222222222222222222222222222222222222222222222222222222222222222222" + "</p></html>");
+		// tempReviewPanel패널에 별점 등록
+		rating = ri.getRating();
+		if (rating == 5) {
+			JLabel star_5_1 = new JLabel("★");
+			star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_5_1.setForeground(Color.ORANGE);
+			star_5_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_5_1.setBounds(56, 7, 12, 15);
+			tempReviewPanel.add(star_5_1);
+		}
+		if (rating >= 4) {
+			JLabel star_4_1 = new JLabel("★");
+			star_4_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_4_1.setForeground(Color.ORANGE);
+			star_4_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_4_1.setBounds(45, 7, 12, 15);
+			tempReviewPanel.add(star_4_1);
+		}
+		if (rating >= 3) {
+			JLabel star_3_1 = new JLabel("★");
+			star_3_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_3_1.setForeground(Color.ORANGE);
+			star_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_3_1.setBounds(34, 7, 12, 15);
+			tempReviewPanel.add(star_3_1);
+		}
+		if (rating >= 2) {
+			JLabel star_2_1 = new JLabel("★");
+			star_2_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_2_1.setForeground(Color.ORANGE);
+			star_2_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_2_1.setBounds(23, 7, 12, 15);
+			tempReviewPanel.add(star_2_1);
+		}
+		if (rating >= 1) {
+			JLabel star_1_1 = new JLabel("★");
+			star_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_1_1.setForeground(Color.ORANGE);
+			star_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_1_1.setBounds(12, 7, 12, 15);
+			tempReviewPanel.add(star_1_1);
+		} else {
+			JLabel star_0_1 = new JLabel("★");
+			star_0_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_0_1.setForeground(Color.DARK_GRAY);
+			star_0_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_0_1.setBounds(12, 7, 12, 15);
+			tempReviewPanel.add(star_0_1);
+		}
+		// tempReviewPanel패널에 리뷰 등록
+		JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ri.getReview() + "</p></html>");
 		comment.setVerticalAlignment(SwingConstants.TOP);
 		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		comment.setBounds(12, 22, 306, 40);
 		tempReviewPanel.add(comment);
-
-		JLabel reviewDate = new JLabel("날짜");
+		// tempReviewPanel패널에 작성날짜 등록
+		JLabel reviewDate = new JLabel(String.valueOf(ri.getTimestamp()));
 		reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		reviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		reviewDate.setBounds(222, 65, 96, 15);
+		reviewDate.setBounds(193, 65, 125, 15);
 		tempReviewPanel.add(reviewDate);
 
 		if (count >= 2) {
@@ -399,19 +463,16 @@ public class reviewDia2 extends JDialog {
 		leaveBtn.setBounds(455, 12, 97, 29);
 		leaveBtn.setEnabled(false);
 		normalComment.add(leaveBtn);
-		
-		
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
 		JComboBox<String> scoreComboBox = new JComboBox(star);
-		
+
 //		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
-		
-	
+
 		scoreComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -452,27 +513,6 @@ public class reviewDia2 extends JDialog {
 		replyLeaveBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bpmIdNum = 0;
-				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-					if (searchingList.getSelectedIndex() == i) {
-						String selectedItemStr = searchingList.getSelectedValue();
-						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
-
-					}
-				}
-				JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getReview());
-				JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getRating()));
-				review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-				rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-				tempReviewPanel.add(review);
-				tempReviewPanel.add(rating);
-				commentField.setText(null);
-				revalidate();
-				repaint();
 
 			}
 		});
@@ -494,51 +534,142 @@ public class reviewDia2 extends JDialog {
 		commentScreen.revalidate();
 	}
 
-	void createStarLabel(int rating) {
+	public void createRatingPanel1(double avgRating) {
 
-		if (rating == 5) {
-			JLabel star_5_1 = new JLabel("★");
-			star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_5_1.setForeground(Color.ORANGE);
-			star_5_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_5_1.setBounds(56, 7, 12, 15);
-			tempReviewPanel.add(star_5_1);
-		} else if (rating >= 4) {
-			JLabel star_4_1 = new JLabel("★");
-			star_4_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_4_1.setForeground(Color.ORANGE);
-			star_4_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_4_1.setBounds(45, 7, 12, 15);
-			tempReviewPanel.add(star_4_1);
-		} else if (rating >= 3) {
-			JLabel star_3_1 = new JLabel("★");
-			star_3_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_3_1.setForeground(Color.ORANGE);
-			star_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_3_1.setBounds(34, 7, 12, 15);
-			tempReviewPanel.add(star_3_1);
-		} else if (rating >= 2) {
-			JLabel star_2_1 = new JLabel("★");
-			star_2_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_2_1.setForeground(Color.ORANGE);
-			star_2_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_2_1.setBounds(23, 7, 12, 15);
-			tempReviewPanel.add(star_2_1);
-		} else if (rating >= 1) {
-			JLabel star_1_1 = new JLabel("★");
-			star_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_1_1.setForeground(Color.ORANGE);
-			star_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_1_1.setBounds(12, 7, 12, 15);
-			tempReviewPanel.add(star_1_1);
-		} else {
-			JLabel star_0_1 = new JLabel("★");
-			star_0_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_0_1.setForeground(Color.DARK_GRAY);
-			star_0_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_0_1.setBounds(12, 7, 12, 15);
-			tempReviewPanel.add(star_0_1);
+		String strRating = String.format("%.1f", avgRating);
+
+		JPanel ratingPanel = new JPanel();
+		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
+		ratingPanel.setBackground(Color.WHITE);
+		ratingPanel.setBounds(420, 40, 130, 130);
+		commentLayout.add(ratingPanel);
+		ratingPanel.setLayout(null);
+		String.valueOf(avgRating);
+		JLabel avgScore = new JLabel(strRating);
+		avgScore.setBounds(25, 35, 80, 50);
+		ratingPanel.add(avgScore);
+		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 43));
+		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
+
+		if (avgRating >= 1) {
+			JLabel star_1 = new JLabel("★");
+			star_1.setHorizontalAlignment(SwingConstants.LEFT);
+			star_1.setForeground(Color.ORANGE);
+			star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_1.setBounds(38, 82, 12, 15);
+			ratingPanel.add(star_1);
 		}
+		if (avgRating >= 2) {
+			JLabel star_2 = new JLabel("★");
+			star_2.setHorizontalAlignment(SwingConstants.LEFT);
+			star_2.setForeground(Color.ORANGE);
+			star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_2.setBounds(49, 82, 12, 15);
+			ratingPanel.add(star_2);
+		}
+		if (avgRating >= 3) {
+			JLabel star_3 = new JLabel("★");
+			star_3.setHorizontalAlignment(SwingConstants.LEFT);
+			star_3.setForeground(Color.ORANGE);
+			star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_3.setBounds(60, 82, 12, 15);
+			ratingPanel.add(star_3);
+		}
+		if (avgRating >= 4) {
+			JLabel star_4 = new JLabel("★");
+			star_4.setHorizontalAlignment(SwingConstants.LEFT);
+			star_4.setForeground(Color.ORANGE);
+			star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_4.setBounds(71, 82, 12, 15);
+			ratingPanel.add(star_4);
+		}
+		if (avgRating == 5) {
+			JLabel star_5 = new JLabel("★");
+			star_5.setHorizontalAlignment(SwingConstants.LEFT);
+			star_5.setForeground(Color.ORANGE);
+			star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_5.setBounds(82, 82, 12, 15);
+			ratingPanel.add(star_5);
+		}
+
 	}
 
+	public void createRatingPanel2(int[] arr) {
+		JPanel ratingPanel_2 = new JPanel();
+		ratingPanel_2.setBorder(new LineBorder(SystemColor.inactiveCaption));
+		ratingPanel_2.setBackground(Color.WHITE);
+		ratingPanel_2.setBounds(420, 185, 130, 125);
+		commentLayout.add(ratingPanel_2);
+		ratingPanel_2.setLayout(null);
+
+		JLabel score_5 = new JLabel("5점");
+		score_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		score_5.setBounds(15, 15, 25, 15);
+		ratingPanel_2.add(score_5);
+
+		JLabel score_4 = new JLabel("4점");
+		score_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		score_4.setBounds(15, 35, 25, 15);
+		ratingPanel_2.add(score_4);
+
+		JLabel score_3 = new JLabel("3점");
+		score_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		score_3.setBounds(15, 55, 25, 15);
+		ratingPanel_2.add(score_3);
+
+		JLabel score_2 = new JLabel("2점");
+		score_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		score_2.setBounds(15, 75, 25, 15);
+		ratingPanel_2.add(score_2);
+
+		JLabel score_1 = new JLabel("1점");
+		score_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		score_1.setBounds(15, 95, 25, 15);
+		ratingPanel_2.add(score_1);
+
+		JLabel scoreCount_5 = new JLabel(String.valueOf(arr[4]));
+		scoreCount_5.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreCount_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		scoreCount_5.setBounds(55, 15, 59, 15);
+		ratingPanel_2.add(scoreCount_5);
+
+		JLabel scoreCount_4 = new JLabel(String.valueOf(arr[3]));
+		scoreCount_4.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreCount_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		scoreCount_4.setBounds(55, 35, 59, 15);
+		ratingPanel_2.add(scoreCount_4);
+
+		JLabel scoreCount_3 = new JLabel(String.valueOf(arr[2]));
+		scoreCount_3.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreCount_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		scoreCount_3.setBounds(55, 55, 59, 15);
+		ratingPanel_2.add(scoreCount_3);
+
+		JLabel scoreCount_2 = new JLabel(String.valueOf(arr[1]));
+		scoreCount_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreCount_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		scoreCount_2.setBounds(55, 75, 59, 15);
+		ratingPanel_2.add(scoreCount_2);
+
+		JLabel scoreCount_1 = new JLabel(String.valueOf(arr[0]));
+		scoreCount_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+		scoreCount_1.setBounds(55, 95, 59, 15);
+		ratingPanel_2.add(scoreCount_1);
+	}
+	private int[] insertRatingArr(double ratingArr) {
+		int[] arr = {0,0,0,0,0};
+		if (ratingArr == 1.0) {
+			arr[0]++;
+		} else if (ratingArr == 2.0) {
+			arr[1]++;
+		} else if (ratingArr == 3.0) {
+			arr[2]++;
+		} else if (ratingArr == 4.0) {
+			arr[3]++;
+		} else if (ratingArr == 5.0) {
+			arr[4]++;
+		}  
+		return arr;
+	}
 }
