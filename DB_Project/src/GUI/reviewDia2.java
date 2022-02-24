@@ -252,8 +252,10 @@ public class reviewDia2 extends JDialog {
 
 			}
 		});
+		
+		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
-		JComboBox scoreComboBox = new JComboBox();
+		JComboBox scoreComboBox = new JComboBox(star);
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
@@ -380,14 +382,19 @@ public class reviewDia2 extends JDialog {
 		leaveBtn.setBounds(455, 12, 97, 29);
 		leaveBtn.setEnabled(false);
 		normalComment.add(leaveBtn);
+		
+		
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
 		JComboBox<String> scoreComboBox = new JComboBox(star);
+		
+//		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
-
+		
+	
 		scoreComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
