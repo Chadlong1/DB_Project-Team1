@@ -72,11 +72,14 @@ public class reviewDialog extends JDialog {
 							String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum).get(j).getRating()));
 					reviewLbl.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 					ratingLbl.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+					TextField reply = new TextField(30);  
+					JButton replyOk = new JButton("확인");
 					reviewLbl.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							System.out.println("리뷰 클릭");
+							System.out.println("대댓글 입력");
 							depth = 1;
+							
 //							bpmIdNum = 0;
 //							for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 //								if (searchingList.getSelectedIndex() == i) {
@@ -103,6 +106,8 @@ public class reviewDialog extends JDialog {
 					});
 					reviewPanel.add(reviewLbl);
 					reviewPanel.add(ratingLbl);
+					reviewPanel.add(reply);
+					reviewPanel.add(replyOk);
 				}
 			}
 		}

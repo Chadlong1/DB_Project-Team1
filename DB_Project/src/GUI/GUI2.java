@@ -60,7 +60,12 @@ public class GUI2 extends JFrame {
 	private JLabel staitcMap;
 	public JButton btnReviewDialogPopUp;
 	private JPanel[] zonePanArr;
+	private JLabel loadingLabel;
 
+	public void setLoadingLabel(ImageIcon ii) {
+		loadingLabel.setIcon(ii);
+	}
+	
 	public JPanel[] getZonePanArr() {
 		return zonePanArr;
 	}
@@ -114,12 +119,12 @@ public class GUI2 extends JFrame {
 	}
 
 	public void setThumbLEmpty() {
-		ImageIcon image = new ImageIcon("emptyImg.png");
+		ImageIcon image = new ImageIcon("");
 		thumbL.setIcon(image);
 	}
 
 	public void setStaitcMapEmpty() {
-		ImageIcon image = new ImageIcon("emptyImg.png");
+		ImageIcon image = new ImageIcon("");
 		staitcMap.setIcon(image);
 	}
 
@@ -339,6 +344,11 @@ public class GUI2 extends JFrame {
 		secondPanel.setBackground(new Color(255, 255, 255));
 		contentPane.add(secondPanel, "SecondScreen");
 
+		loadingLabel = new JLabel();
+		loadingLabel.setOpaque(false);
+		loadingLabel.setBounds(297, 264, 400, 200);
+		secondPanel.add(loadingLabel);
+		
 		JPanel secondMainPanel = new JPanel();
 		secondMainPanel.setForeground(Color.GRAY);
 		secondMainPanel.setBounds(20, 20, 938, 360);
@@ -429,7 +439,7 @@ public class GUI2 extends JFrame {
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				reviewDialog dialog = new reviewDialog(GUI2.this);
+				reviewDia2 dialog = new reviewDia2(GUI2.this);
 				dialog.setVisible(true);
 			}
 		});
