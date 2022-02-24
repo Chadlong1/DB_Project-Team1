@@ -7,6 +7,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -48,6 +49,7 @@ public class reviewDia2 extends JDialog {
 	private JPanel commentScreen;
 	private int count;
 	private JScrollPane scrollPane;
+	private JLabel resTitleReview;
 
 	public CardLayout getCard() {
 		return card;
@@ -71,115 +73,115 @@ public class reviewDia2 extends JDialog {
 		contentPanel.add(commentLayout);
 		commentLayout.setLayout(null);
 
-		JPanel ratingPanel = new JPanel();
-		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
-		ratingPanel.setBackground(Color.WHITE);
-		ratingPanel.setBounds(420, 40, 130, 130);
-		commentLayout.add(ratingPanel);
-		ratingPanel.setLayout(null);
-
-		JLabel avgScore = new JLabel("0.0");
-		avgScore.setBounds(25, 35, 80, 50);
-		ratingPanel.add(avgScore);
-		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 43));
-		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
-
-		JLabel star_1 = new JLabel("★");
-		star_1.setHorizontalAlignment(SwingConstants.LEFT);
-		star_1.setForeground(Color.ORANGE);
-		star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		star_1.setBounds(38, 82, 12, 15);
-		ratingPanel.add(star_1);
-
-		JLabel star_2 = new JLabel("★");
-		star_2.setHorizontalAlignment(SwingConstants.LEFT);
-		star_2.setForeground(Color.ORANGE);
-		star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		star_2.setBounds(49, 82, 12, 15);
-		ratingPanel.add(star_2);
-
-		JLabel star_3 = new JLabel("★");
-		star_3.setHorizontalAlignment(SwingConstants.LEFT);
-		star_3.setForeground(Color.ORANGE);
-		star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		star_3.setBounds(60, 82, 12, 15);
-		ratingPanel.add(star_3);
-
-		JLabel star_4 = new JLabel("★");
-		star_4.setHorizontalAlignment(SwingConstants.LEFT);
-		star_4.setForeground(Color.ORANGE);
-		star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		star_4.setBounds(71, 82, 12, 15);
-		ratingPanel.add(star_4);
-
-		JLabel star_5 = new JLabel("★");
-		star_5.setHorizontalAlignment(SwingConstants.LEFT);
-		star_5.setForeground(Color.ORANGE);
-		star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		star_5.setBounds(82, 82, 12, 15);
-		ratingPanel.add(star_5);
-
-		JPanel ratingPanel_2 = new JPanel();
-		ratingPanel_2.setBorder(new LineBorder(SystemColor.inactiveCaption));
-		ratingPanel_2.setBackground(Color.WHITE);
-		ratingPanel_2.setBounds(420, 185, 130, 125);
-		commentLayout.add(ratingPanel_2);
-		ratingPanel_2.setLayout(null);
-
-		JLabel score_5 = new JLabel("5점");
-		score_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		score_5.setBounds(15, 15, 25, 15);
-		ratingPanel_2.add(score_5);
-
-		JLabel score_4 = new JLabel("4점");
-		score_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		score_4.setBounds(15, 35, 25, 15);
-		ratingPanel_2.add(score_4);
-
-		JLabel score_3 = new JLabel("3점");
-		score_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		score_3.setBounds(15, 55, 25, 15);
-		ratingPanel_2.add(score_3);
-
-		JLabel score_2 = new JLabel("2점");
-		score_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		score_2.setBounds(15, 75, 25, 15);
-		ratingPanel_2.add(score_2);
-
-		JLabel score_1 = new JLabel("1점");
-		score_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		score_1.setBounds(15, 95, 25, 15);
-		ratingPanel_2.add(score_1);
-
-		JLabel scoreCount_5 = new JLabel("0");
-		scoreCount_5.setHorizontalAlignment(SwingConstants.RIGHT);
-		scoreCount_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		scoreCount_5.setBounds(55, 15, 59, 15);
-		ratingPanel_2.add(scoreCount_5);
-
-		JLabel scoreCount_4 = new JLabel("0");
-		scoreCount_4.setHorizontalAlignment(SwingConstants.RIGHT);
-		scoreCount_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		scoreCount_4.setBounds(55, 35, 59, 15);
-		ratingPanel_2.add(scoreCount_4);
-
-		JLabel scoreCount_3 = new JLabel("0");
-		scoreCount_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		scoreCount_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		scoreCount_3.setBounds(55, 55, 59, 15);
-		ratingPanel_2.add(scoreCount_3);
-
-		JLabel scoreCount_2 = new JLabel("0");
-		scoreCount_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		scoreCount_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		scoreCount_2.setBounds(55, 75, 59, 15);
-		ratingPanel_2.add(scoreCount_2);
-
-		JLabel scoreCount_1 = new JLabel("0");
-		scoreCount_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-		scoreCount_1.setBounds(55, 95, 59, 15);
-		ratingPanel_2.add(scoreCount_1);
+//		JPanel ratingPanel = new JPanel();
+//		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
+//		ratingPanel.setBackground(Color.WHITE);
+//		ratingPanel.setBounds(420, 40, 130, 130);
+//		commentLayout.add(ratingPanel);
+//		ratingPanel.setLayout(null);
+//
+//		JLabel avgScore = new JLabel("0.0");
+//		avgScore.setBounds(25, 35, 80, 50);
+//		ratingPanel.add(avgScore);
+//		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 43));
+//		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
+//
+//		JLabel star_1 = new JLabel("★");
+//		star_1.setHorizontalAlignment(SwingConstants.LEFT);
+//		star_1.setForeground(Color.ORANGE);
+//		star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//		star_1.setBounds(38, 82, 12, 15);
+//		ratingPanel.add(star_1);
+//
+//		JLabel star_2 = new JLabel("★");
+//		star_2.setHorizontalAlignment(SwingConstants.LEFT);
+//		star_2.setForeground(Color.ORANGE);
+//		star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//		star_2.setBounds(49, 82, 12, 15);
+//		ratingPanel.add(star_2);
+//
+//		JLabel star_3 = new JLabel("★");
+//		star_3.setHorizontalAlignment(SwingConstants.LEFT);
+//		star_3.setForeground(Color.ORANGE);
+//		star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//		star_3.setBounds(60, 82, 12, 15);
+//		ratingPanel.add(star_3);
+//
+//		JLabel star_4 = new JLabel("★");
+//		star_4.setHorizontalAlignment(SwingConstants.LEFT);
+//		star_4.setForeground(Color.ORANGE);
+//		star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//		star_4.setBounds(71, 82, 12, 15);
+//		ratingPanel.add(star_4);
+//
+//		JLabel star_5 = new JLabel("★");
+//		star_5.setHorizontalAlignment(SwingConstants.LEFT);
+//		star_5.setForeground(Color.ORANGE);
+//		star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//		star_5.setBounds(82, 82, 12, 15);
+//		ratingPanel.add(star_5);
+//
+//		JPanel ratingPanel_2 = new JPanel();
+//		ratingPanel_2.setBorder(new LineBorder(SystemColor.inactiveCaption));
+//		ratingPanel_2.setBackground(Color.WHITE);
+//		ratingPanel_2.setBounds(420, 185, 130, 125);
+//		commentLayout.add(ratingPanel_2);
+//		ratingPanel_2.setLayout(null);
+//
+//		JLabel score_5 = new JLabel("5점");
+//		score_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		score_5.setBounds(15, 15, 25, 15);
+//		ratingPanel_2.add(score_5);
+//
+//		JLabel score_4 = new JLabel("4점");
+//		score_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		score_4.setBounds(15, 35, 25, 15);
+//		ratingPanel_2.add(score_4);
+//
+//		JLabel score_3 = new JLabel("3점");
+//		score_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		score_3.setBounds(15, 55, 25, 15);
+//		ratingPanel_2.add(score_3);
+//
+//		JLabel score_2 = new JLabel("2점");
+//		score_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		score_2.setBounds(15, 75, 25, 15);
+//		ratingPanel_2.add(score_2);
+//
+//		JLabel score_1 = new JLabel("1점");
+//		score_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		score_1.setBounds(15, 95, 25, 15);
+//		ratingPanel_2.add(score_1);
+//
+//		JLabel scoreCount_5 = new JLabel("0");
+//		scoreCount_5.setHorizontalAlignment(SwingConstants.RIGHT);
+//		scoreCount_5.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		scoreCount_5.setBounds(55, 15, 59, 15);
+//		ratingPanel_2.add(scoreCount_5);
+//
+//		JLabel scoreCount_4 = new JLabel("0");
+//		scoreCount_4.setHorizontalAlignment(SwingConstants.RIGHT);
+//		scoreCount_4.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		scoreCount_4.setBounds(55, 35, 59, 15);
+//		ratingPanel_2.add(scoreCount_4);
+//
+//		JLabel scoreCount_3 = new JLabel("0");
+//		scoreCount_3.setHorizontalAlignment(SwingConstants.RIGHT);
+//		scoreCount_3.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		scoreCount_3.setBounds(55, 55, 59, 15);
+//		ratingPanel_2.add(scoreCount_3);
+//
+//		JLabel scoreCount_2 = new JLabel("0");
+//		scoreCount_2.setHorizontalAlignment(SwingConstants.RIGHT);
+//		scoreCount_2.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		scoreCount_2.setBounds(55, 75, 59, 15);
+//		ratingPanel_2.add(scoreCount_2);
+//
+//		JLabel scoreCount_1 = new JLabel("0");
+//		scoreCount_1.setHorizontalAlignment(SwingConstants.RIGHT);
+//		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+//		scoreCount_1.setBounds(55, 95, 59, 15);
+//		ratingPanel_2.add(scoreCount_1);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -191,13 +193,28 @@ public class reviewDia2 extends JDialog {
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
 		scrollPane.setViewportView(commentScreen);
-
-		JLabel resTitleReview = new JLabel("가게이름 리뷰");
+		
+		//  JList로 선택된 음식점 정보 
+		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+			if (searchingList.getSelectedIndex() == i) {
+				String selectedItemStr = searchingList.getSelectedValue();
+				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+				ReviewRepository.viewReviewAtBpmId(bpmIdNum);
+				resTitleReview = new JLabel(tempRest.getTitle());
+				
+				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
+					
+				}
+			}
+		}
+		//  -----------------------------------------------------------
+		
 		resTitleReview.setVerticalAlignment(SwingConstants.TOP);
 		resTitleReview.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
 		resTitleReview.setBounds(12, 12, 396, 28);
 		commentLayout.add(resTitleReview);
-
+		
 		commentCard = new JPanel();
 		commentCard.setBounds(10, 358, 564, 93);
 		contentPanel.add(commentCard);

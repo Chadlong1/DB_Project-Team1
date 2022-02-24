@@ -80,28 +80,6 @@ public class reviewDialog extends JDialog {
 							System.out.println("대댓글 입력");
 							depth = 1;
 							
-//							bpmIdNum = 0;
-//							for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-//								if (searchingList.getSelectedIndex() == i) {
-//									String selectedItemStr = searchingList.getSelectedValue();
-//									Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-//									bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-//									ReviewRepository.insert(new ReviewInput(box.getText(), rating, depth, bpmIdNum));
-//
-//								}
-//							}
-//							JLabel review = new JLabel(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-//									.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getReview());
-//							JLabel rating = new JLabel(String.valueOf(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-//									.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1).getRating()));
-//							review.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-//							rating.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-//							reviewPanel.add(review);
-//							reviewPanel.add(rating);
-//							revalidate();
-//							repaint();
-//
-//							reply.setText(null);
 						}
 					});
 					reviewPanel.add(reviewLbl);
