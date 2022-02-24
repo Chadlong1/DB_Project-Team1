@@ -47,9 +47,9 @@ public class ReviewRepository {
 	}
 
 	// busan.bpm과 busan.review를 조인하여 리뷰와 평점만 리스트로 리턴
-	public List<ReviewInput> joinBpmReview() {
+	public List<ReviewOutput> joinBpmReview() {
 		String join = "SELECT * FROM busan.bpm AS A " + "LEFT JOIN busan.review AS B " + "ON A.id = B.bpm_id;";
-		List<ReviewInput> list = new ArrayList<>();
+		List<ReviewOutput> list = new ArrayList<>();
 		try (Connection conn = ConnectionProvider.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(join);) {
@@ -64,7 +64,7 @@ public class ReviewRepository {
 	}
 
 	// ResultSet 입력받으면 depth = 0(원댓글)인 ReviewInput객체 반환
-	private static ReviewInput returnReview(ResultSet rs) throws SQLException {
+	private static ReviewOutput returnReview(ResultSet rs) throws SQLException {
 		int reviewId = rs.getInt("reviewId");
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
@@ -72,15 +72,15 @@ public class ReviewRepository {
 		int bpmId = rs.getInt("bpmId");
 		Timestamp writingTime = rs.getTimestamp("writingTime");
 		if (depth == 0) {
-			return new ReviewInput(reviewId, review, rating, depth, bpmId, writingTime);
+			return new ReviewOutput(reviewId, review, rating, depth, bpmId, writingTime);
 		} else {
 			return null;
 		}
 	}
 
-	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewInput 객체(후기, 평점)를 반환
-	public static List<ReviewInput> viewReviewAtBpmId(int bpmIdNum) {
-		List<ReviewInput> list = new ArrayList<>();
+	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewOutput 객체(후기, 평점)를 반환
+	public static List<ReviewOutput> viewReviewAtBpmId(int bpmIdNum) {
+		List<ReviewOutput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.review" + " WHERE bpmId = ?;";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(view);) {
@@ -100,7 +100,7 @@ public class ReviewRepository {
 	}
 
 	// ResultSet 입력받으면 depth = 1인(대댓글) ReviewInput객체 반환
-	private static ReviewInput returnReReview(ResultSet rs) throws SQLException {
+	private static ReviewOutput returnReReview(ResultSet rs) throws SQLException {
 		int reviewId = rs.getInt("reviewId");
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
@@ -108,15 +108,15 @@ public class ReviewRepository {
 		int bpmId = rs.getInt("bpmId");
 		Timestamp writingTime = rs.getTimestamp("writingTime");
 		if (depth == 1) {
-			return new ReviewInput(reviewId, review, rating, depth, bpmId, writingTime);
+			return new ReviewOutput(reviewId, review, rating, depth, bpmId, writingTime);
 		} else {
 			return null;
 		}
 	}
 
 	// 음식점의 id를 입력받으면 해당 id에 해당하는 depth = 1인(대댓글) ReviewInput 객체(후기, 평점)를 반환
-	public static List<ReviewInput> viewReReviewAtBpmId(int bpmIdNum) {
-		List<ReviewInput> list = new ArrayList<>();
+	public static List<ReviewOutput> viewReReviewAtBpmId(int bpmIdNum) {
+		List<ReviewOutput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.review" + " WHERE bpmId = ?;";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(view);) {

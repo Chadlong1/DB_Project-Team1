@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
-import ReviewAndRatings.ReviewDB.ReviewInput;
+import ReviewAndRatings.ReviewDB.ReviewOutput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
@@ -151,7 +151,7 @@ public class reviewDialog extends JDialog {
 						String selectedItemStr = searchingList.getSelectedValue();
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(box.getText(), rating, depth, bpmIdNum));
+						ReviewRepository.insert(new ReviewOutput(box.getText(), rating, depth, bpmIdNum));
 
 					}
 				}
