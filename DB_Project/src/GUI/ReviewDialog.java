@@ -37,7 +37,7 @@ import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 
-public class reviewDia2 extends JDialog {
+public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
 	private int bpmIdNum;
 	private int depth;
@@ -60,7 +60,7 @@ public class reviewDia2 extends JDialog {
 		return card;
 	}
 
-	public reviewDia2(GUI2 parent) {
+	public ReviewDialog(MainGUI parent) {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
 
@@ -171,12 +171,12 @@ public class reviewDia2 extends JDialog {
 			}
 		});
 
-		JButton leaveBtn = new JButton("등록");
-		leaveBtn.setBackground(new Color(135, 206, 235));
-		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		leaveBtn.setBounds(455, 12, 97, 29);
-		normalComment.add(leaveBtn);
+//		JButton leaveBtn = new JButton("등록");
+//		leaveBtn.setBackground(new Color(135, 206, 235));
+//		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+//		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//		leaveBtn.setBounds(455, 12, 97, 29);
+//		normalComment.add(leaveBtn);
 		
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
@@ -221,14 +221,34 @@ public class reviewDia2 extends JDialog {
 				}
 			}
 		});
-
+		
+		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에  생성, depth가 1인 리뷰만 노출되게 설정해야함
 		JButton replyLeaveBtn = new JButton("등록");
 		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		replyLeaveBtn.setBackground(new Color(135, 206, 235));
 		replyLeaveBtn.setBounds(455, 12, 97, 29);
 		replyLeaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		replyComment.add(replyLeaveBtn);
+		replyLeaveBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				depth = 1;
+				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+					if (searchingList.getSelectedIndex() == i) {
+						String selectedItemStr = searchingList.getSelectedValue();
+						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
 
+					}
+				}
+				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
+			}
+			
+		});
+		
+		
 		JButton replyGoBackBtn = new JButton("뒤로가기");
 		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		replyGoBackBtn.setBackground(new Color(135, 206, 235));
@@ -239,6 +259,8 @@ public class reviewDia2 extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getCard().show(commentCard, "NORMAL");
+				replyCommentField.setVisible(false);
+				commentField.setVisible(true);
 			}
 		});
 
@@ -259,6 +281,8 @@ public class reviewDia2 extends JDialog {
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
 				System.out.println("클릭반응");
+				replyCommentField.setVisible(true);
+				commentField.setVisible(false);
 			}
 
 		});

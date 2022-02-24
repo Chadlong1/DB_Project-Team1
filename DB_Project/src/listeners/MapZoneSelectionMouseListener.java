@@ -6,14 +6,14 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import GUI.GUI2;
+import GUI.MainGUI;
 
 public class MapZoneSelectionMouseListener extends MouseAdapter {
 
-	private GUI2 frame;
+	private MainGUI frame;
 	private JPanel[] zonePanArr;
 
-	public MapZoneSelectionMouseListener(GUI2 Frame) {
+	public MapZoneSelectionMouseListener(MainGUI Frame) {
 		super();
 		this.frame = Frame;
 		this.zonePanArr = frame.getZonePanArr();

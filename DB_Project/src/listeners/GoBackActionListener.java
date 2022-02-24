@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import GUI.GUI2;
+import GUI.MainGUI;
 
 public class GoBackActionListener implements ActionListener {
 	private JButton btnReviewDialogPopUp;
-	private GUI2 frame;
+	private MainGUI frame;
 	
 	
-	public GoBackActionListener(GUI2 frame, JButton btnReviewDialogPopUp) {
+	public GoBackActionListener(MainGUI frame, JButton btnReviewDialogPopUp) {
 		super();
 		this.frame = frame;
 		this.btnReviewDialogPopUp = frame.btnReviewDialogPopUp;

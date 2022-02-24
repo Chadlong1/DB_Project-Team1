@@ -9,14 +9,14 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.JList;
 
-import GUI.GUI2;
+import GUI.MainGUI;
 import SEARCHINFO.SEARCHTOOLS;
 
 public class SearchActionListener implements ActionListener {
-	private GUI2 frame;
+	private MainGUI frame;
 	private JList<String> searchingList;
 	
-	public SearchActionListener(GUI2 frame) {
+	public SearchActionListener(MainGUI frame) {
 		super();
 		this.frame = frame;
 	}

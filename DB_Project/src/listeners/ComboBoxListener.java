@@ -9,17 +9,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import GUI.GUI2;
+import GUI.MainGUI;
 import GUI.MapPin;
 
 public class ComboBoxListener implements ActionListener {
 
-	private GUI2 frame;
+	private MainGUI frame;
 	private ImageIcon pinIcon = new ImageIcon("pin.png");
 	private JLabel pin = new JLabel(pinIcon);
 	
 	
-	public ComboBoxListener(GUI2 frame) {
+	public ComboBoxListener(MainGUI frame) {
 		super();
 		this.frame = frame;
 	}

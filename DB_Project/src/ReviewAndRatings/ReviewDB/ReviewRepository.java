@@ -32,7 +32,7 @@ public class ReviewRepository {
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
 	public static void insert(ReviewInput reviewInput) {
 		String insert = "INSERT INTO review (review, rating, depth, bpmId)" + "VALUES (?, ?, ?, ?);";
-		System.out.println(insert);
+		System.out.println("리뷰 입력 완료");
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());

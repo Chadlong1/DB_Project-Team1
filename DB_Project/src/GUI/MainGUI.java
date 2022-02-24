@@ -36,7 +36,7 @@ import listeners.MapZoneSelectionMouseListener;
 import listeners.SearchActionListener;
 import listeners.SecondPanelListListener;
 
-public class GUI2 extends JFrame {
+public class MainGUI extends JFrame {
 
 	private JPanel contentPane;
 	private CardLayout card = new CardLayout(0, 0);
@@ -206,7 +206,7 @@ public class GUI2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI2 frame = new GUI2();
+					MainGUI frame = new MainGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -215,7 +215,7 @@ public class GUI2 extends JFrame {
 		});
 	}
 
-	public GUI2() {
+	public MainGUI() {
 		setTitle("돼동여지도");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 200, 1000, 735);
@@ -255,7 +255,7 @@ public class GUI2 extends JFrame {
 		zoneComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		zoneComboBox.setBackground(Color.WHITE);
 		zoneComboBox.setBounds(50, 90, 80, 30);
-		zoneComboBox.addActionListener(new ComboBoxListener(GUI2.this));
+		zoneComboBox.addActionListener(new ComboBoxListener(MainGUI.this));
 		firstPanel.add(zoneComboBox);
 
 		foodComboBox = new JComboBox(food);
@@ -275,7 +275,7 @@ public class GUI2 extends JFrame {
 		searchButton.setBackground(new Color(190, 204, 216));
 		searchButton.setBounds(370, 90, 80, 30);
 		searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		searchButton.addActionListener(new SearchActionListener(GUI2.this));
+		searchButton.addActionListener(new SearchActionListener(MainGUI.this));
 		firstPanel.add(searchButton);
 
 		JPanel panelSAHA = new JPanel();
@@ -336,7 +336,7 @@ public class GUI2 extends JFrame {
 		for (int i = 0; i < zonePanArr.length; i++) {
 			firstPanel.add(zonePanArr[i]);
 			zonePanArr[i].setOpaque(false);
-			zonePanArr[i].addMouseListener(new MapZoneSelectionMouseListener(GUI2.this));
+			zonePanArr[i].addMouseListener(new MapZoneSelectionMouseListener(MainGUI.this));
 		}
 		
 		JPanel secondPanel = new JPanel();
@@ -439,7 +439,7 @@ public class GUI2 extends JFrame {
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				reviewDia2 dialog = new reviewDia2(GUI2.this);
+				ReviewDialog dialog = new ReviewDialog(MainGUI.this);
 				dialog.setVisible(true);
 			}
 		});

@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import GUI.GUI2;
+import GUI.MainGUI;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
@@ -19,10 +19,10 @@ import maps.GoogleStaticMaps;
 
 public class SecondPanelListListener implements ListSelectionListener {
 	private JButton btnReviewDialogPopUp;
-	private GUI2 frame;
+	private MainGUI frame;
 	private JList<String> searchingList;
 
-	public SecondPanelListListener(GUI2 frame, JButton btnReviewDialogPopUp) {
+	public SecondPanelListListener(MainGUI frame, JButton btnReviewDialogPopUp) {
 		super();
 		this.frame = frame;
 		this.searchingList = frame.getSearchingList();
