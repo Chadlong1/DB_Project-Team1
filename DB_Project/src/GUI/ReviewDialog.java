@@ -6,17 +6,11 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.SystemColor;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +27,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import ReviewAndRatings.ReviewDB.ReviewInput;
 import ReviewAndRatings.ReviewDB.ReviewOutput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
+import listeners.ReviewDialog.CommentFieldML;
+import listeners.ReviewDialog.ReplyCommentFieldKL;
+import listeners.ReviewDialog.ReplyCommentFieldML;
+import listeners.ReviewDialog.commentFieldKL;
+import listeners.ReviewDialog.leaveCommentAL;
 
 public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
@@ -59,17 +57,37 @@ public class ReviewDialog extends JDialog {
 	private int rating1, rating2, rating3, rating4, rating5;
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
-	private static String charset = "euc-kr";
 	private JButton leaveBtn;
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
+	private String[] stars;
+
+	public void leaveBtnEnable() {
+		leaveBtn.setEnabled(true);
+	}
+
+	public void leaveBtnDisable() {
+		leaveBtn.setEnabled(false);
+	}
+
+	public double getRating() {
+		return rating;
+	}
 
 	public CardLayout getCard() {
 		return card;
 	}
-	
+
 	public JTextField getCommentField() {
 		return commentField;
+	}
+
+	public String selectedRating() {
+		return (String) scoreComboBox.getSelectedItem();
+	}
+
+	public String[] getStars() {
+		return stars;
 	}
 
 	public ReviewDialog(MainGUI parent) {
@@ -86,19 +104,17 @@ public class ReviewDialog extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 
-		commentLayout = new JPanel();
+		commentLayout = new JPanel(null);
 		commentLayout.setBorder(new LineBorder(SystemColor.activeCaption));
 		commentLayout.setBackground(SystemColor.inactiveCaptionBorder);
 		commentLayout.setBounds(10, 10, 564, 338);
 		contentPanel.add(commentLayout);
-		commentLayout.setLayout(null);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 40, 396, 286);
 		scrollPane.setBorder(null);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16); // 스크롤 속도 조절
-
 		commentLayout.add(scrollPane);
 
 		commentScreen = new JPanel(null);
@@ -165,63 +181,9 @@ public class ReviewDialog extends JDialog {
 		commentField.setBounds(12, 12, 430, 70);
 		normalComment.add(commentField);
 		commentField.setColumns(10);
-		commentField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
-				if (commentField.getText().equals(basicComment)) {
-					commentField.setText("");
-					commentField.setForeground(Color.BLACK);
-				}
-
-			}
-		});
-		commentField.addKeyListener(new KeyAdapter() {
-			private byte[] strTemps;
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				String countStar = (String) scoreComboBox.getSelectedItem();
-				if (commentField.getText().equals("") || countStar.equals("별점 입력")) {
-					leaveBtn.setEnabled(false);
-				} else {
-					leaveBtn.setEnabled(true);
-				}
-
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (commentField.getText().equals(basicComment)) {
-					commentField.setText("");
-					commentField.setForeground(Color.BLACK);
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String countStar = (String) scoreComboBox.getSelectedItem();
-				if (commentField.getText().equals("") || countStar.equals("별점 입력")) {
-					leaveBtn.setEnabled(false);
-				} else {
-					leaveBtn.setEnabled(true);
-				}
-
-				do { // 코멘트 바이트가 EUC_KR 인코딩 기준으로 75바이트가 초과되지않게
-					try {
-						strTemps = commentField.getText().getBytes(charset);
-					} catch (UnsupportedEncodingException e1) {
-						e1.printStackTrace();
-					}
-					if (strTemps.length > 75) {
-						String str = commentField.getText();
-						String result = str.substring(0, str.length() - 1);
-						commentField.setText(result);
-					}
-
-				} while (strTemps.length > 75);
-			}
-		});
+		commentField.addMouseListener(new CommentFieldML(commentField));
+		commentField.addKeyListener(new commentFieldKL(ReviewDialog.this, commentField));
+		// 마우스리스너, 키리스너 코드 다른 클래스파일로 이전
 
 		leaveBtn = new JButton("등록");
 		leaveBtn.setEnabled(false);
@@ -230,35 +192,11 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		leaveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-					if (searchingList.getSelectedIndex() == i) {
-						String selectedItemStr = searchingList.getSelectedValue();
-						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
-						System.out.print("selectedItemStr:");
-						System.out.println(selectedItemStr);
-						System.out.print("bpmIdNum:");
-						System.out.println(bpmIdNum);
-						System.out.print("depth:");
-						System.out.println(depth);
-						System.out.print("rating:");
-						System.out.println(rating);
+		leaveBtn.addActionListener(new leaveCommentAL(ReviewDialog.this, searchingList));
+		// 액션리스너 코드 leaveCommentAL 클래스 파일로 이전
 
-					}
-				}
-				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
-
-			}
-
-		});
-
-		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-		scoreComboBox = new JComboBox(star);
+		stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
+		scoreComboBox = new JComboBox(stars);
 		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
@@ -267,15 +205,15 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String countStar = (String) scoreComboBox.getSelectedItem();
-				if (countStar == star[1]) {
+				if (countStar == stars[1]) {
 					rating = 1.0;
-				} else if (countStar == star[2]) {
+				} else if (countStar == stars[2]) {
 					rating = 2.0;
-				} else if (countStar == star[3]) {
+				} else if (countStar == stars[3]) {
 					rating = 3.0;
-				} else if (countStar == star[4]) {
+				} else if (countStar == stars[4]) {
 					rating = 4.0;
-				} else if (countStar == star[5]) {
+				} else if (countStar == stars[5]) {
 					rating = 5.0;
 				}
 				leaveBtn.setEnabled(true);
@@ -295,27 +233,9 @@ public class ReviewDialog extends JDialog {
 		replyCommentField.setColumns(10);
 		replyCommentField.setBounds(12, 12, 430, 70);
 		replyComment.add(replyCommentField);
-		replyCommentField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
-				if (replyCommentField.getText().equals(basicReplyComment)) {
-					replyCommentField.setText("");
-					replyCommentField.setForeground(Color.BLACK);
-				}
-
-			}
-		});
-		replyCommentField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				super.keyTyped(e);
-				if (replyCommentField.getText().equals(basicReplyComment)) {
-					replyCommentField.setText("");
-					replyCommentField.setForeground(Color.BLACK);
-				}
-			}
-		});
+		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
+		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
+		// replyCommentField 키 리스너, 마우스 리스너 코드 리스너스 패키지로 이전
 
 		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에 생성, depth가 1인 리뷰만 노출되게 설정해야함
 		JButton replyLeaveBtn = new JButton("등록");
@@ -324,26 +244,7 @@ public class ReviewDialog extends JDialog {
 		replyLeaveBtn.setBounds(455, 12, 97, 29);
 		replyLeaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		replyComment.add(replyLeaveBtn);
-		replyLeaveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				depth = 1;
-				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-					if (searchingList.getSelectedIndex() == i) {
-						String selectedItemStr = searchingList.getSelectedValue();
-						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
-
-					}
-				}
-//				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-//						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
-
-				leaveReplyComment();
-			}
-
-		});
+		replyLeaveBtn.addActionListener(new replyLeaveBtnAL(ReviewDialog.this, searchingList));
 
 		JButton replyGoBackBtn = new JButton("작성 취소");
 		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
@@ -455,10 +356,10 @@ public class ReviewDialog extends JDialog {
 		commentScreen.revalidate();
 	}
 
-	public void leaveReplyComment() {
+	public void leaveReplyComment(int count) {
 		JPanel tempReplyCommPanel = new JPanel(null);
 		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
-		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY, 330, 75);
+		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY + (count * 80), 330, 75);
 		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		commentScreen.add(tempReplyCommPanel);
 
