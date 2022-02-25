@@ -7,9 +7,9 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.TextField;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -64,11 +64,12 @@ public class ReviewDialog extends JDialog {
 	private static String charset = "euc-kr";
 	private JButton leaveBtn;
 	private JComboBox<String> scoreComboBox;
+	private int tempReplyCommentLayOutPointY;
 
 	public CardLayout getCard() {
 		return card;
 	}
-
+	
 	public JTextField getCommentField() {
 		return commentField;
 	}
@@ -338,10 +339,10 @@ public class ReviewDialog extends JDialog {
 
 					}
 				}
-				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
+//				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+//						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
 
-				leaveReplyComment(0);
+				leaveReplyComment();
 			}
 
 		});
@@ -373,7 +374,10 @@ public class ReviewDialog extends JDialog {
 		tempReviewPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+				Object o = e.getSource();
+				if (o == tempReviewPanel) {
+					tempReplyCommentLayOutPointY = tempReviewPanel.getY() + tempReviewPanel.getHeight() + 5;
+				}
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
 			}
@@ -435,6 +439,7 @@ public class ReviewDialog extends JDialog {
 		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		comment.setBounds(12, 22, 306, 40);
 		tempReviewPanel.add(comment);
+
 		// tempReviewPanel패널에 작성날짜 등록
 		JLabel reviewDate = new JLabel(String.valueOf(ri.getTimestamp()));
 		reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -444,7 +449,7 @@ public class ReviewDialog extends JDialog {
 
 		if (count >= 2) {
 			Dimension size = new Dimension();
-			int y = 286 + (97 * (count - 1));
+			int y = commentScreen.getHeight() + (97 * (count - 1));
 			size.setSize(396, y);
 			commentScreen.setPreferredSize(size);
 			scrollPane.setViewportView(commentScreen);
@@ -453,8 +458,30 @@ public class ReviewDialog extends JDialog {
 		commentScreen.revalidate();
 	}
 
-	public void leaveReplyComment(int index) {
+	public void leaveReplyComment() {
+		JPanel tempReplyCommPanel = new JPanel(null);
+		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
+		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY, 330, 75);
+		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+		commentScreen.add(tempReplyCommPanel);
 
+		JLabel replyComment = new JLabel("테스트");
+		replyComment.setVerticalAlignment(SwingConstants.TOP);
+		replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		replyComment.setBounds(12, 12, 306, 40);
+		tempReplyCommPanel.add(replyComment);
+
+		JLabel replyReviewDate = new JLabel("테스트");
+		replyReviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		replyReviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		replyReviewDate.setBounds(160, 55, 158, 15);
+		tempReplyCommPanel.add(replyReviewDate);
+
+		Dimension size = new Dimension();
+		int y = commentScreen.getHeight() + 80;
+		size.setSize(396, y);
+		commentScreen.setPreferredSize(size);
+		scrollPane.setViewportView(commentScreen);
 	}
 
 	// ratingPanel패널에 리뷰가 존재하면 평점,별 출력
