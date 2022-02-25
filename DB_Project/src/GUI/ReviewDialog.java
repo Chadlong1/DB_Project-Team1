@@ -68,8 +68,10 @@ public class ReviewDialog extends JDialog {
 	public ReviewDialog(MainGUI parent) {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
+		setResizable(false);
 
-		setBounds(100, 100, 600, 500);
+		setBounds(100, 100, 590, 490); // 리뷰창 크기조절 막고 크기조정함. 확인 후 변경 가능
+		setLocation(1200, 350); // 리뷰창 위치. 뒤로가기 버튼 안 가리고 사진도 덜 가리게 조절함. 확인 후 변경 가능
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setBackground(SystemColor.activeCaption);
@@ -87,6 +89,8 @@ public class ReviewDialog extends JDialog {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(12, 40, 396, 286);
 		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16); // 스크롤 속도 조절
+
 		commentLayout.add(scrollPane);
 
 		commentScreen = new JPanel(null);
@@ -414,7 +418,7 @@ public class ReviewDialog extends JDialog {
 	// ratingPanel패널에 평점,별 출력
 	public void createRatingPanel1(double avgRating) {
 
-		String strRating = String.format("%.1f", avgRating);
+		String strRating = String.format("%.2f", avgRating);
 
 		JPanel ratingPanel = new JPanel();
 		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
@@ -426,7 +430,7 @@ public class ReviewDialog extends JDialog {
 		JLabel avgScore = new JLabel(strRating);
 		avgScore.setBounds(25, 35, 80, 50);
 		ratingPanel.add(avgScore);
-		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 43));
+		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
 		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
 
 		if (avgRating >= 1) {
@@ -437,6 +441,14 @@ public class ReviewDialog extends JDialog {
 			star_1.setBounds(38, 82, 12, 15);
 			ratingPanel.add(star_1);
 		}
+		if (avgRating >= 1.50 && avgRating < 2) {
+			JLabel star_2 = new JLabel("☆");
+			star_2.setHorizontalAlignment(SwingConstants.LEFT);
+			star_2.setForeground(Color.ORANGE);
+			star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_2.setBounds(49, 82, 12, 15);
+			ratingPanel.add(star_2);
+		}
 		if (avgRating >= 2) {
 			JLabel star_2 = new JLabel("★");
 			star_2.setHorizontalAlignment(SwingConstants.LEFT);
@@ -444,6 +456,14 @@ public class ReviewDialog extends JDialog {
 			star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
 			star_2.setBounds(49, 82, 12, 15);
 			ratingPanel.add(star_2);
+		}
+		if (avgRating >= 2.50 && avgRating < 3) {
+			JLabel star_3 = new JLabel("☆");
+			star_3.setHorizontalAlignment(SwingConstants.LEFT);
+			star_3.setForeground(Color.ORANGE);
+			star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_3.setBounds(60, 82, 12, 15);
+			ratingPanel.add(star_3);
 		}
 		if (avgRating >= 3) {
 			JLabel star_3 = new JLabel("★");
@@ -453,6 +473,14 @@ public class ReviewDialog extends JDialog {
 			star_3.setBounds(60, 82, 12, 15);
 			ratingPanel.add(star_3);
 		}
+		if (avgRating >= 3.50 && avgRating < 4) {
+			JLabel star_4 = new JLabel("☆");
+			star_4.setHorizontalAlignment(SwingConstants.LEFT);
+			star_4.setForeground(Color.ORANGE);
+			star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_4.setBounds(71, 82, 12, 15);
+			ratingPanel.add(star_4);
+		}
 		if (avgRating >= 4) {
 			JLabel star_4 = new JLabel("★");
 			star_4.setHorizontalAlignment(SwingConstants.LEFT);
@@ -460,6 +488,14 @@ public class ReviewDialog extends JDialog {
 			star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
 			star_4.setBounds(71, 82, 12, 15);
 			ratingPanel.add(star_4);
+		}
+		if (avgRating >= 4.50 && avgRating < 5) {
+			JLabel star_5 = new JLabel("☆");
+			star_5.setHorizontalAlignment(SwingConstants.LEFT);
+			star_5.setForeground(Color.ORANGE);
+			star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+			star_5.setBounds(82, 82, 12, 15);
+			ratingPanel.add(star_5);
 		}
 		if (avgRating == 5) {
 			JLabel star_5 = new JLabel("★");
