@@ -171,12 +171,13 @@ public class ReviewDialog extends JDialog {
 			}
 		});
 
-//		JButton leaveBtn = new JButton("등록");
-//		leaveBtn.setBackground(new Color(135, 206, 235));
-//		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-//		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//		leaveBtn.setBounds(455, 12, 97, 29);
-//		normalComment.add(leaveBtn);
+		JButton leaveBtn = new JButton("등록");
+		leaveBtn.setBackground(new Color(135, 206, 235));
+		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		leaveBtn.setBounds(455, 12, 97, 29);
+		normalComment.add(leaveBtn);
+		
 		
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
@@ -185,6 +186,23 @@ public class ReviewDialog extends JDialog {
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
+		leaveBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+					if (searchingList.getSelectedIndex() == i) {
+						String selectedItemStr = searchingList.getSelectedValue();
+						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
+
+					}
+				}
+				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
+						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
+			}
+			
+		});
 
 		JPanel replyComment = new JPanel();
 		replyComment.setBorder(new LineBorder(SystemColor.activeCaption));
