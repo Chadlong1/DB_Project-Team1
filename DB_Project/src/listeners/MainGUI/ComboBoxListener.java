@@ -1,4 +1,4 @@
-package listeners.MainGUI;
+package listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,14 +52,15 @@ public class ComboBoxListener implements ActionListener {
 
 	
 		
-		for (int i = 1; i < localist.size(); i++) {
+		for (int i = 0; i < localist.size(); i++) {
 			if (loca == zone[i]) {
 				pin.setBounds(localist.get(i).getX(), localist.get(i).getY(), 100, 100);
-
 				framePanel.add(pin);
 				framePanel.revalidate();
 				framePanel.repaint();
-
+			}
+			if (loca == zone[0]) {
+				framePanel.remove(pin);
 			}
 		}
 		
