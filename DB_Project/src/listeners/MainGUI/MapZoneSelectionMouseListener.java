@@ -1,4 +1,4 @@
-package listeners;
+package listeners.MainGUI;
 
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
