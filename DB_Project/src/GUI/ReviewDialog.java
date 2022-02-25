@@ -173,10 +173,10 @@ public class ReviewDialog extends JDialog {
 				String countStar = (String) scoreComboBox.getSelectedItem();
 				if (commentField.getText().equals("") || countStar.equals("별점 입력")) {
 					leaveBtn.setEnabled(false);
+					
 				} else {
 					leaveBtn.setEnabled(true);
 				}
-
 			}
 
 			@Override
@@ -195,7 +195,6 @@ public class ReviewDialog extends JDialog {
 				} else {
 					leaveBtn.setEnabled(true);
 				}
-				
 				do {
 					try {
 						strTemps = commentField.getText().getBytes(charset);
@@ -225,6 +224,26 @@ public class ReviewDialog extends JDialog {
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
+		
+		scoreComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String countStar = (String) scoreComboBox.getSelectedItem();
+				if (countStar == star[1]) {
+					rating = 1.0;
+				} else if (countStar == star[2]) {
+					rating = 2.0;
+				} else if (countStar == star[3]) {
+					rating = 3.0;
+				} else if (countStar == star[4]) {
+					rating = 4.0;
+				} else if (countStar == star[5]) {
+					rating = 5.0;
+				}
+				leaveBtn.setEnabled(true);
+			}
+		});
+		
 		leaveBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
