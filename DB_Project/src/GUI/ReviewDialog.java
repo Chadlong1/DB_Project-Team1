@@ -57,9 +57,10 @@ public class ReviewDialog extends JDialog {
 	private JPanel commentLayout;
 	private int rating1, rating2, rating3, rating4, rating5;
 	private static String basicComment = "후기를 입력해주세요";
+	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private static String charset = "euc-kr";
 	private JButton leaveBtn;
-	private JComboBox scoreComboBox;
+	private JComboBox<String> scoreComboBox;
 
 	public CardLayout getCard() {
 		return card;
@@ -251,8 +252,7 @@ public class ReviewDialog extends JDialog {
 		commentCard.add(replyComment, "ReplyComment");
 		replyComment.setLayout(null);
 
-		replyCommentField = new JTextField();
-		replyCommentField.setText("대댓글을 작성해주세요");
+		replyCommentField = new JTextField(basicReplyComment);
 		replyCommentField.setForeground(Color.GRAY);
 		replyCommentField.setHorizontalAlignment(SwingConstants.LEFT);
 		replyCommentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -263,7 +263,7 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+				if (replyCommentField.getText().equals(basicReplyComment)) {
 					replyCommentField.setText("");
 					replyCommentField.setForeground(Color.BLACK);
 				}
@@ -274,7 +274,7 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				super.keyTyped(e);
-				if (replyCommentField.getText().equals("대댓글을 작성해주세요")) {
+				if (replyCommentField.getText().equals(basicReplyComment)) {
 					replyCommentField.setText("");
 					replyCommentField.setForeground(Color.BLACK);
 				}
@@ -391,14 +391,14 @@ public class ReviewDialog extends JDialog {
 		// tempReviewPanel패널에 리뷰 등록
 		JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ri.getReview() + "</p></html>");
 		comment.setVerticalAlignment(SwingConstants.TOP);
-		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		comment.setBounds(12, 22, 306, 40);
 		tempReviewPanel.add(comment);
 		// tempReviewPanel패널에 작성날짜 등록
 		JLabel reviewDate = new JLabel(String.valueOf(ri.getTimestamp()));
 		reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		reviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		reviewDate.setBounds(193, 65, 125, 15);
+		reviewDate.setBounds(160, 65, 158, 15);
 		tempReviewPanel.add(reviewDate);
 
 		if (count >= 2) {

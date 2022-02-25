@@ -30,11 +30,11 @@ import javax.swing.border.LineBorder;
 
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
-import listeners.ComboBoxListener;
-import listeners.GoBackActionListener;
-import listeners.MapZoneSelectionMouseListener;
-import listeners.SearchActionListener;
-import listeners.SecondPanelListListener;
+import listeners.MainGUI.ComboBoxListener;
+import listeners.MainGUI.GoBackActionListener;
+import listeners.MainGUI.MapZoneSelectionMouseListener;
+import listeners.MainGUI.SearchActionListener;
+import listeners.MainGUI.SecondPanelListListener;
 
 public class MainGUI extends JFrame {
 
@@ -57,7 +57,7 @@ public class MainGUI extends JFrame {
 	private String[] zones;
 	private JLabel mapTitleLabel;
 	private JPanel staticMapPanel;
-	private JLabel staitcMap;
+	private JLabel staticMap;
 	public JButton btnReviewDialogPopUp;
 	private JPanel[] zonePanArr;
 	private JLabel loadingLabel;
@@ -104,7 +104,7 @@ public class MainGUI extends JFrame {
 		try {
 			URL url = new URL(RestURL);
 			image = ImageIO.read(url);
-			staitcMap.setIcon(new ImageIcon(image));
+			staticMap.setIcon(new ImageIcon(image));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -125,7 +125,7 @@ public class MainGUI extends JFrame {
 
 	public void setStaitcMapEmpty() {
 		ImageIcon image = new ImageIcon("");
-		staitcMap.setIcon(image);
+		staticMap.setIcon(image);
 	}
 
 	public JLabel getRestTitle() {
@@ -341,7 +341,7 @@ public class MainGUI extends JFrame {
 		
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
-		secondPanel.setBackground(new Color(255, 255, 255));
+		secondPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		contentPane.add(secondPanel, "SecondScreen");
 
 		loadingLabel = new JLabel();
@@ -352,7 +352,7 @@ public class MainGUI extends JFrame {
 		JPanel secondMainPanel = new JPanel();
 		secondMainPanel.setForeground(Color.GRAY);
 		secondMainPanel.setBounds(20, 20, 938, 360);
-		secondMainPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+		secondMainPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		secondMainPanel.setBackground(new Color(255, 255, 255));
 		secondPanel.add(secondMainPanel);
 		secondMainPanel.setLayout(null);
@@ -361,7 +361,7 @@ public class MainGUI extends JFrame {
 		thumbL.setForeground(Color.GRAY);
 		thumbL.setHorizontalAlignment(SwingConstants.CENTER);
 		thumbL.setBounds(494, 15, 427, 330);
-		thumbL.setBorder(new LineBorder(new Color(128, 128, 128), 1, false));
+		thumbL.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		secondMainPanel.add(thumbL);
 
 		restTitle = new JLabel("목록에서 식당을 선택하세요");
@@ -379,37 +379,37 @@ public class MainGUI extends JFrame {
 		restRprsntvMenu = new JLabel("• 주요 메뉴 : ");
 		restRprsntvMenu.setVerticalAlignment(SwingConstants.TOP);
 		restRprsntvMenu.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restRprsntvMenu.setBounds(27, 85, 449, 25);
+		restRprsntvMenu.setBounds(27, 75, 449, 25);
 		secondMainPanel.add(restRprsntvMenu);
 
 		restADDR = new JLabel("• 주소지 : ");
 		restADDR.setVerticalAlignment(SwingConstants.TOP);
 		restADDR.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restADDR.setBounds(27, 120, 449, 25);
+		restADDR.setBounds(27, 110, 449, 25);
 		secondMainPanel.add(restADDR);
 
 		restCntctTEL = new JLabel("• 연락처 : ");
 		restCntctTEL.setVerticalAlignment(SwingConstants.TOP);
 		restCntctTEL.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restCntctTEL.setBounds(27, 155, 449, 25);
+		restCntctTEL.setBounds(27, 145, 449, 25);
 		secondMainPanel.add(restCntctTEL);
 
 		restUsageTime = new JLabel("• 영업시간 : ");
 		restUsageTime.setVerticalAlignment(SwingConstants.TOP);
 		restUsageTime.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restUsageTime.setBounds(27, 190, 449, 25);
+		restUsageTime.setBounds(27, 180, 449, 25);
 		secondMainPanel.add(restUsageTime);
 
 		JLabel restItemCntnts = new JLabel("• 소개 : ");
 		restItemCntnts.setVerticalAlignment(SwingConstants.TOP);
 		restItemCntnts.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		restItemCntnts.setBounds(27, 225, 60, 111);
+		restItemCntnts.setBounds(27, 215, 60, 111);
 		secondMainPanel.add(restItemCntnts);
 
 		restItemCntnts2 = new JLabel("");
 		restItemCntnts2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		restItemCntnts2.setVerticalAlignment(SwingConstants.TOP);
-		restItemCntnts2.setBounds(83, 225, 388, 125);
+		restItemCntnts2.setBounds(83, 215, 388, 125);
 		secondMainPanel.add(restItemCntnts2);
 
 		btnReviewDialogPopUp = new JButton("review");
@@ -431,6 +431,7 @@ public class MainGUI extends JFrame {
 		secondPanel.add(goBackButton);
 
 		JScrollPane listScrollPane = new JScrollPane();
+		listScrollPane.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		listScrollPane.setViewportBorder(new EmptyBorder(3, 3, 0, 0));
 		listScrollPane.setBounds(20, 425, 350, 250);
 		secondPanel.add(listScrollPane);
@@ -479,16 +480,17 @@ public class MainGUI extends JFrame {
 
 		staticMapPanel = new JPanel();
 		staticMapPanel.setForeground(Color.GRAY);
-		staticMapPanel.setBorder(new LineBorder(Color.GRAY));
+		staticMapPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		staticMapPanel.setBackground(Color.WHITE);
 		staticMapPanel.setBounds(400, 425, 350, 250);
 		secondPanel.add(staticMapPanel);
 		staticMapPanel.setLayout(null);
 
-		staitcMap = new JLabel("");
-		staitcMap.setBounds(3, 3, 344, 244);
-		staitcMap.setHorizontalAlignment(SwingConstants.CENTER);
-		staticMapPanel.add(staitcMap);
+		staticMap = new JLabel("");
+		staticMap.setBorder(new LineBorder(SystemColor.inactiveCaptionBorder));
+		staticMap.setBounds(3, 3, 344, 244);
+		staticMap.setHorizontalAlignment(SwingConstants.CENTER);
+		staticMapPanel.add(staticMap);
 
 	}
 }
