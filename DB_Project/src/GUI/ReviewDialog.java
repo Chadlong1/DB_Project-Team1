@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,10 @@ public class ReviewDialog extends JDialog {
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
 	private int rating1, rating2, rating3, rating4, rating5;
+	private static String basicComment = "후기를 입력해주세요";
+	private static String charset = "euc-kr";
+	private JButton leaveBtn;
+	private JComboBox scoreComboBox;
 
 	public CardLayout getCard() {
 		return card;
@@ -141,10 +146,10 @@ public class ReviewDialog extends JDialog {
 		commentCard.add(normalComment, "NORMAL");
 		normalComment.setLayout(null);
 
-		commentField = new JTextField();
+		commentField = new JTextField(basicComment);
+		commentField.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentField.setForeground(Color.GRAY);
 		commentField.setHorizontalAlignment(SwingConstants.LEFT);
-		commentField.setText("후기를 입력해주세요");
 		commentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		commentField.setBounds(12, 12, 430, 70);
 		normalComment.add(commentField);
@@ -161,28 +166,62 @@ public class ReviewDialog extends JDialog {
 			}
 		});
 		commentField.addKeyListener(new KeyAdapter() {
+			private byte[] strTemps;
+			
 			@Override
 			public void keyTyped(KeyEvent e) {
-				super.keyTyped(e);
-				if (commentField.getText().equals("후기를 입력해주세요")) {
+				String countStar = (String) scoreComboBox.getSelectedItem();
+				if (commentField.getText().equals("") || countStar.equals("별점 입력")) {
+					leaveBtn.setEnabled(false);
+				} else {
+					leaveBtn.setEnabled(true);
+				}
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (commentField.getText().equals(basicComment)) {
 					commentField.setText("");
 					commentField.setForeground(Color.BLACK);
 				}
 			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String countStar = (String) scoreComboBox.getSelectedItem();
+				if (commentField.getText().equals("") || countStar.equals("별점 입력")) {
+					leaveBtn.setEnabled(false);
+				} else {
+					leaveBtn.setEnabled(true);
+				}
+				
+				do {
+					try {
+						strTemps = commentField.getText().getBytes(charset);
+					} catch (UnsupportedEncodingException e1) {
+						e1.printStackTrace();
+					}
+					if (strTemps.length > 75) {
+						String str = commentField.getText();
+						String result = str.substring(0, str.length() - 1);
+						commentField.setText(result);
+					}
+
+				} while (strTemps.length > 75);
+			}
 		});
 
-		JButton leaveBtn = new JButton("등록");
+		leaveBtn = new JButton("등록");
+		leaveBtn.setEnabled(false);
 		leaveBtn.setBackground(new Color(135, 206, 235));
 		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		
-		
 
 		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-
-		JComboBox scoreComboBox = new JComboBox(star);
+		scoreComboBox = new JComboBox(star);
 		scoreComboBox.setBackground(Color.WHITE);
 		scoreComboBox.setBounds(455, 53, 97, 29);
 		normalComment.add(scoreComboBox);
@@ -277,8 +316,6 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getCard().show(commentCard, "NORMAL");
-				replyCommentField.setVisible(false);
-				commentField.setVisible(true);
 			}
 		});
 
@@ -298,9 +335,6 @@ public class ReviewDialog extends JDialog {
 				super.mouseClicked(e);
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
-				System.out.println("클릭반응");
-				replyCommentField.setVisible(true);
-				commentField.setVisible(false);
 			}
 
 		});
@@ -373,117 +407,6 @@ public class ReviewDialog extends JDialog {
 			commentScreen.setPreferredSize(size);
 			scrollPane.setViewportView(commentScreen);
 		}
-
-		commentCard = new JPanel();
-		commentCard.setBounds(10, 358, 564, 93);
-		contentPanel.add(commentCard);
-		commentCard.setLayout(card);
-
-		JPanel normalComment = new JPanel();
-		normalComment.setBorder(new LineBorder(SystemColor.activeCaption));
-		normalComment.setBackground(SystemColor.inactiveCaptionBorder);
-		commentCard.add(normalComment, "NORMAL");
-		normalComment.setLayout(null);
-
-		JTextField commentField = new JTextField();
-		commentField.setHorizontalAlignment(SwingConstants.LEFT);
-		commentField.setText("후기를 입력해주세요");
-		commentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		commentField.setBounds(12, 12, 430, 70);
-		normalComment.add(commentField);
-		commentField.setColumns(10);
-
-		JButton leaveBtn = new JButton("등록");
-		leaveBtn.setBackground(new Color(135, 206, 235));
-		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		leaveBtn.setBounds(455, 12, 97, 29);
-		leaveBtn.setEnabled(false);
-		normalComment.add(leaveBtn);
-		
-
-		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-
-		JComboBox<String> scoreComboBox = new JComboBox(star);
-
-//		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		scoreComboBox.setBackground(Color.WHITE);
-		scoreComboBox.setBounds(455, 53, 97, 29);
-		normalComment.add(scoreComboBox);
-		leaveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-					if (searchingList.getSelectedIndex() == i) {
-						String selectedItemStr = searchingList.getSelectedValue();
-						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
-
-					}
-				}
-				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
-						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
-			}
-			
-		});
-
-		scoreComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String countStar = (String) scoreComboBox.getSelectedItem();
-				if (countStar == star[1]) {
-					rating = 1.0;
-				} else if (countStar == star[2]) {
-					rating = 2.0;
-				} else if (countStar == star[3]) {
-					rating = 3.0;
-				} else if (countStar == star[4]) {
-					rating = 4.0;
-				} else if (countStar == star[5]) {
-					rating = 5.0;
-				}
-				leaveBtn.setEnabled(true);
-			}
-		});
-
-		JPanel replyComment = new JPanel();
-		replyComment.setBorder(new LineBorder(SystemColor.activeCaption));
-		replyComment.setBackground(SystemColor.inactiveCaptionBorder);
-		commentCard.add(replyComment, "ReplyComment");
-		replyComment.setLayout(null);
-
-		replyCommentField = new JTextField();
-		replyCommentField.setText("대댓글을 작성해주세요");
-		replyCommentField.setHorizontalAlignment(SwingConstants.LEFT);
-		replyCommentField.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		replyCommentField.setColumns(10);
-		replyCommentField.setBounds(12, 12, 430, 70);
-		replyComment.add(replyCommentField);
-
-		JButton replyLeaveBtn = new JButton("등록");
-		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		replyLeaveBtn.setBackground(new Color(135, 206, 235));
-		replyLeaveBtn.setBounds(455, 12, 97, 29);
-		replyLeaveBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		replyComment.add(replyLeaveBtn);
-
-		JButton replyGoBackBtn = new JButton("뒤로가기");
-		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		replyGoBackBtn.setBackground(new Color(135, 206, 235));
-		replyGoBackBtn.setBounds(455, 53, 97, 29);
-		replyComment.add(replyGoBackBtn);
-		replyGoBackBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getCard().show(commentCard, "NORMAL");
-			}
-		});
-
 		commentScreen.repaint();
 		commentScreen.revalidate();
 	}
