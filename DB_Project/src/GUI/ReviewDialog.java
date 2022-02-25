@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -39,7 +40,6 @@ import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 
 public class ReviewDialog extends JDialog {
-	private List<JPanel> reviewPanelList;
 	private JList<String> searchingList;
 	private int bpmIdNum;
 	private int depth;
@@ -142,10 +142,9 @@ public class ReviewDialog extends JDialog {
 		resTitleReview.setBounds(12, 12, 396, 28);
 		commentLayout.add(resTitleReview);
 
-		commentCard = new JPanel();
+		commentCard = new JPanel(card);
 		commentCard.setBounds(10, 358, 564, 93);
 		contentPanel.add(commentCard);
-		commentCard.setLayout(card);
 
 		JPanel normalComment = new JPanel();
 		normalComment.setBorder(new LineBorder(SystemColor.activeCaption));
@@ -235,11 +234,20 @@ public class ReviewDialog extends JDialog {
 						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 						ReviewRepository.insert(new ReviewInput(commentField.getText(), rating, depth, bpmIdNum));
+						System.out.print("selectedItemStr:");
+						System.out.println(selectedItemStr);
+						System.out.print("bpmIdNum:");
+						System.out.println(bpmIdNum);
+						System.out.print("depth:");
+						System.out.println(depth);
+						System.out.print("rating:");
+						System.out.println(rating);
 
 					}
 				}
 				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
 						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
+
 			}
 
 		});
@@ -326,7 +334,7 @@ public class ReviewDialog extends JDialog {
 				}
 				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
 						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
-				
+
 				leaveReplyComment(0);
 			}
 
@@ -363,8 +371,8 @@ public class ReviewDialog extends JDialog {
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
 			}
-
 		});
+
 		// tempReviewPanel패널에 별점 등록
 		rating = ri.getRating();
 		if (rating == 5) {
@@ -427,8 +435,6 @@ public class ReviewDialog extends JDialog {
 		reviewDate.setBounds(160, 65, 158, 15);
 		tempReviewPanel.add(reviewDate);
 
-		reviewPanelList.add(tempReviewPanel);
-
 		if (count >= 2) {
 			Dimension size = new Dimension();
 			int y = 286 + (97 * (count - 1));
@@ -441,17 +447,6 @@ public class ReviewDialog extends JDialog {
 	}
 
 	public void leaveReplyComment(int index) {
-		JPanel tempReplyPanel = new JPanel(null);
-		JPanel tempCommentPanel = reviewPanelList.get(index);
-		for (int i = index + 1; i < reviewPanelList.size(); i++) {
-			JPanel temp = reviewPanelList.get(i);
-			temp.setLocation(temp.getX(), temp.getY() + 80);
-		}
-		tempReplyPanel.setBounds(25, tempCommentPanel.getY() + 90, 330, 75);
-
-		commentScreen.add(tempReplyPanel);
-		commentScreen.repaint();
-		commentScreen.revalidate();
 
 	}
 
