@@ -6,8 +6,10 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.TextField;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -19,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -65,7 +68,7 @@ public class ReviewDialog extends JDialog {
 	public CardLayout getCard() {
 		return card;
 	}
-	
+
 	public JTextField getCommentField() {
 		return commentField;
 	}
@@ -378,8 +381,13 @@ public class ReviewDialog extends JDialog {
 
 		// tempReviewPanel패널에 별점 등록
 		rating = ri.getRating();
+		JLabel star_5_1 = new JLabel("★");
+		JLabel star_4_1 = new JLabel("★");
+		JLabel star_3_1 = new JLabel("★");
+		JLabel star_2_1 = new JLabel("★");
+		JLabel star_1_1 = new JLabel("★");
+		
 		if (rating == 5) {
-			JLabel star_5_1 = new JLabel("★");
 			star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_5_1.setForeground(Color.ORANGE);
 			star_5_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -387,7 +395,6 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.add(star_5_1);
 		}
 		if (rating >= 4) {
-			JLabel star_4_1 = new JLabel("★");
 			star_4_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_4_1.setForeground(Color.ORANGE);
 			star_4_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -395,7 +402,6 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.add(star_4_1);
 		}
 		if (rating >= 3) {
-			JLabel star_3_1 = new JLabel("★");
 			star_3_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_3_1.setForeground(Color.ORANGE);
 			star_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -403,7 +409,6 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.add(star_3_1);
 		}
 		if (rating >= 2) {
-			JLabel star_2_1 = new JLabel("★");
 			star_2_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_2_1.setForeground(Color.ORANGE);
 			star_2_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -411,7 +416,6 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.add(star_2_1);
 		}
 		if (rating >= 1) {
-			JLabel star_1_1 = new JLabel("★");
 			star_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_1_1.setForeground(Color.ORANGE);
 			star_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -453,95 +457,113 @@ public class ReviewDialog extends JDialog {
 
 	}
 
-	// ratingPanel패널에 평점,별 출력
+	// ratingPanel패널에 리뷰가 존재하면 평점,별 출력
+	// 존재하지 않으면 그림 표시
 	public void createRatingPanel1(double avgRating) {
-
-		String strRating = String.format("%.2f", avgRating);
-
 		JPanel ratingPanel = new JPanel();
 		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		ratingPanel.setBackground(Color.WHITE);
 		ratingPanel.setBounds(420, 40, 130, 130);
 		commentLayout.add(ratingPanel);
 		ratingPanel.setLayout(null);
-		String.valueOf(avgRating);
-		JLabel avgScore = new JLabel(strRating);
-		avgScore.setBounds(25, 35, 80, 50);
-		ratingPanel.add(avgScore);
-		avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
-		avgScore.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		if (avgRating > 0) {
+			String strRating = String.format("%.2f", avgRating);
 
-		if (avgRating >= 1) {
-			JLabel star_1 = new JLabel("★");
-			star_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_1.setForeground(Color.ORANGE);
-			star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_1.setBounds(38, 82, 12, 15);
-			ratingPanel.add(star_1);
-		}
-		if (avgRating >= 1.50 && avgRating < 2) {
-			JLabel star_2 = new JLabel("☆");
-			star_2.setHorizontalAlignment(SwingConstants.LEFT);
-			star_2.setForeground(Color.ORANGE);
-			star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_2.setBounds(49, 82, 12, 15);
-			ratingPanel.add(star_2);
-		}
-		if (avgRating >= 2) {
-			JLabel star_2 = new JLabel("★");
-			star_2.setHorizontalAlignment(SwingConstants.LEFT);
-			star_2.setForeground(Color.ORANGE);
-			star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_2.setBounds(49, 82, 12, 15);
-			ratingPanel.add(star_2);
-		}
-		if (avgRating >= 2.50 && avgRating < 3) {
-			JLabel star_3 = new JLabel("☆");
-			star_3.setHorizontalAlignment(SwingConstants.LEFT);
-			star_3.setForeground(Color.ORANGE);
-			star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_3.setBounds(60, 82, 12, 15);
-			ratingPanel.add(star_3);
-		}
-		if (avgRating >= 3) {
-			JLabel star_3 = new JLabel("★");
-			star_3.setHorizontalAlignment(SwingConstants.LEFT);
-			star_3.setForeground(Color.ORANGE);
-			star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_3.setBounds(60, 82, 12, 15);
-			ratingPanel.add(star_3);
-		}
-		if (avgRating >= 3.50 && avgRating < 4) {
-			JLabel star_4 = new JLabel("☆");
-			star_4.setHorizontalAlignment(SwingConstants.LEFT);
-			star_4.setForeground(Color.ORANGE);
-			star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_4.setBounds(71, 82, 12, 15);
-			ratingPanel.add(star_4);
-		}
-		if (avgRating >= 4) {
-			JLabel star_4 = new JLabel("★");
-			star_4.setHorizontalAlignment(SwingConstants.LEFT);
-			star_4.setForeground(Color.ORANGE);
-			star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_4.setBounds(71, 82, 12, 15);
-			ratingPanel.add(star_4);
-		}
-		if (avgRating >= 4.50 && avgRating < 5) {
-			JLabel star_5 = new JLabel("☆");
-			star_5.setHorizontalAlignment(SwingConstants.LEFT);
-			star_5.setForeground(Color.ORANGE);
-			star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_5.setBounds(82, 82, 12, 15);
-			ratingPanel.add(star_5);
-		}
-		if (avgRating == 5) {
-			JLabel star_5 = new JLabel("★");
-			star_5.setHorizontalAlignment(SwingConstants.LEFT);
-			star_5.setForeground(Color.ORANGE);
-			star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_5.setBounds(82, 82, 12, 15);
-			ratingPanel.add(star_5);
+			String.valueOf(avgRating);
+			JLabel avgScore = new JLabel(strRating);
+			avgScore.setBounds(25, 35, 80, 50);
+			ratingPanel.add(avgScore);
+			avgScore.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
+			avgScore.setHorizontalAlignment(SwingConstants.CENTER);
+
+			if (avgRating > 0 && avgRating < 1) {
+				JLabel star_1 = new JLabel("☆");
+				star_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_1.setForeground(Color.ORANGE);
+				star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_1.setBounds(38, 82, 12, 15);
+				ratingPanel.add(star_1);
+			}
+			if (avgRating >= 1) {
+				JLabel star_1 = new JLabel("★");
+				star_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_1.setForeground(Color.ORANGE);
+				star_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_1.setBounds(38, 82, 12, 15);
+				ratingPanel.add(star_1);
+			}
+			if (avgRating >= 1.50 && avgRating < 2) {
+				JLabel star_2 = new JLabel("☆");
+				star_2.setHorizontalAlignment(SwingConstants.LEFT);
+				star_2.setForeground(Color.ORANGE);
+				star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_2.setBounds(49, 82, 12, 15);
+				ratingPanel.add(star_2);
+			}
+			if (avgRating >= 2) {
+				JLabel star_2 = new JLabel("★");
+				star_2.setHorizontalAlignment(SwingConstants.LEFT);
+				star_2.setForeground(Color.ORANGE);
+				star_2.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_2.setBounds(49, 82, 12, 15);
+				ratingPanel.add(star_2);
+			}
+			if (avgRating >= 2.50 && avgRating < 3) {
+				JLabel star_3 = new JLabel("☆");
+				star_3.setHorizontalAlignment(SwingConstants.LEFT);
+				star_3.setForeground(Color.ORANGE);
+				star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_3.setBounds(60, 82, 12, 15);
+				ratingPanel.add(star_3);
+			}
+			if (avgRating >= 3) {
+				JLabel star_3 = new JLabel("★");
+				star_3.setHorizontalAlignment(SwingConstants.LEFT);
+				star_3.setForeground(Color.ORANGE);
+				star_3.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_3.setBounds(60, 82, 12, 15);
+				ratingPanel.add(star_3);
+			}
+			if (avgRating >= 3.50 && avgRating < 4) {
+				JLabel star_4 = new JLabel("☆");
+				star_4.setHorizontalAlignment(SwingConstants.LEFT);
+				star_4.setForeground(Color.ORANGE);
+				star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_4.setBounds(71, 82, 12, 15);
+				ratingPanel.add(star_4);
+			}
+			if (avgRating >= 4) {
+				JLabel star_4 = new JLabel("★");
+				star_4.setHorizontalAlignment(SwingConstants.LEFT);
+				star_4.setForeground(Color.ORANGE);
+				star_4.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_4.setBounds(71, 82, 12, 15);
+				ratingPanel.add(star_4);
+			}
+			if (avgRating >= 4.50 && avgRating < 5) {
+				JLabel star_5 = new JLabel("☆");
+				star_5.setHorizontalAlignment(SwingConstants.LEFT);
+				star_5.setForeground(Color.ORANGE);
+				star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_5.setBounds(82, 82, 12, 15);
+				ratingPanel.add(star_5);
+			}
+			if (avgRating == 5) {
+				JLabel star_5 = new JLabel("★");
+				star_5.setHorizontalAlignment(SwingConstants.LEFT);
+				star_5.setForeground(Color.ORANGE);
+				star_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_5.setBounds(82, 82, 12, 15);
+				ratingPanel.add(star_5);
+			}
+			
+		} else {
+			ImageIcon resImage = new ImageIcon("resImage.png");
+			JLabel resImageLabel = new JLabel(resImage);
+			resImageLabel.setBounds(0, 0, 130, 130);
+			resImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			ratingPanel.add(resImageLabel);
 		}
 
 	}
