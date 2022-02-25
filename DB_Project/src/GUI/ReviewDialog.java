@@ -68,8 +68,9 @@ public class ReviewDialog extends JDialog {
 	public ReviewDialog(MainGUI parent) {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
+		setResizable(false);
 
-		setBounds(100, 100, 600, 500);
+		setBounds(parent.getX() + 205, parent.getY() + 122, 590, 490);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPanel.setBackground(SystemColor.activeCaption);
@@ -158,7 +159,7 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				if (commentField.getText().equals("후기를 입력해주세요")) {
+				if (commentField.getText().equals(basicComment)) {
 					commentField.setText("");
 					commentField.setForeground(Color.BLACK);
 				}
@@ -167,7 +168,7 @@ public class ReviewDialog extends JDialog {
 		});
 		commentField.addKeyListener(new KeyAdapter() {
 			private byte[] strTemps;
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				String countStar = (String) scoreComboBox.getSelectedItem();
@@ -195,8 +196,8 @@ public class ReviewDialog extends JDialog {
 				} else {
 					leaveBtn.setEnabled(true);
 				}
-				
-				do {
+
+				do { // 코멘트 바이트가 EUC_KR 인코딩 기준으로 75바이트가 초과되지않게
 					try {
 						strTemps = commentField.getText().getBytes(charset);
 					} catch (UnsupportedEncodingException e1) {
@@ -215,16 +216,10 @@ public class ReviewDialog extends JDialog {
 		leaveBtn = new JButton("등록");
 		leaveBtn.setEnabled(false);
 		leaveBtn.setBackground(new Color(135, 206, 235));
-		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		leaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-
-		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-		scoreComboBox = new JComboBox(star);
-		scoreComboBox.setBackground(Color.WHITE);
-		scoreComboBox.setBounds(455, 53, 97, 29);
-		normalComment.add(scoreComboBox);
 		leaveBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -240,8 +235,15 @@ public class ReviewDialog extends JDialog {
 				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
 						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
 			}
-			
+
 		});
+
+		String[] star = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
+		scoreComboBox = new JComboBox(star);
+		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+		scoreComboBox.setBackground(Color.WHITE);
+		scoreComboBox.setBounds(455, 53, 97, 29);
+		normalComment.add(scoreComboBox);
 
 		JPanel replyComment = new JPanel();
 		replyComment.setBorder(new LineBorder(SystemColor.activeCaption));
@@ -278,10 +280,10 @@ public class ReviewDialog extends JDialog {
 				}
 			}
 		});
-		
-		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에  생성, depth가 1인 리뷰만 노출되게 설정해야함
+
+		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에 생성, depth가 1인 리뷰만 노출되게 설정해야함
 		JButton replyLeaveBtn = new JButton("등록");
-		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		replyLeaveBtn.setBackground(new Color(135, 206, 235));
 		replyLeaveBtn.setBounds(455, 12, 97, 29);
 		replyLeaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -302,12 +304,11 @@ public class ReviewDialog extends JDialog {
 				leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
 						.get(ReviewRepository.viewReviewAtBpmId(bpmIdNum).size() - 1), numOfReview++);
 			}
-			
+
 		});
-		
-		
-		JButton replyGoBackBtn = new JButton("뒤로가기");
-		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+
+		JButton replyGoBackBtn = new JButton("작성 취소");
+		replyGoBackBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		replyGoBackBtn.setBackground(new Color(135, 206, 235));
 		replyGoBackBtn.setBounds(455, 53, 97, 29);
 		replyGoBackBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
