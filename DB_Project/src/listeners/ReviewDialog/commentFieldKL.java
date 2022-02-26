@@ -28,6 +28,7 @@ public class commentFieldKL extends KeyAdapter {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		String countStar = dialog.selectedRating();
+		System.out.println(countStar);
 		if (commentField.getText().equals("") || countStar.equals(stars[0])) {
 			dialog.leaveBtnDisable();
 		} else {

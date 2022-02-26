@@ -61,11 +61,12 @@ public class ReviewDialog extends JDialog {
 	private JButton leaveBtn;
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
-	private String[] stars;
-	
+	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
+
 	public int getBundleNum() {
 		return bundleNum;
 	}
+
 	public void leaveBtnEnable() {
 		leaveBtn.setEnabled(true);
 	}
@@ -199,7 +200,6 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.addActionListener(new leaveCommentAL(ReviewDialog.this, searchingList));
 		// 액션리스너 코드 leaveCommentAL 클래스 파일로 이전
 
-		stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 		scoreComboBox = new JComboBox(stars);
 		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		scoreComboBox.setBackground(Color.WHITE);
@@ -220,7 +220,13 @@ public class ReviewDialog extends JDialog {
 				} else if (countStar == stars[5]) {
 					rating = 5.0;
 				}
-				leaveBtn.setEnabled(true);
+
+				if (countStar == stars[0]) {
+					leaveBtn.setEnabled(false);
+				} else {
+					leaveBtn.setEnabled(true);
+				}
+
 			}
 		});
 
@@ -293,7 +299,7 @@ public class ReviewDialog extends JDialog {
 		JLabel star_3_1 = new JLabel("★");
 		JLabel star_2_1 = new JLabel("★");
 		JLabel star_1_1 = new JLabel("★");
-		
+
 		if (rating == 5) {
 			star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
 			star_5_1.setForeground(Color.ORANGE);
@@ -396,7 +402,7 @@ public class ReviewDialog extends JDialog {
 		ratingPanel.setBounds(420, 40, 130, 130);
 		commentLayout.add(ratingPanel);
 		ratingPanel.setLayout(null);
-		
+
 		if (avgRating > 0) {
 			String strRating = String.format("%.2f", avgRating);
 
@@ -487,7 +493,7 @@ public class ReviewDialog extends JDialog {
 				star_5.setBounds(82, 82, 12, 15);
 				ratingPanel.add(star_5);
 			}
-			
+
 		} else {
 			ImageIcon resImage = new ImageIcon("resImage.png");
 			JLabel resImageLabel = new JLabel(resImage);
