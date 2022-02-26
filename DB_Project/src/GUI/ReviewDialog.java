@@ -51,7 +51,7 @@ public class ReviewDialog extends JDialog {
 	private JPanel tempReviewPanel;
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
-	private int numOfReview;
+	private int bundleNum;
 	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
@@ -62,7 +62,10 @@ public class ReviewDialog extends JDialog {
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars;
-
+	
+	public int getBundleNum() {
+		return bundleNum;
+	}
 	public void leaveBtnEnable() {
 		leaveBtn.setEnabled(true);
 	}
@@ -139,7 +142,7 @@ public class ReviewDialog extends JDialog {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 
-					leaveComment(list.get(j), numOfReview++);
+					leaveComment(list.get(j), bundleNum++);
 
 					double ratingArr = list.get(j).getRating();
 					if (ratingArr == 1.0) {

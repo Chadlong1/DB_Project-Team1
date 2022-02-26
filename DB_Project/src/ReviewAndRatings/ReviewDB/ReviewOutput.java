@@ -8,14 +8,16 @@ public class ReviewOutput {
 	private int reviewId;
 	private String review;
 	private Double rating;
+	private int bundleNum;
 	private int depth;
 	private int bpmId;
 	private Timestamp writingTime;
-	public ReviewOutput(int reviewId, String review, Double rating, int depth, int bpmId, Timestamp writingTime){
+	public ReviewOutput(int reviewId, String review, Double rating, int bundleNum, int depth, int bpmId, Timestamp writingTime){
 		super();
 		this.reviewId = reviewId;
 		this.review = review;
 		this.rating = rating;
+		this.bundleNum = bundleNum;
 		this.depth = depth;
 		this.bpmId = bpmId;
 		this.writingTime = writingTime;
@@ -40,6 +42,12 @@ public class ReviewOutput {
 	public void setRating(Double rating) {
 		this.rating = rating;
 	}
+	public int getBundleNum() {
+		return bundleNum;
+	}
+	public void setBundleNum(int bundleNum) {
+		this.bundleNum = bundleNum;
+	}
 	public int getDepth() {
 		return depth;
 	}
@@ -60,7 +68,7 @@ public class ReviewOutput {
 	}
 	@Override
 	public String toString() {
-		return "ReviewInput [reviewId=" + reviewId + ", review=" + review + ", rating=" + rating + ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" + writingTime + "]";
+		return "ReviewInput [reviewId=" + reviewId + ", review=" + review + ", rating=" + rating + ", bundleNum" + bundleNum + ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" + writingTime + "]";
 	}
 	
 	

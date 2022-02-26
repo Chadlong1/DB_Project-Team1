@@ -15,6 +15,7 @@ public class leaveCommentAL implements ActionListener {
 	private ReviewDialog dialog;
 	private JList<String> searchingList;
 	private int bpmIdNum;
+	private int bundleNum;
 	private int depth;
 	private int numOfReview;
 
@@ -22,6 +23,7 @@ public class leaveCommentAL implements ActionListener {
 		super();
 		this.dialog = dialog;
 		this.searchingList = searchingList;
+		this.bundleNum = dialog.getBundleNum();
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class leaveCommentAL implements ActionListener {
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 
-				ReviewRepository.insert(new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), depth, bpmIdNum));
+				ReviewRepository.insert(new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), bundleNum, depth, bpmIdNum));
 
 			}
 		}

@@ -16,8 +16,13 @@ import busan.ConnectionProvider;
 public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
-		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" + ", rating DOUBLE" + ", depth INT" + ", bpmId INT"
+		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" 
+				+ "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
+				+ ", review TEXT" 
+				+ ", rating DOUBLE" 
+				+ ", bundleNum INT"
+				+ ", depth INT" 
+				+ ", bpmId INT"
 				+ ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
 				+ ", FOREIGN KEY (bpmId) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
@@ -31,14 +36,15 @@ public class ReviewRepository {
 
 	// 코멘트, 평점 삽입 메소드 - 0208 (정창훈)
 	public static void insert(ReviewInput reviewInput) {
-		String insert = "INSERT INTO review (review, rating, depth, bpmId)" + "VALUES (?, ?, ?, ?);";
+		String insert = "INSERT INTO review (review, rating, bundleNum, depth, bpmId)" + "VALUES (?, ?, ?, ?, ?);";
 		System.out.println("리뷰 입력 완료");
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(insert);) {
 			stmt.setString(1, reviewInput.getReview());
 			stmt.setDouble(2, reviewInput.getRating());
-			stmt.setInt(3, reviewInput.getDepth());
-			stmt.setDouble(4, reviewInput.getBpmId());
+			stmt.setInt(3, reviewInput.getBundleNum());
+			stmt.setInt(4, reviewInput.getDepth());
+			stmt.setDouble(5, reviewInput.getBpmId());
 
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -46,33 +52,34 @@ public class ReviewRepository {
 		}
 	}
 
-	// busan.bpm과 busan.review를 조인하여 리뷰와 평점만 리스트로 리턴
-	public List<ReviewOutput> joinBpmReview() {
-		String join = "SELECT * FROM busan.bpm AS A " + "LEFT JOIN busan.review AS B " + "ON A.id = B.bpm_id;";
-		List<ReviewOutput> list = new ArrayList<>();
-		try (Connection conn = ConnectionProvider.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(join);) {
-			while (rs.next()) {
-				list.add(returnReview(rs));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+//	// busan.bpm과 busan.review를 조인하여 리뷰와 평점만 리스트로 리턴
+//	public List<ReviewOutput> joinBpmReview() {
+//		String join = "SELECT * FROM busan.bpm AS A " + "LEFT JOIN busan.review AS B " + "ON A.id = B.bpm_id;";
+//		List<ReviewOutput> list = new ArrayList<>();
+//		try (Connection conn = ConnectionProvider.getConnection();
+//				Statement stmt = conn.createStatement();
+//				ResultSet rs = stmt.executeQuery(join);) {
+//			while (rs.next()) {
+//				list.add(returnReview(rs));
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return list;
+//	}
 
 	// ResultSet 입력받으면 depth = 0(원댓글)인 ReviewInput객체 반환
 	private static ReviewOutput returnReview(ResultSet rs) throws SQLException {
 		int reviewId = rs.getInt("reviewId");
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
+		int bundleNum = rs.getInt("bundleNum");
 		int depth = rs.getInt("depth");
 		int bpmId = rs.getInt("bpmId");
 		Timestamp writingTime = rs.getTimestamp("writingTime");
 		if (depth == 0) {
-			return new ReviewOutput(reviewId, review, rating, depth, bpmId, writingTime);
+			return new ReviewOutput(reviewId, review, rating, bundleNum, depth, bpmId, writingTime);
 		} else {
 			return null;
 		}
@@ -104,11 +111,12 @@ public class ReviewRepository {
 		int reviewId = rs.getInt("reviewId");
 		String review = rs.getString("review");
 		double rating = rs.getDouble("rating");
+		int bundleNum = rs.getInt("bundleNum");
 		int depth = rs.getInt("depth");
 		int bpmId = rs.getInt("bpmId");
 		Timestamp writingTime = rs.getTimestamp("writingTime");
 		if (depth == 1) {
-			return new ReviewOutput(reviewId, review, rating, depth, bpmId, writingTime);
+			return new ReviewOutput(reviewId, review, rating, bundleNum, depth, bpmId, writingTime);
 		} else {
 			return null;
 		}

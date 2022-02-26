@@ -13,6 +13,7 @@ import busan.Restaurant;
 public class replyLeaveBtnAL implements ActionListener {
 	private ReviewDialog dialog;
 	private JList<String> searchingList;
+	private int bundleNum;
 	private int bpmIdNum;
 	private int replyCount;
 
@@ -20,6 +21,7 @@ public class replyLeaveBtnAL implements ActionListener {
 		super();
 		this.dialog = dialog;
 		this.searchingList = searchingList;
+		this.bundleNum = dialog.getBundleNum();
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class replyLeaveBtnAL implements ActionListener {
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 				int bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				ReviewRepository.insert(
-						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), depth, bpmIdNum));
+						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), bundleNum+1, depth, bpmIdNum));
 
 			}
 		}
