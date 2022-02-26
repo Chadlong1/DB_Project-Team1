@@ -41,6 +41,7 @@ import listeners.ReviewDialog.leaveCommentAL;
 public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
 	private int bpmIdNum;
+	private int bundleNum;
 	private int depth;
 	private double rating;
 
@@ -51,7 +52,6 @@ public class ReviewDialog extends JDialog {
 	private JPanel tempReviewPanel;
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
-	private int bundleNum;
 	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
