@@ -32,7 +32,7 @@ public class replyLeaveBtnAL implements ActionListener {
 				int bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 				System.out.println("선택된 bundleNum: " + dialog.getSellectedBundleNum());
 				ReviewRepository.insert(
-						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), bundleNum, depth, bpmIdNum));
+						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), dialog.getSellectedBundleNum(), depth, bpmIdNum));
 			}
 		}
 //		dialog.leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)
