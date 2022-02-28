@@ -181,20 +181,24 @@ public class ReviewRepository {
 		}
 		return timeStamp;
 	}
-
-	// 가장 최근에 삽입된 row의 id반환
-	public static int getLastSelectReviewId() {
-		String getLastSelectReviewId = "SELECT LAST_INSERT_ID;";
-		int id = 0;
-		try (Connection conn = ConnectionProvider.getConnection(); Statement stmt = conn.createStatement();) {
-			ResultSet rs = stmt.executeQuery(getLastSelectReviewId);
-			while (rs.next()) {
-				id = rs.getInt("reviewId");
+	// bpmIdNum , selectedBundleNum 입력시 List<ReviewOuput> 반환
+	public static List<ReviewOutput> getReplyWithSelectedBundleNum (int bpmIdNum, int selectedBundleNum) {
+		List<ReviewOutput> list = new ArrayList<>();
+		String getReplyWithSelectedBundleNum = "SELECT * FROM BUSAN.review "
+						+ "WHERE bpmId = ? AND bundleNum = ?;";
+		try(Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(getReplyWithSelectedBundleNum);) {
+			stmt.setInt(1, bpmIdNum);
+			stmt.setInt(2, selectedBundleNum);
+			
+			try(ResultSet rs = stmt.executeQuery();) {
+				while (rs.next()) {
+					list.add(returnReReview(rs));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return id;
+		return list;
 	}
-	
 }

@@ -68,7 +68,7 @@ public class ReviewOutput {
 	}
 	@Override
 	public String toString() {
-		return "ReviewInput [reviewId=" + reviewId + ", review=" + review + ", rating=" + rating + ", bundleNum" + bundleNum + ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" + writingTime + "]";
+		return "ReviewOutput [reviewId=" + reviewId + ", review=" + review + ", rating=" + rating + ", bundleNum" + bundleNum + ", depth=" + depth + ", bpmId=" + bpmId + ", writingTime=" + writingTime + "]";
 	}
 	
 	

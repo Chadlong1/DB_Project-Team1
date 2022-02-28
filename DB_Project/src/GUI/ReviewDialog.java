@@ -45,7 +45,7 @@ public class ReviewDialog extends JDialog {
 	private int depth;
 	private double rating;
 	
-	private int sellectedBundleNum;
+	private int selectedBundleNum;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField commentField;
@@ -65,8 +65,8 @@ public class ReviewDialog extends JDialog {
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
-	public int getSellectedBundleNum() {
-		return sellectedBundleNum;
+	public int getSelectedBundleNum() {
+		return selectedBundleNum;
 	}
 	public int getBundleNum() {
 		return bundleNum;
@@ -90,6 +90,9 @@ public class ReviewDialog extends JDialog {
 
 	public JTextField getCommentField() {
 		return commentField;
+	}
+	public JTextField getReplyCommentField() {
+		return replyCommentField;
 	}
 
 	public String selectedRating() {
@@ -303,7 +306,7 @@ public class ReviewDialog extends JDialog {
 				}
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
-				sellectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
+				selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
 			}
 		});
 		// tempReviewPanel패널에 별점 등록
@@ -381,20 +384,20 @@ public class ReviewDialog extends JDialog {
 		commentScreen.revalidate();
 	}
 
-	public void leaveReplyComment(int count) {
+	public void leaveReplyComment(ReviewOutput ro, int count) {
 		JPanel tempReplyCommPanel = new JPanel(null);
 		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
 		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY + (count * 80), 330, 75);
 		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		commentScreen.add(tempReplyCommPanel);
 
-		JLabel replyComment = new JLabel("테스트");
+		JLabel replyComment = new JLabel(ro.getReview());
 		replyComment.setVerticalAlignment(SwingConstants.TOP);
 		replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		replyComment.setBounds(12, 12, 306, 40);
 		tempReplyCommPanel.add(replyComment);
 
-		JLabel replyReviewDate = new JLabel("테스트");
+		JLabel replyReviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
 		replyReviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
 		replyReviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		replyReviewDate.setBounds(160, 55, 158, 15);
