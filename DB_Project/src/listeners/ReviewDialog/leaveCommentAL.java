@@ -34,7 +34,6 @@ public class leaveCommentAL implements ActionListener {
 				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
 
 				ReviewRepository.insert(new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), bundleNum + 1, depth, bpmIdNum));
-
 			}
 		}
 		dialog.leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)

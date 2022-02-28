@@ -14,14 +14,12 @@ public class replyLeaveBtnAL implements ActionListener {
 	private ReviewDialog dialog;
 	private JList<String> searchingList;
 	private int bundleNum;
-	private int sellectedBundleNum;
 
 	public replyLeaveBtnAL(ReviewDialog dialog, JList<String> searchingList) {
 		super();
 		this.dialog = dialog;
 		this.searchingList = searchingList;
 		this.bundleNum = dialog.getBundleNum();
-		this.sellectedBundleNum = dialog.getSellectedBundleNum();
 	}
 
 	@Override
@@ -32,10 +30,9 @@ public class replyLeaveBtnAL implements ActionListener {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 				int bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-				System.out.println(bundleNum+1);
-				System.out.println(sellectedBundleNum);
+				System.out.println("선택된 bundleNum: " + dialog.getSellectedBundleNum());
 				ReviewRepository.insert(
-						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), sellectedBundleNum, depth, bpmIdNum));
+						new ReviewInput(dialog.getCommentField().getText(), dialog.getRating(), bundleNum, depth, bpmIdNum));
 			}
 		}
 //		dialog.leaveComment(ReviewRepository.viewReviewAtBpmId(bpmIdNum)

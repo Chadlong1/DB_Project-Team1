@@ -60,6 +60,7 @@ public class ReviewDialog extends JDialog {
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private JButton leaveBtn;
+	private JButton replyLeaveBtn;
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
@@ -148,7 +149,6 @@ public class ReviewDialog extends JDialog {
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 
 					leaveComment(list.get(j), bundleNum++);
-					System.out.println(sellectedBundleNum);
 
 					double ratingArr = list.get(j).getRating();
 					if (ratingArr == 1.0) {
@@ -253,7 +253,7 @@ public class ReviewDialog extends JDialog {
 		// replyCommentField 키 리스너, 마우스 리스너 코드 리스너스 패키지로 이전
 
 		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에 생성, depth가 1인 리뷰만 노출되게 설정해야함
-		JButton replyLeaveBtn = new JButton("등록");
+		replyLeaveBtn = new JButton("등록");
 		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		replyLeaveBtn.setBackground(new Color(135, 206, 235));
 		replyLeaveBtn.setBounds(455, 12, 97, 29);
@@ -271,7 +271,6 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getCard().show(commentCard, "NORMAL");
-				System.out.println(sellectedBundleNum);
 			}
 		});
 
@@ -305,7 +304,6 @@ public class ReviewDialog extends JDialog {
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
 				sellectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
-				System.out.println(sellectedBundleNum);
 			}
 		});
 		// tempReviewPanel패널에 별점 등록
