@@ -44,18 +44,19 @@ public class ReviewDialog extends JDialog {
 	private int bundleNum;
 	private int depth;
 	private double rating;
+	
+	private int sellectedBundleNum;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField commentField;
 	private JTextField replyCommentField;
 	private JPanel commentCard;
-	private JPanel tempReviewPanel;
+	private JPanel ratingPanel;
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
 	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
-	private int rating1, rating2, rating3, rating4, rating5;
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private JButton leaveBtn;
@@ -63,6 +64,9 @@ public class ReviewDialog extends JDialog {
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
+	public int getSellectedBundleNum() {
+		return sellectedBundleNum;
+	}
 	public int getBundleNum() {
 		return bundleNum;
 	}
@@ -144,6 +148,7 @@ public class ReviewDialog extends JDialog {
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 
 					leaveComment(list.get(j), bundleNum++);
+					System.out.println(sellectedBundleNum);
 
 					double ratingArr = list.get(j).getRating();
 					if (ratingArr == 1.0) {
@@ -266,6 +271,7 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getCard().show(commentCard, "NORMAL");
+				System.out.println(sellectedBundleNum);
 			}
 		});
 
@@ -273,13 +279,22 @@ public class ReviewDialog extends JDialog {
 
 	// tempReviewPanel 패널에 리뷰 생성 메소드 ----------------------------
 	public void leaveComment(ReviewOutput ri, int count) {
-
+		ri.getReviewId();
+		ri.getBundleNum();
+		
+		
 		JPanel tempReviewPanel = new JPanel(null);
 		tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		tempReviewPanel.setBackground(Color.WHITE);
 		tempReviewPanel.setBounds(12, 12 + (97 * count), 330, 85);
 		tempReviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		commentScreen.add(tempReviewPanel);
+		
+		// 리뷰창에서 댓글 선택시 해당 리뷰의 bundleNum을 저장할  searchingBundleNum 생성
+		JLabel bundleNumLbl = new JLabel(String.valueOf(ri.getBundleNum()));
+		tempReviewPanel.add(bundleNumLbl);
+		bundleNumLbl.setVisible(false);
+		
 		tempReviewPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -289,9 +304,10 @@ public class ReviewDialog extends JDialog {
 				}
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
+				sellectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
+				System.out.println(sellectedBundleNum);
 			}
 		});
-
 		// tempReviewPanel패널에 별점 등록
 		rating = ri.getRating();
 		JLabel star_5_1 = new JLabel("★");
@@ -396,7 +412,7 @@ public class ReviewDialog extends JDialog {
 	// ratingPanel패널에 리뷰가 존재하면 평점,별 출력
 	// 존재하지 않으면 그림 표시
 	public void createRatingPanel1(double avgRating) {
-		JPanel ratingPanel = new JPanel();
+		ratingPanel = new JPanel();
 		ratingPanel.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		ratingPanel.setBackground(Color.WHITE);
 		ratingPanel.setBounds(420, 40, 130, 130);
