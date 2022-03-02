@@ -44,13 +44,10 @@ public class replyLeaveBtnAL implements ActionListener {
 
 			}
 		}
-//		List<ReviewOutput> list = new ArrayList<>();
-//		list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
-//		int count = list.size();
-//		System.out.println(count);
-//		for (int i = 1; i <= count - 1; i++) {
-//			dialog.leaveReplyComment(list.get(i), count);
-//		}
+		List<ReviewOutput> list = new ArrayList<>();
+		list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
+		int count = list.size();
+		dialog.leaveReplyComment(list.get(count - 1) , count - 1);
 
 	}
 }

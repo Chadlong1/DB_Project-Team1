@@ -57,6 +57,7 @@ public class ReviewDialog extends JDialog {
 	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
+	private JPanel tempReplyCommPanel;
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private JButton leaveBtn;
@@ -274,6 +275,9 @@ public class ReviewDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				getCard().show(commentCard, "NORMAL");
+				remove(tempReplyCommPanel);
+				commentScreen.revalidate();
+				commentScreen.repaint();
 			}
 		});
 
@@ -304,9 +308,17 @@ public class ReviewDialog extends JDialog {
 				if (o == tempReviewPanel) {
 					tempReplyCommentLayOutPointY = tempReviewPanel.getY() + tempReviewPanel.getHeight() + 5;
 				}
+			
 				CardLayout card = getCard();
 				card.show(commentCard, "ReplyComment");
 				selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
+				
+				List<ReviewOutput> list = new ArrayList<>();
+				list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
+				int count = list.size();
+				for (int i = 1; i <= count - 1; i++) {
+					leaveReplyComment(list.get(i), i);
+				}
 			}
 		});
 		// tempReviewPanel패널에 별점 등록
@@ -385,9 +397,9 @@ public class ReviewDialog extends JDialog {
 	}
 
 	public void leaveReplyComment(ReviewOutput ro, int count) {
-		JPanel tempReplyCommPanel = new JPanel(null);
+		tempReplyCommPanel = new JPanel(null);
 		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
-		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY + (count * 80), 330, 75);
+		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY + ((count - 1) * 80), 330, 75);
 		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		commentScreen.add(tempReplyCommPanel);
 
