@@ -42,6 +42,7 @@ public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
 	private int bpmIdNum;
 	private int bundleNum;
+	private int count;
 	private int depth;
 	private double rating;
 	
@@ -142,7 +143,7 @@ public class ReviewDialog extends JDialog {
 				String selectedItemStr = searchingList.getSelectedValue();
 				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-				ReviewRepository.viewReviewAtBpmId(bpmIdNum);
+				ReviewRepository.viewReviewAll(bpmIdNum);
 				resTitleReview = new JLabel(tempRest.getTitle());
 
 				createRatingPanel1(ReviewRepository.viewRating(bpmIdNum));
@@ -152,7 +153,7 @@ public class ReviewDialog extends JDialog {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
 
-					leaveComment(list.get(j), bundleNum++);
+					
 
 					double ratingArr = list.get(j).getRating();
 					if (ratingArr == 1.0) {
@@ -166,6 +167,13 @@ public class ReviewDialog extends JDialog {
 					} else if (ratingArr == 5.0) {
 						arr[4]++;
 					}
+				}
+				
+				for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
+					List<ReviewOutput> list = new ArrayList<>();
+					list = ReviewRepository.viewReviewAll(bpmIdNum);
+					System.out.println(list.size());
+					leaveComment(list.get(j), count++);
 				}
 				createRatingPanel2(arr);
 			}
@@ -284,11 +292,13 @@ public class ReviewDialog extends JDialog {
 	}
 
 	// tempReviewPanel 패널에 리뷰 생성 메소드 ----------------------------
-	public void leaveComment(ReviewOutput ri, int count) {
-		ri.getReviewId();
-		ri.getBundleNum();
+	public void leaveComment(ReviewOutput ro, int count) {
+		ro.getReviewId();
+		ro.getBundleNum();
+		int depth = ro.getDepth();
 		
-		
+		if(depth == 0) {
+		bundleNum++;
 		JPanel tempReviewPanel = new JPanel(null);
 		tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		tempReviewPanel.setBackground(Color.WHITE);
@@ -297,7 +307,7 @@ public class ReviewDialog extends JDialog {
 		commentScreen.add(tempReviewPanel);
 		
 		// 리뷰창에서 댓글 선택시 해당 리뷰의 bundleNum을 저장할  searchingBundleNum 생성
-		JLabel bundleNumLbl = new JLabel(String.valueOf(ri.getBundleNum()));
+		JLabel bundleNumLbl = new JLabel(String.valueOf(ro.getBundleNum()));
 		tempReviewPanel.add(bundleNumLbl);
 		bundleNumLbl.setVisible(false);
 		
@@ -313,16 +323,17 @@ public class ReviewDialog extends JDialog {
 				card.show(commentCard, "ReplyComment");
 				selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
 				
-				List<ReviewOutput> list = new ArrayList<>();
-				list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
-				int count = list.size();
-				for (int i = 1; i <= count - 1; i++) {
-					leaveReplyComment(list.get(i), i);
-				}
+				// 리뷰패널 클릭시 대댓글 노출
+//				List<ReviewOutput> list = new ArrayList<>();
+//				list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
+//				int count = list.size();
+//				for (int i = 1; i <= count - 1; i++) {
+//					leaveReplyComment(list.get(i), i);
+//				}
 			}
 		});
 		// tempReviewPanel패널에 별점 등록
-		rating = ri.getRating();
+		rating = ro.getRating();
 		JLabel star_5_1 = new JLabel("★");
 		JLabel star_4_1 = new JLabel("★");
 		JLabel star_3_1 = new JLabel("★");
@@ -372,14 +383,14 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.add(star_0_1);
 		}
 		// tempReviewPanel패널에 리뷰 등록
-		JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ri.getReview() + "</p></html>");
+		JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ro.getReview() + "</p></html>");
 		comment.setVerticalAlignment(SwingConstants.TOP);
 		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		comment.setBounds(12, 22, 306, 40);
 		tempReviewPanel.add(comment);
 
 		// tempReviewPanel패널에 작성날짜 등록
-		JLabel reviewDate = new JLabel(String.valueOf(ri.getTimestamp()));
+		JLabel reviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
 		reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		reviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
 		reviewDate.setBounds(160, 65, 158, 15);
@@ -394,12 +405,37 @@ public class ReviewDialog extends JDialog {
 		}
 		commentScreen.repaint();
 		commentScreen.revalidate();
+		} else {
+			tempReplyCommPanel = new JPanel(null);
+			tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
+			tempReplyCommPanel.setBounds(35, tempReplyCommentLayOutPointY + 10 + ((count) * 97), 330, 85);
+			tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+			commentScreen.add(tempReplyCommPanel);
+
+			JLabel replyComment = new JLabel(ro.getReview());
+			replyComment.setVerticalAlignment(SwingConstants.TOP);
+			replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+			replyComment.setBounds(12, 12, 306, 40);
+			tempReplyCommPanel.add(replyComment);
+
+			JLabel replyReviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
+			replyReviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
+			replyReviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+			replyReviewDate.setBounds(160, 55, 158, 15);
+			tempReplyCommPanel.add(replyReviewDate);
+
+			Dimension size = new Dimension();
+			int y = commentScreen.getHeight() + 80;
+			size.setSize(396, y);
+			commentScreen.setPreferredSize(size);
+			scrollPane.setViewportView(commentScreen);
+		}
 	}
 
 	public void leaveReplyComment(ReviewOutput ro, int count) {
 		tempReplyCommPanel = new JPanel(null);
 		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
-		tempReplyCommPanel.setBounds(30, tempReplyCommentLayOutPointY + ((count - 1) * 80), 330, 75);
+		tempReplyCommPanel.setBounds(12, tempReplyCommentLayOutPointY + ((count - 1) * 80), 450, 75);
 		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 		commentScreen.add(tempReplyCommPanel);
 

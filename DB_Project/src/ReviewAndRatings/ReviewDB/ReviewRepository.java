@@ -142,7 +142,42 @@ public class ReviewRepository {
 		}
 		return list;
 	}
-
+	// depth상관없이 전체 리뷰노출 ------------------------------------
+	private static ReviewOutput returnReviewAll(ResultSet rs) throws SQLException {
+		int reviewId = rs.getInt("reviewId");
+		String review = rs.getString("review");
+		double rating = rs.getDouble("rating");
+		int bundleNum = rs.getInt("bundleNum");
+		int depth = rs.getInt("depth");
+		int bpmId = rs.getInt("bpmId");
+		Timestamp writingTime = rs.getTimestamp("writingTime");
+		
+		return new ReviewOutput(reviewId, review, rating, bundleNum, depth, bpmId, writingTime);
+	}
+	
+	public static List<ReviewOutput> viewReviewAll(int bpmIdNum) {
+		List<ReviewOutput> list = new ArrayList<>();
+		String viewReviewAll = "SELECT * FROM BUSAN.review "
+				+ "WHERE bpmId = ? "
+				+ "ORDER BY bpmId, bundleNum;";
+		try(Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(viewReviewAll);) {
+			stmt.setInt(1, bpmIdNum);
+			
+			try(ResultSet rs = stmt.executeQuery();) {
+				while(rs.next()) {
+					list.add(returnReviewAll(rs));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	// ----------------------------------------------------------
+	
+	
+	
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
