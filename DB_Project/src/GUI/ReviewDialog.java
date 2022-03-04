@@ -35,13 +35,12 @@ import busan.Restaurant;
 import listeners.ReviewDialog.CommentFieldML;
 import listeners.ReviewDialog.ReplyCommentFieldKL;
 import listeners.ReviewDialog.ReplyCommentFieldML;
-import listeners.ReviewDialog.commentFieldKL;
+import listeners.ReviewDialog.CommentFieldKL;
 import listeners.ReviewDialog.leaveCommentAL;
 
 public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
 	private int bpmIdNum;
-	private int bundleNum;
 	private int count;
 	private int depth;
 	private double rating;
@@ -77,10 +76,6 @@ public class ReviewDialog extends JDialog {
 
 	public int getSelectedBundleNum() {
 		return selectedBundleNum;
-	}
-
-	public int getBundleNum() {
-		return bundleNum;
 	}
 
 	public void leaveBtnEnable() {
@@ -182,9 +177,6 @@ public class ReviewDialog extends JDialog {
 					
 					System.out.println("해당 bpmIdNum의 총 댓글 수 : " + list.size());
 					leaveComment(list.get(j), count++);
-					if (list.get(j).getDepth() == 0) {
-						bundleNum++;
-					}
 				}
 				createRatingPanel2(arr);
 			}
@@ -215,7 +207,7 @@ public class ReviewDialog extends JDialog {
 		normalComment.add(commentField);
 		commentField.setColumns(10);
 		commentField.addMouseListener(new CommentFieldML(commentField));
-		commentField.addKeyListener(new commentFieldKL(ReviewDialog.this, commentField));
+		commentField.addKeyListener(new CommentFieldKL(ReviewDialog.this, commentField));
 		// 마우스리스너, 키리스너 코드 다른 클래스파일로 이전
 
 		leaveBtn = new JButton("등록");
@@ -306,12 +298,11 @@ public class ReviewDialog extends JDialog {
 	public void leaveComment(ReviewOutput ro, int count) {
 		ro.getReviewId();
 		ro.getBundleNum();
+		System.out.println(ro.getBundleNum());
 		int depth = ro.getDepth();
 
+		// 그냥 리뷰 입력
 		if (depth == 0) {
-			System.out.println("총 댓글 수 index : " + count);
-			bundleNum++;
-			System.out.println("bundleNum : " + bundleNum);
 			JPanel tempReviewPanel = new JPanel(null);
 			tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 			tempReviewPanel.setBackground(Color.WHITE);
@@ -410,6 +401,8 @@ public class ReviewDialog extends JDialog {
 			}
 			commentScreen.repaint();
 			commentScreen.revalidate();
+			
+			//대댓글 입력
 		} else if (depth == 1) {
 			System.out.println("총 댓글 수 index : " + count);
 			tempReplyCommPanel = new JPanel(null);
@@ -438,31 +431,31 @@ public class ReviewDialog extends JDialog {
 		}
 	}
 
-	public void leaveReplyComment(ReviewOutput ro, int count) {
-		tempReplyCommPanel = new JPanel(null);
-		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
-		tempReplyCommPanel.setBounds(12, tempReplyCommentLayOutPointY + ((count - 1) * 80), 450, 75);
-		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
-		commentScreen.add(tempReplyCommPanel);
-
-		JLabel replyComment = new JLabel(ro.getReview());
-		replyComment.setVerticalAlignment(SwingConstants.TOP);
-		replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-		replyComment.setBounds(12, 12, 306, 40);
-		tempReplyCommPanel.add(replyComment);
-
-		JLabel replyReviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
-		replyReviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		replyReviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		replyReviewDate.setBounds(160, 55, 158, 15);
-		tempReplyCommPanel.add(replyReviewDate);
-
-		Dimension size = new Dimension();
-		int y = commentScreen.getHeight() + 80;
-		size.setSize(396, y);
-		commentScreen.setPreferredSize(size);
-		scrollPane.setViewportView(commentScreen);
-	}
+//	public void leaveReplyComment(ReviewOutput ro, int count) {
+//		tempReplyCommPanel = new JPanel(null);
+//		tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
+//		tempReplyCommPanel.setBounds(12, tempReplyCommentLayOutPointY + ((count - 1) * 80), 450, 75);
+//		tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+//		commentScreen.add(tempReplyCommPanel);
+//
+//		JLabel replyComment = new JLabel(ro.getReview());
+//		replyComment.setVerticalAlignment(SwingConstants.TOP);
+//		replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+//		replyComment.setBounds(12, 12, 306, 40);
+//		tempReplyCommPanel.add(replyComment);
+//
+//		JLabel replyReviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
+//		replyReviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
+//		replyReviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+//		replyReviewDate.setBounds(160, 55, 158, 15);
+//		tempReplyCommPanel.add(replyReviewDate);
+//
+//		Dimension size = new Dimension();
+//		int y = commentScreen.getHeight() + 80;
+//		size.setSize(396, y);
+//		commentScreen.setPreferredSize(size);
+//		scrollPane.setViewportView(commentScreen);
+//	}
 
 	// ratingPanel패널에 리뷰가 존재하면 평점,별 출력
 	// 존재하지 않으면 그림 표시

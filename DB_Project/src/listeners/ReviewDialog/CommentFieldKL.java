@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import GUI.ReviewDialog;
 
-public class commentFieldKL extends KeyAdapter {
+public class CommentFieldKL extends KeyAdapter {
 	private ReviewDialog dialog;
 	private JTextField commentField;
 	private byte[] strTemps;
@@ -17,7 +17,7 @@ public class commentFieldKL extends KeyAdapter {
 	private static String basicComment = "후기를 입력해주세요";
 	private static String charset = "euc-kr";
 
-	public commentFieldKL(ReviewDialog dialog, JTextField commentField) {
+	public CommentFieldKL(ReviewDialog dialog, JTextField commentField) {
 		super();
 		this.dialog = dialog;
 		this.stars = dialog.getStars();

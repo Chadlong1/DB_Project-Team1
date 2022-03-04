@@ -14,12 +14,12 @@ import ReviewAndRatings.ReviewDB.ReviewOutput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
+import listeners.ReviewDialog.ReplyCommentFieldKL;
 
 public class replyLeaveBtnAL implements ActionListener {
 	private ReviewDialog dialog;
 	private JList<String> searchingList;
 	private JPanel commentScreen;
-	private int bundleNum;
 	private int bpmIdNum;
 	private int count;
 	private JTextField replyCommentField;
@@ -29,9 +29,7 @@ public class replyLeaveBtnAL implements ActionListener {
 		super();
 		this.dialog = dialog;
 		this.searchingList = searchingList;
-		this.bundleNum = dialog.getBundleNum();
 		this.replyCommentField = dialog.getReplyCommentField();
-//		this.count = dialog.getCount();
 		this.commentScreen = dialog.getCommentScreen();
 	}
 
@@ -60,10 +58,9 @@ public class replyLeaveBtnAL implements ActionListener {
 		for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
 			List<ReviewOutput> list = new ArrayList<>();
 			list = ReviewRepository.viewReviewAll(bpmIdNum);
-			System.out.println(list.toString());
 			dialog.leaveComment(list.get(j), j);
 			System.out.println("댓글 등록 후 해당 bpmId의 총 댓글 수 : " + list.size());
 		}
-
+		replyCommentField.setText("");
 	}
 }

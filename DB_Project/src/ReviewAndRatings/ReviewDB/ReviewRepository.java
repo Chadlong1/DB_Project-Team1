@@ -85,7 +85,7 @@ public class ReviewRepository {
 		}
 	}
 
-	// 음식점의 id를 입력받으면 해당 id에 해당하는 ReviewOutput 객체(후기, 평점)를 반환
+	// 음식점의 id를 입력받으면 해당 id의 depth = 0인 ReviewOutput 객체(후기, 평점)를 반환
 	public static List<ReviewOutput> viewReviewAtBpmId(int bpmIdNum) {
 		List<ReviewOutput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.review" + " WHERE bpmId = ?;";
@@ -122,7 +122,7 @@ public class ReviewRepository {
 		}
 	}
 
-	// 음식점의 id를 입력받으면 해당 id에 해당하는 depth = 1인(대댓글) ReviewInput 객체(후기, 평점)를 반환
+	// 음식점의 id를 입력받으면 해당 id의 depth = 1인(대댓글) ReviewInput 객체(후기, 평점)를 반환
 	public static List<ReviewOutput> viewReReviewAtBpmId(int bpmIdNum) {
 		List<ReviewOutput> list = new ArrayList<>();
 		String view = "SELECT * FROM busan.review" + " WHERE bpmId = ?;";
@@ -142,6 +142,7 @@ public class ReviewRepository {
 		}
 		return list;
 	}
+	
 	// depth상관없이 전체 리뷰노출 ------------------------------------
 	private static ReviewOutput returnReviewAll(ResultSet rs) throws SQLException {
 		int reviewId = rs.getInt("reviewId");
