@@ -154,7 +154,7 @@ public class ReviewRepository {
 		
 		return new ReviewOutput(reviewId, review, rating, bundleNum, depth, bpmId, writingTime);
 	}
-	
+	// bpmIdNum를 입력받으면 bpmId, bundleNum순으로 정렬
 	public static List<ReviewOutput> viewReviewAll(int bpmIdNum) {
 		List<ReviewOutput> list = new ArrayList<>();
 		String viewReviewAll = "SELECT * FROM BUSAN.review "

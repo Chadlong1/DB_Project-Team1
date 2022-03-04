@@ -45,7 +45,7 @@ public class ReviewDialog extends JDialog {
 	private int count;
 	private int depth;
 	private double rating;
-	
+
 	private int selectedBundleNum;
 
 	private final JPanel contentPanel = new JPanel();
@@ -67,9 +67,18 @@ public class ReviewDialog extends JDialog {
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
 
+	public JPanel getCommentScreen() {
+		return commentScreen;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
 	public int getSelectedBundleNum() {
 		return selectedBundleNum;
 	}
+
 	public int getBundleNum() {
 		return bundleNum;
 	}
@@ -93,6 +102,7 @@ public class ReviewDialog extends JDialog {
 	public JTextField getCommentField() {
 		return commentField;
 	}
+
 	public JTextField getReplyCommentField() {
 		return replyCommentField;
 	}
@@ -147,13 +157,10 @@ public class ReviewDialog extends JDialog {
 				resTitleReview = new JLabel(tempRest.getTitle());
 
 				createRatingPanel1(ReviewRepository.viewRating(bpmIdNum));
-
 				int[] arr = { 0, 0, 0, 0, 0 };
 				for (int j = 0; j < ReviewRepository.viewReviewAtBpmId(bpmIdNum).size(); j++) {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAtBpmId(bpmIdNum);
-
-					
 
 					double ratingArr = list.get(j).getRating();
 					if (ratingArr == 1.0) {
@@ -168,12 +175,16 @@ public class ReviewDialog extends JDialog {
 						arr[4]++;
 					}
 				}
-				
+
 				for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAll(bpmIdNum);
-					System.out.println(list.size());
+					
+					System.out.println("해당 bpmIdNum의 총 댓글 수 : " + list.size());
 					leaveComment(list.get(j), count++);
+					if (list.get(j).getDepth() == 0) {
+						bundleNum++;
+					}
 				}
 				createRatingPanel2(arr);
 			}
@@ -296,119 +307,114 @@ public class ReviewDialog extends JDialog {
 		ro.getReviewId();
 		ro.getBundleNum();
 		int depth = ro.getDepth();
-		
-		if(depth == 0) {
-		bundleNum++;
-		JPanel tempReviewPanel = new JPanel(null);
-		tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
-		tempReviewPanel.setBackground(Color.WHITE);
-		tempReviewPanel.setBounds(12, 12 + (97 * count), 330, 85);
-		tempReviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		commentScreen.add(tempReviewPanel);
-		
-		// 리뷰창에서 댓글 선택시 해당 리뷰의 bundleNum을 저장할  searchingBundleNum 생성
-		JLabel bundleNumLbl = new JLabel(String.valueOf(ro.getBundleNum()));
-		tempReviewPanel.add(bundleNumLbl);
-		bundleNumLbl.setVisible(false);
-		
-		tempReviewPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Object o = e.getSource();
-				if (o == tempReviewPanel) {
-					tempReplyCommentLayOutPointY = tempReviewPanel.getY() + tempReviewPanel.getHeight() + 5;
+
+		if (depth == 0) {
+			System.out.println("총 댓글 수 index : " + count);
+			bundleNum++;
+			System.out.println("bundleNum : " + bundleNum);
+			JPanel tempReviewPanel = new JPanel(null);
+			tempReviewPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+			tempReviewPanel.setBackground(Color.WHITE);
+			tempReviewPanel.setBounds(12, 12 + (97 * count), 330, 85);
+			tempReviewPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			commentScreen.add(tempReviewPanel);
+
+			// 리뷰창에서 댓글 선택시 해당 리뷰의 bundleNum을 저장할 searchingBundleNum 생성
+			JLabel bundleNumLbl = new JLabel(String.valueOf(ro.getBundleNum()));
+			tempReviewPanel.add(bundleNumLbl);
+			bundleNumLbl.setVisible(false);
+
+			tempReviewPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					Object o = e.getSource();
+					if (o == tempReviewPanel) {
+						tempReplyCommentLayOutPointY = tempReviewPanel.getY() + tempReviewPanel.getHeight() + 5;
+					}
+
+					CardLayout card = getCard();
+					card.show(commentCard, "ReplyComment");
+					selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
 				}
-			
-				CardLayout card = getCard();
-				card.show(commentCard, "ReplyComment");
-				selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
-				
-				// 리뷰패널 클릭시 대댓글 노출
-//				List<ReviewOutput> list = new ArrayList<>();
-//				list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
-//				int count = list.size();
-//				for (int i = 1; i <= count - 1; i++) {
-//					leaveReplyComment(list.get(i), i);
-//				}
+			});
+			// tempReviewPanel패널에 별점 등록
+			rating = ro.getRating();
+			JLabel star_5_1 = new JLabel("★");
+			JLabel star_4_1 = new JLabel("★");
+			JLabel star_3_1 = new JLabel("★");
+			JLabel star_2_1 = new JLabel("★");
+			JLabel star_1_1 = new JLabel("★");
+
+			if (rating == 5) {
+				star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_5_1.setForeground(Color.ORANGE);
+				star_5_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_5_1.setBounds(56, 7, 12, 15);
+				tempReviewPanel.add(star_5_1);
 			}
-		});
-		// tempReviewPanel패널에 별점 등록
-		rating = ro.getRating();
-		JLabel star_5_1 = new JLabel("★");
-		JLabel star_4_1 = new JLabel("★");
-		JLabel star_3_1 = new JLabel("★");
-		JLabel star_2_1 = new JLabel("★");
-		JLabel star_1_1 = new JLabel("★");
+			if (rating >= 4) {
+				star_4_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_4_1.setForeground(Color.ORANGE);
+				star_4_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_4_1.setBounds(45, 7, 12, 15);
+				tempReviewPanel.add(star_4_1);
+			}
+			if (rating >= 3) {
+				star_3_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_3_1.setForeground(Color.ORANGE);
+				star_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_3_1.setBounds(34, 7, 12, 15);
+				tempReviewPanel.add(star_3_1);
+			}
+			if (rating >= 2) {
+				star_2_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_2_1.setForeground(Color.ORANGE);
+				star_2_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_2_1.setBounds(23, 7, 12, 15);
+				tempReviewPanel.add(star_2_1);
+			}
+			if (rating >= 1) {
+				star_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_1_1.setForeground(Color.ORANGE);
+				star_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_1_1.setBounds(12, 7, 12, 15);
+				tempReviewPanel.add(star_1_1);
+			} else {
+				JLabel star_0_1 = new JLabel("★");
+				star_0_1.setHorizontalAlignment(SwingConstants.LEFT);
+				star_0_1.setForeground(Color.DARK_GRAY);
+				star_0_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				star_0_1.setBounds(12, 7, 12, 15);
+				tempReviewPanel.add(star_0_1);
+			}
+			// tempReviewPanel패널에 리뷰 등록
+			JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ro.getReview() + "</p></html>");
+			comment.setVerticalAlignment(SwingConstants.TOP);
+			comment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+			comment.setBounds(12, 22, 306, 40);
+			tempReviewPanel.add(comment);
 
-		if (rating == 5) {
-			star_5_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_5_1.setForeground(Color.ORANGE);
-			star_5_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_5_1.setBounds(56, 7, 12, 15);
-			tempReviewPanel.add(star_5_1);
-		}
-		if (rating >= 4) {
-			star_4_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_4_1.setForeground(Color.ORANGE);
-			star_4_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_4_1.setBounds(45, 7, 12, 15);
-			tempReviewPanel.add(star_4_1);
-		}
-		if (rating >= 3) {
-			star_3_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_3_1.setForeground(Color.ORANGE);
-			star_3_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_3_1.setBounds(34, 7, 12, 15);
-			tempReviewPanel.add(star_3_1);
-		}
-		if (rating >= 2) {
-			star_2_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_2_1.setForeground(Color.ORANGE);
-			star_2_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_2_1.setBounds(23, 7, 12, 15);
-			tempReviewPanel.add(star_2_1);
-		}
-		if (rating >= 1) {
-			star_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_1_1.setForeground(Color.ORANGE);
-			star_1_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_1_1.setBounds(12, 7, 12, 15);
-			tempReviewPanel.add(star_1_1);
-		} else {
-			JLabel star_0_1 = new JLabel("★");
-			star_0_1.setHorizontalAlignment(SwingConstants.LEFT);
-			star_0_1.setForeground(Color.DARK_GRAY);
-			star_0_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-			star_0_1.setBounds(12, 7, 12, 15);
-			tempReviewPanel.add(star_0_1);
-		}
-		// tempReviewPanel패널에 리뷰 등록
-		JLabel comment = new JLabel("<html><p style=\"width:230px;\">" + ro.getReview() + "</p></html>");
-		comment.setVerticalAlignment(SwingConstants.TOP);
-		comment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-		comment.setBounds(12, 22, 306, 40);
-		tempReviewPanel.add(comment);
+			// tempReviewPanel패널에 작성날짜 등록
+			JLabel reviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
+			reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+			reviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
+			reviewDate.setBounds(160, 65, 158, 15);
+			tempReviewPanel.add(reviewDate);
 
-		// tempReviewPanel패널에 작성날짜 등록
-		JLabel reviewDate = new JLabel(String.valueOf(ro.getTimestamp()));
-		reviewDate.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		reviewDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		reviewDate.setBounds(160, 65, 158, 15);
-		tempReviewPanel.add(reviewDate);
-
-		if (count >= 2) {
-			Dimension size = new Dimension();
-			int y = commentScreen.getHeight() + (97 * (count - 1));
-			size.setSize(396, y);
-			commentScreen.setPreferredSize(size);
-			scrollPane.setViewportView(commentScreen);
-		}
-		commentScreen.repaint();
-		commentScreen.revalidate();
-		} else {
+			if (count >= 2) {
+				Dimension size = new Dimension();
+				int y = commentScreen.getHeight() + (97 * (count - 1));
+				size.setSize(396, y);
+				commentScreen.setPreferredSize(size);
+				scrollPane.setViewportView(commentScreen);
+			}
+			commentScreen.repaint();
+			commentScreen.revalidate();
+		} else if (depth == 1) {
+			System.out.println("총 댓글 수 index : " + count);
 			tempReplyCommPanel = new JPanel(null);
 			tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
-			tempReplyCommPanel.setBounds(35, tempReplyCommentLayOutPointY + 10 + ((count) * 97), 330, 85);
+			tempReplyCommPanel.setBounds(35, 12 + ((count) * 97), 330, 85);
 			tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 			commentScreen.add(tempReplyCommPanel);
 
