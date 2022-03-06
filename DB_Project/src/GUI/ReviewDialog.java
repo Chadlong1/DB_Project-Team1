@@ -52,6 +52,7 @@ public class ReviewDialog extends JDialog {
 	private JTextField replyCommentField;
 	private JPanel commentCard;
 	private JPanel ratingPanel;
+	private JPanel ratingPanel_2; 
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
 	private JScrollPane scrollPane;
@@ -65,7 +66,19 @@ public class ReviewDialog extends JDialog {
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-
+	
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+	public JPanel getCommentLayout() {
+		return commentLayout;
+	}
+	public JPanel getRatingPanel2() {
+		return ratingPanel_2;
+	}
+	public JPanel getRatingPanel() {
+		return ratingPanel;
+	}
 	public JPanel getCommentScreen() {
 		return commentScreen;
 	}
@@ -110,7 +123,7 @@ public class ReviewDialog extends JDialog {
 		return stars;
 	}
 
-	public ReviewDialog(MainGUI parent) {
+	 public ReviewDialog(MainGUI parent) {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
 		setResizable(false);
@@ -175,7 +188,6 @@ public class ReviewDialog extends JDialog {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAll(bpmIdNum);
 					
-					System.out.println("해당 bpmIdNum의 총 댓글 수 : " + list.size());
 					leaveComment(list.get(j), count++);
 				}
 				createRatingPanel2(arr);
@@ -217,7 +229,7 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		leaveBtn.addActionListener(new leaveCommentAL(ReviewDialog.this, searchingList));
+		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList));
 		// 액션리스너 코드 leaveCommentAL 클래스 파일로 이전
 
 		scoreComboBox = new JComboBox(stars);
@@ -298,7 +310,6 @@ public class ReviewDialog extends JDialog {
 	public void leaveComment(ReviewOutput ro, int count) {
 		ro.getReviewId();
 		ro.getBundleNum();
-		System.out.println(ro.getBundleNum());
 		int depth = ro.getDepth();
 
 		// 그냥 리뷰 입력
@@ -404,7 +415,6 @@ public class ReviewDialog extends JDialog {
 			
 			//대댓글 입력
 		} else if (depth == 1) {
-			System.out.println("총 댓글 수 index : " + count);
 			tempReplyCommPanel = new JPanel(null);
 			tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);
 			tempReplyCommPanel.setBounds(35, 12 + ((count) * 97), 330, 85);
@@ -570,7 +580,7 @@ public class ReviewDialog extends JDialog {
 
 	// ratingPanel패널에 평점별 선택된 개수 출력
 	public void createRatingPanel2(int[] arr) {
-		JPanel ratingPanel_2 = new JPanel();
+		ratingPanel_2 = new JPanel();
 		ratingPanel_2.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		ratingPanel_2.setBackground(Color.WHITE);
 		ratingPanel_2.setBounds(420, 185, 130, 125);

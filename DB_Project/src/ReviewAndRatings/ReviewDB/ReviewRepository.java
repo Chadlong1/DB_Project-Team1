@@ -182,8 +182,10 @@ public class ReviewRepository {
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
-		String viewR = "select round(avg(rating),2)" 
-				+ "from busan.review group by bpmId having bpmId =?";
+		String viewR = "SELECT round(avg(rating),2)" 
+				+ "FROM busan.review "
+				+ "WHERE depth = 0 "
+				+ "GROUP BY bpmId HAVING bpmId =?";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewR);) {
 			stmt.setInt(1, id);

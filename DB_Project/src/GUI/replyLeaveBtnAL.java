@@ -15,6 +15,7 @@ import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
 import listeners.ReviewDialog.ReplyCommentFieldKL;
+import listeners.ReviewDialog.ReplyCommentFieldML;
 
 public class replyLeaveBtnAL implements ActionListener {
 	private ReviewDialog dialog;
@@ -23,7 +24,6 @@ public class replyLeaveBtnAL implements ActionListener {
 	private int bpmIdNum;
 	private int count;
 	private JTextField replyCommentField;
-	
 
 	public replyLeaveBtnAL(ReviewDialog dialog, JList<String> searchingList) {
 		super();
@@ -35,32 +35,37 @@ public class replyLeaveBtnAL implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (replyCommentField.getText().length() != 0) {
 		commentScreen.removeAll();
 		commentScreen.revalidate();
 		commentScreen.repaint();
 		int depth = 1;
 		int selectedBundleNum = dialog.getSelectedBundleNum();
-		for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-			if (searchingList.getSelectedIndex() == i) {
-				String selectedItemStr = searchingList.getSelectedValue();
-				Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-				bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-				ReviewRepository.insert(new ReviewInput(replyCommentField.getText(), dialog.getRating(),
-						selectedBundleNum, depth, bpmIdNum));
+			for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
+				if (searchingList.getSelectedIndex() == i) {
+					String selectedItemStr = searchingList.getSelectedValue();
+					Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+					bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+					ReviewRepository.insert(new ReviewInput(replyCommentField.getText(), dialog.getRating(),
+							selectedBundleNum, depth, bpmIdNum));
+				}
 			}
-		}
 //		List<ReviewOutput> list = new ArrayList<>();
 //		list = ReviewRepository.getReplyWithSelectedBundleNum(bpmIdNum, selectedBundleNum);
 //		int index = list.size();
 //		dialog.leaveReplyComment(list.get(index - 1) , index - 1);
-		
 
-		for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
-			List<ReviewOutput> list = new ArrayList<>();
-			list = ReviewRepository.viewReviewAll(bpmIdNum);
-			dialog.leaveComment(list.get(j), j);
-			System.out.println("댓글 등록 후 해당 bpmId의 총 댓글 수 : " + list.size());
+			for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
+				List<ReviewOutput> list = new ArrayList<>();
+				list = ReviewRepository.viewReviewAll(bpmIdNum);
+				dialog.leaveComment(list.get(j), j);
+				System.out.println("댓글 등록 후 해당 bpmId의 총 댓글 수 : " + list.size());
+			}
 		}
+		
+	
 		replyCommentField.setText("");
+		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
+		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
 	}
 }
