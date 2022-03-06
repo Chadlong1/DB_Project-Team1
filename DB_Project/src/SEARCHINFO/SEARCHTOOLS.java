@@ -15,27 +15,61 @@ public class SEARCHTOOLS {
 	// 임시 파라미터 (추가 예정)
 
 	// 검색버튼 액션리스너에서 사용됨
-	public static List<String> searchDB(String loca, String food) {
+	public static List<String> searchDB(String loca, String food, String rating) {
 		List<String> list = new ArrayList<>();
 
 		String searchDB = "";
+		int numOfStar = countChar(rating, "★");
 		int caseKey = 0;
 
-		if (loca.equals("부산 전체")) {
-			if (food.equals("분류 없음")) {
-				searchDB = "SELECT Title FROM BUSAN.BPM;";
-				caseKey = 1;
+		if (numOfStar == 0) {
+			if (loca.equals("부산 전체")) {
+				if (food.equals("분류 없음")) {
+					searchDB = "SELECT Title FROM BUSAN.BPM;";
+					caseKey = 1;
+				} else {
+					searchDB = "SELECT Title FROM BUSAN.BPM WHERE type = ?;";
+					caseKey = 2;
+				}
 			} else {
-				searchDB = "SELECT Title FROM BUSAN.BPM WHERE type = ?;";
-				caseKey = 2;
+				if (food.equals("분류 없음")) {
+					searchDB = "SELECT Title FROM BUSAN.BPM WHERE loca = ?;";
+					caseKey = 3;
+				} else {
+					searchDB = "SELECT Title FROM BUSAN.BPM WHERE loca = ? and type = ?;";
+					caseKey = 4;
+				}
 			}
+
 		} else {
-			if (food.equals("분류 없음")) {
-				searchDB = "SELECT Title FROM BUSAN.BPM WHERE loca = ?;";
-				caseKey = 3;
+			if (loca.equals("부산 전체")) {
+				if (food.equals("분류 없음")) {
+					searchDB = "SELECT Title FROM busan.bpm AS A "
+							+ "LEFT JOIN (SELECT round(avg(rating),2) AS averageRating, bpmId "
+							+ "FROM busan.review WHERE depth = 0 GROUP BY bpmId) AS B " + "ON A.id = bpmId "
+							+ "WHERE averageRating >= ?;";
+					caseKey = 5;
+				} else {
+					searchDB = "SELECT Title FROM busan.bpm AS A "
+							+ "LEFT JOIN (SELECT round(avg(rating),2) AS averageRating, bpmId "
+							+ "FROM busan.review WHERE depth = 0 GROUP BY bpmId) AS B " + "ON A.id = bpmId"
+							+ " WHERE type = ? AND averageRating >= ?;";
+					caseKey = 6;
+				}
 			} else {
-				searchDB = "SELECT Title FROM BUSAN.BPM WHERE loca = ? and type = ?;";
-				caseKey = 4;
+				if (food.equals("분류 없음")) {
+					searchDB = "SELECT Title FROM busan.bpm AS A "
+							+ "LEFT JOIN (SELECT round(avg(rating),2) AS averageRating, bpmId "
+							+ "FROM busan.review WHERE depth = 0 GROUP BY bpmId) AS B " + "ON A.id = bpmId "
+							+ "WHERE loca = ? AND averageRating >= ?;";
+					caseKey = 7;
+				} else {
+					searchDB = "SELECT Title FROM busan.bpm AS A "
+							+ "LEFT JOIN (SELECT round(avg(rating),2) AS averageRating, bpmId "
+							+ "FROM busan.review WHERE depth = 0 GROUP BY bpmId) AS B " + "ON A.id = bpmId "
+							+ "WHERE loca = ? AND type = ? AND averageRating >= ?;";
+					caseKey = 8;
+				}
 			}
 		}
 
@@ -100,6 +134,71 @@ public class SEARCHTOOLS {
 			}
 			break;
 
+		case 5:
+			try (Connection conn = ConnectionProvider.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
+				stmt.setInt(1, numOfStar);
+
+				try (ResultSet rs = stmt.executeQuery();) {
+					while (rs.next()) {
+						list.add(rs.getString("title"));
+					}
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case 6:
+			try (Connection conn = ConnectionProvider.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
+				stmt.setString(1, food);
+				stmt.setInt(2, numOfStar);
+
+				try (ResultSet rs = stmt.executeQuery();) {
+					while (rs.next()) {
+						list.add(rs.getString("title"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case 7:
+			try (Connection conn = ConnectionProvider.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
+				stmt.setString(1, loca);
+				stmt.setInt(2, numOfStar);
+
+				try (ResultSet rs = stmt.executeQuery();) {
+					while (rs.next()) {
+						list.add(rs.getString("title"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case 8:
+			try (Connection conn = ConnectionProvider.getConnection();
+					PreparedStatement stmt = conn.prepareStatement(searchDB);) {
+				stmt.setString(1, loca);
+				stmt.setString(2, food);
+				stmt.setInt(3, numOfStar);
+
+				try (ResultSet rs = stmt.executeQuery();) {
+					while (rs.next()) {
+						list.add(rs.getString("title"));
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -126,6 +225,10 @@ public class SEARCHTOOLS {
 		}
 
 		return tempRest;
+	}
+
+	public static int countChar(String str, String ch) {
+		return str.length() - str.replace(String.valueOf(ch), "").length();
 	}
 
 	private static Restaurant RestaurantList(ResultSet rs) throws SQLException {

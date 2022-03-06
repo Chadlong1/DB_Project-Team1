@@ -59,7 +59,6 @@ public class replyLeaveBtnAL implements ActionListener {
 				List<ReviewOutput> list = new ArrayList<>();
 				list = ReviewRepository.viewReviewAll(bpmIdNum);
 				dialog.leaveComment(list.get(j), j);
-				System.out.println("댓글 등록 후 해당 bpmId의 총 댓글 수 : " + list.size());
 			}
 		}
 		

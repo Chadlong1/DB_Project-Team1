@@ -25,7 +25,8 @@ public class SearchActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String loca = frame.selectedItemFromZone();
 		String type = frame.selectedItemFromFood();
-		List<String> list = SEARCHTOOLS.searchDB(loca, type);
+		String rating = frame.selectedItemFromRating();
+		List<String> list = SEARCHTOOLS.searchDB(loca, type, rating);
 		String[] arr = list.toArray(new String[list.size()]);
 		searchingList = frame.getSearchingList();
 
