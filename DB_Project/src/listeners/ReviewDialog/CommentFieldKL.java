@@ -29,7 +29,7 @@ public class CommentFieldKL extends KeyAdapter {
 	public void keyTyped(KeyEvent e) {
 		String countStar = dialog.selectedRating();
 		System.out.println(countStar);
-		if (commentField.getText().equals("") || countStar.equals(stars[0])) {
+		if (commentField.getText().isEmpty() || countStar.equals(stars[0])) {
 			dialog.leaveBtnDisable();
 		} else {
 			dialog.leaveBtnEnable();
@@ -48,7 +48,7 @@ public class CommentFieldKL extends KeyAdapter {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		String countStar = dialog.selectedRating();
-		if (commentField.getText().equals("") || countStar.equals(stars[0])) {
+		if (commentField.getText().isEmpty() || countStar.equals(stars[0])) {
 			dialog.leaveBtnDisable();
 		} else {
 			dialog.leaveBtnEnable();

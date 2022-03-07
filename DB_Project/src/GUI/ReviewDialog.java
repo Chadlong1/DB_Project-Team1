@@ -102,6 +102,14 @@ public class ReviewDialog extends JDialog {
 		return selectedBundleNum;
 	}
 
+	public void replyLeaveBtnEnable() {
+		replyLeaveBtn.setEnabled(true);
+	}
+
+	public void replyLeaveBtnDisable() {
+		replyLeaveBtn.setEnabled(false);
+	}
+	
 	public void leaveBtnEnable() {
 		leaveBtn.setEnabled(true);
 	}
@@ -287,10 +295,11 @@ public class ReviewDialog extends JDialog {
 		replyCommentField.setBounds(12, 12, 430, 70);
 		replyComment.add(replyCommentField);
 		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
-		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
+		replyCommentField.addKeyListener(new ReplyCommentFieldKL(ReviewDialog.this, replyCommentField));
 
 		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에 생성, depth가 1인 리뷰만 노출되게 설정해야함
 		replyLeaveBtn = new JButton("등록");
+		replyLeaveBtn.setEnabled(false);
 		replyLeaveBtn.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		replyLeaveBtn.setBackground(new Color(135, 206, 235));
 		replyLeaveBtn.setBounds(455, 12, 97, 29);

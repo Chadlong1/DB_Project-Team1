@@ -6,12 +6,16 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-public class ReplyCommentFieldKL extends KeyAdapter {
-	private static String basicReplyComment = "대댓글을 작성해주세요";
-	private JTextField replyCommentField;
+import GUI.ReviewDialog;
 
-	public ReplyCommentFieldKL(JTextField replyCommentField) {
+public class ReplyCommentFieldKL extends KeyAdapter {
+	private ReviewDialog dialog;
+	private JTextField replyCommentField;
+	private static String basicReplyComment = "대댓글을 작성해주세요";
+
+	public ReplyCommentFieldKL(ReviewDialog dialog, JTextField replyCommentField) {
 		super();
+		this.dialog = dialog;
 		this.replyCommentField = replyCommentField;
 	}
 
@@ -22,5 +26,12 @@ public class ReplyCommentFieldKL extends KeyAdapter {
 			replyCommentField.setText("");
 			replyCommentField.setForeground(Color.BLACK);
 		}
+
+		if (replyCommentField.getText().isEmpty()) {
+			dialog.replyLeaveBtnDisable();
+		} else {
+			dialog.replyLeaveBtnEnable();
+		}
+
 	}
 }

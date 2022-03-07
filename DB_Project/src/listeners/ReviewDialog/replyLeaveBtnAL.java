@@ -62,8 +62,8 @@ public class replyLeaveBtnAL implements ActionListener {
 		}
 
 		replyCommentField.setText("");
-		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
-		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
+//		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
+//		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
 		dialog.getCard().show(dialog.getCommentCard(), "NORMAL");
 	}
 }
