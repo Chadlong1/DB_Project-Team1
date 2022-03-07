@@ -342,6 +342,11 @@ public class ReviewDialog extends JDialog {
 					CardLayout card = getCard();
 					card.show(commentCard, "ReplyComment");
 					selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
+					if(tempReviewPanel.getBackground() == Color.white) {
+						tempReviewPanel.setBackground(Color.PINK);
+					} else {
+						tempReviewPanel.setBackground(Color.WHITE);
+					}
 				}
 			});
 			System.out.println(commentScreen.getHeight());
