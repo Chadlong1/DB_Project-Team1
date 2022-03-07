@@ -590,7 +590,6 @@ public class ReviewDialog extends JDialog {
 		ratingPanel.repaint();
 		
 	}
-
 	// ratingPanel패널에 평점별 선택된 개수 출력
 	public void createRatingPanel2(int[] arr) {
 		ratingPanel_2 = new JPanel();
