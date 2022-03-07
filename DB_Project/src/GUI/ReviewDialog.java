@@ -451,7 +451,7 @@ public class ReviewDialog extends JDialog {
 			tempReplyCommPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 			commentScreen.add(tempReplyCommPanel);
 
-			JLabel replyComment = new JLabel(ro.getReview());
+			JLabel replyComment = new JLabel("<html><p style=\"width:230px;\">" + ro.getReview() + "</p></html>");
 			replyComment.setVerticalAlignment(SwingConstants.TOP);
 			replyComment.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 			replyComment.setBounds(12, 12, 306, 40);
