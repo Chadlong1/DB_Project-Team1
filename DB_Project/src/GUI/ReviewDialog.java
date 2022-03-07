@@ -52,7 +52,7 @@ public class ReviewDialog extends JDialog {
 	private JTextField replyCommentField;
 	private JPanel commentCard;
 	private JPanel ratingPanel;
-	private JPanel ratingPanel_2; 
+	private JPanel ratingPanel_2;
 	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
 	private JScrollPane scrollPane;
@@ -66,19 +66,23 @@ public class ReviewDialog extends JDialog {
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
-	
+
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
+
 	public JPanel getCommentLayout() {
 		return commentLayout;
 	}
+
 	public JPanel getRatingPanel2() {
 		return ratingPanel_2;
 	}
+
 	public JPanel getRatingPanel() {
 		return ratingPanel;
 	}
+
 	public JPanel getCommentScreen() {
 		return commentScreen;
 	}
@@ -123,7 +127,7 @@ public class ReviewDialog extends JDialog {
 		return stars;
 	}
 
-	 public ReviewDialog(MainGUI parent) {
+	public ReviewDialog(MainGUI parent, int commentCount) {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
 		setResizable(false);
@@ -153,6 +157,7 @@ public class ReviewDialog extends JDialog {
 		commentScreen = new JPanel(null);
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
+		commentScreen.setSize(396, commentCount * 90);
 		scrollPane.setViewportView(commentScreen);
 
 		// JList로 선택된 음식점 정보 (tempReviewPanel 패널에 노출)
@@ -187,7 +192,7 @@ public class ReviewDialog extends JDialog {
 				for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
 					List<ReviewOutput> list = new ArrayList<>();
 					list = ReviewRepository.viewReviewAll(bpmIdNum);
-					
+
 					leaveComment(list.get(j), count++);
 				}
 				createRatingPanel2(arr);
@@ -339,6 +344,7 @@ public class ReviewDialog extends JDialog {
 					selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
 				}
 			});
+			System.out.println(commentScreen.getHeight());
 			// tempReviewPanel패널에 별점 등록
 			rating = ro.getRating();
 			JLabel star_5_1 = new JLabel("★");
@@ -412,8 +418,8 @@ public class ReviewDialog extends JDialog {
 			}
 			commentScreen.repaint();
 			commentScreen.revalidate();
-			
-			//대댓글 입력
+
+			// 대댓글 입력
 		} else if (depth == 1) {
 			tempReplyCommPanel = new JPanel(null);
 			tempReplyCommPanel.setBackground(SystemColor.inactiveCaptionBorder);

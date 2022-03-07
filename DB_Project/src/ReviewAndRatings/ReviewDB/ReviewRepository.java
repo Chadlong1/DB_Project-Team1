@@ -16,13 +16,8 @@ import busan.ConnectionProvider;
 public class ReviewRepository {
 	// 코멘트 테이블 생성 (코멘트, 평점) - 0208 (정창훈)
 	public void createReviewTable() {
-		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" 
-				+ "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
-				+ ", review TEXT" 
-				+ ", rating DOUBLE" 
-				+ ", bundleNum INT"
-				+ ", depth INT" 
-				+ ", bpmId INT"
+		String createReviewTable = "CREATE TABLE IF NOT EXISTS review" + "(reviewId INT PRIMARY KEY AUTO_INCREMENT"
+				+ ", review TEXT" + ", rating DOUBLE" + ", bundleNum INT" + ", depth INT" + ", bpmId INT"
 				+ ", writingTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
 				+ ", FOREIGN KEY (bpmId) REFERENCES BPM(id));";
 		System.out.println("리뷰 테이블 생성");
@@ -142,7 +137,7 @@ public class ReviewRepository {
 		}
 		return list;
 	}
-	
+
 	// depth상관없이 전체 리뷰노출 ------------------------------------
 	private static ReviewOutput returnReviewAll(ResultSet rs) throws SQLException {
 		int reviewId = rs.getInt("reviewId");
@@ -152,21 +147,20 @@ public class ReviewRepository {
 		int depth = rs.getInt("depth");
 		int bpmId = rs.getInt("bpmId");
 		Timestamp writingTime = rs.getTimestamp("writingTime");
-		
+
 		return new ReviewOutput(reviewId, review, rating, bundleNum, depth, bpmId, writingTime);
 	}
+
 	// bpmIdNum를 입력받으면 bpmId, bundleNum순으로 정렬
 	public static List<ReviewOutput> viewReviewAll(int bpmIdNum) {
 		List<ReviewOutput> list = new ArrayList<>();
-		String viewReviewAll = "SELECT * FROM BUSAN.review "
-				+ "WHERE bpmId = ? "
-				+ "ORDER BY bpmId, bundleNum;";
-		try(Connection conn = ConnectionProvider.getConnection();
+		String viewReviewAll = "SELECT * FROM BUSAN.review " + "WHERE bpmId = ? " + "ORDER BY bpmId, bundleNum;";
+		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewReviewAll);) {
 			stmt.setInt(1, bpmIdNum);
-			
-			try(ResultSet rs = stmt.executeQuery();) {
-				while(rs.next()) {
+
+			try (ResultSet rs = stmt.executeQuery();) {
+				while (rs.next()) {
 					list.add(returnReviewAll(rs));
 				}
 			}
@@ -176,15 +170,11 @@ public class ReviewRepository {
 		return list;
 	}
 	// ----------------------------------------------------------
-	
-	
-	
+
 	// 음식점 이름 옆에 나타낼 평점
 	public static double viewRating(int id) {
 		double ratingAverage = 0.0;
-		String viewR = "SELECT round(avg(rating),2)" 
-				+ "FROM busan.review "
-				+ "WHERE depth = 0 "
+		String viewR = "SELECT round(avg(rating),2)" + "FROM busan.review " + "WHERE depth = 0 "
 				+ "GROUP BY bpmId HAVING bpmId =?";
 		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(viewR);) {
@@ -219,17 +209,17 @@ public class ReviewRepository {
 		}
 		return timeStamp;
 	}
+
 	// bpmIdNum , selectedBundleNum 입력시 List<ReviewOuput> 반환
-	public static List<ReviewOutput> getReplyWithSelectedBundleNum (int bpmIdNum, int selectedBundleNum) {
+	public static List<ReviewOutput> getReplyWithSelectedBundleNum(int bpmIdNum, int selectedBundleNum) {
 		List<ReviewOutput> list = new ArrayList<>();
-		String getReplyWithSelectedBundleNum = "SELECT * FROM BUSAN.review "
-						+ "WHERE bpmId = ? AND bundleNum = ?;";
-		try(Connection conn = ConnectionProvider.getConnection();
+		String getReplyWithSelectedBundleNum = "SELECT * FROM BUSAN.review " + "WHERE bpmId = ? AND bundleNum = ?;";
+		try (Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(getReplyWithSelectedBundleNum);) {
 			stmt.setInt(1, bpmIdNum);
 			stmt.setInt(2, selectedBundleNum);
-			
-			try(ResultSet rs = stmt.executeQuery();) {
+
+			try (ResultSet rs = stmt.executeQuery();) {
 				while (rs.next()) {
 					list.add(returnReReview(rs));
 				}
@@ -238,5 +228,23 @@ public class ReviewRepository {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public static int getCommentCount(int bpmId) {
+		String getBpmId = "select count(*) from busan.review where bpmID = ?;";
+		int rsBPMid = 0;
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(getBpmId);) {
+			stmt.setInt(1, bpmId);
+
+			try (ResultSet rs = stmt.executeQuery();) {
+				while (rs.next()) {
+					rsBPMid = rs.getInt("count(*)");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rsBPMid;
 	}
 }
