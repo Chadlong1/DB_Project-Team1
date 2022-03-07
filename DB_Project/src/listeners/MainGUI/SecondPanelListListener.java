@@ -71,7 +71,7 @@ public class SecondPanelListListener implements ListSelectionListener {
 						}
 					});
 					t.start(); // 쓰레드 t보고 일 시작하라고 명령
-					frame.setSelectBpmId(searchingList.getSelectedIndex() + 1);
+					frame.setSelectedBpmId(searchingList.getSelectedIndex() + 1);
 				}
 			}
 		}

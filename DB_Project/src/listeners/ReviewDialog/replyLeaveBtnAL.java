@@ -1,4 +1,4 @@
-package GUI;
+package listeners.ReviewDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,13 +9,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import GUI.ReviewDialog;
 import ReviewAndRatings.ReviewDB.ReviewInput;
 import ReviewAndRatings.ReviewDB.ReviewOutput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
-import listeners.ReviewDialog.ReplyCommentFieldKL;
-import listeners.ReviewDialog.ReplyCommentFieldML;
 
 public class replyLeaveBtnAL implements ActionListener {
 	private ReviewDialog dialog;
@@ -36,11 +35,11 @@ public class replyLeaveBtnAL implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (replyCommentField.getText().length() != 0) {
-		commentScreen.removeAll();
-		commentScreen.revalidate();
-		commentScreen.repaint();
-		int depth = 1;
-		int selectedBundleNum = dialog.getSelectedBundleNum();
+			commentScreen.removeAll();
+			commentScreen.revalidate();
+			commentScreen.repaint();
+			int depth = 1;
+			int selectedBundleNum = dialog.getSelectedBundleNum();
 			for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
 				if (searchingList.getSelectedIndex() == i) {
 					String selectedItemStr = searchingList.getSelectedValue();
@@ -61,10 +60,10 @@ public class replyLeaveBtnAL implements ActionListener {
 				dialog.leaveComment(list.get(j), j);
 			}
 		}
-		
-	
+
 		replyCommentField.setText("");
 		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
 		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
+		dialog.getCard().show(dialog.getCommentCard(), "NORMAL");
 	}
 }

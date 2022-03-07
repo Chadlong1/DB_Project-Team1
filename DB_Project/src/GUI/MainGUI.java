@@ -55,27 +55,28 @@ public class MainGUI extends JFrame {
 	private JLabel restUsageTime;
 	private JLabel restItemCntnts2;
 	private JPanel firstPanel;
-	private String[] zones;
+	private String[] zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구",
+			"연제구", "해운대구", "영도구", "금정구", "사하구", "기장군" };
 	private JLabel mapTitleLabel;
 	private JPanel staticMapPanel;
 	private JLabel staticMap;
 	public JButton btnReviewDialogPopUp;
 	private JPanel[] zonePanArr;
 	private JLabel loadingLabel;
-	private int selectBpmId;
+	private int selectedBpmId;
 
-	public int getSelectBpmId() {
-		return selectBpmId;
+	public int getSelectedBpmId() {
+		return selectedBpmId;
 	}
 
-	public void setSelectBpmId(int selectBpmId) {
-		this.selectBpmId = selectBpmId;
+	public void setSelectedBpmId(int selectedBpmId) {
+		this.selectedBpmId = selectedBpmId;
 	}
 
 	public void setLoadingLabel(ImageIcon ii) {
 		loadingLabel.setIcon(ii);
 	}
-	
+
 	public JPanel[] getZonePanArr() {
 		return zonePanArr;
 	}
@@ -254,8 +255,6 @@ public class MainGUI extends JFrame {
 		programMainTitle.setBounds(50, 30, 133, 39);
 		firstPanel.add(programMainTitle);
 
-		zones = new String[] { "부산 전체", "부산진구", "사상구", "북구", "남구", "서구", "중구", "동구", "강서구", "수영구", "동래구", "연제구", "해운대구",
-				"영도구", "금정구", "사하구", "기장군" };
 		String[] food = { "분류 없음", "한식", "중식", "양식", "일식", };
 		String[] stars = { "선택안함", "★이상", "★★이상", "★★★이상", "★★★★이상", "★★★★★" };
 		SEARCHTOOLS searchTool = new SEARCHTOOLS();
@@ -348,7 +347,7 @@ public class MainGUI extends JFrame {
 			zonePanArr[i].setOpaque(false);
 			zonePanArr[i].addMouseListener(new MapZoneSelectionMouseListener(MainGUI.this));
 		}
-		
+
 		JPanel secondPanel = new JPanel();
 		secondPanel.setLayout(null);
 		secondPanel.setBackground(SystemColor.inactiveCaptionBorder);
@@ -358,7 +357,7 @@ public class MainGUI extends JFrame {
 		loadingLabel.setOpaque(false);
 		loadingLabel.setBounds(297, 264, 400, 200);
 		secondPanel.add(loadingLabel);
-		
+
 		JPanel secondMainPanel = new JPanel();
 		secondMainPanel.setForeground(Color.GRAY);
 		secondMainPanel.setBounds(20, 20, 938, 360);
@@ -431,7 +430,7 @@ public class MainGUI extends JFrame {
 		secondMainPanel.setComponentZOrder(btnReviewDialogPopUp, 0);
 		btnReviewDialogPopUp.setBounds(400, 333, 80, 20);
 		btnReviewDialogPopUp.setVisible(false);
-		
+
 		JButton goBackButton = new JButton("뒤로가기");
 		goBackButton.setBounds(861, 643, 97, 32);
 		goBackButton.setBackground(new Color(135, 206, 235));
@@ -450,10 +449,10 @@ public class MainGUI extends JFrame {
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int commentCount = ReviewRepository.getCommentCount(selectBpmId);
+				int commentCount = ReviewRepository.getCommentCount(selectedBpmId);
 				ReviewDialog dialog = new ReviewDialog(MainGUI.this, commentCount);
 				dialog.setVisible(true);
-				
+
 			}
 		});
 

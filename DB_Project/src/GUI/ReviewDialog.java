@@ -37,6 +37,7 @@ import listeners.ReviewDialog.ReplyCommentFieldKL;
 import listeners.ReviewDialog.ReplyCommentFieldML;
 import listeners.ReviewDialog.CommentFieldKL;
 import listeners.ReviewDialog.leaveCommentAL;
+import listeners.ReviewDialog.replyLeaveBtnAL;
 
 public class ReviewDialog extends JDialog {
 	private JList<String> searchingList;
@@ -44,28 +45,34 @@ public class ReviewDialog extends JDialog {
 	private int count;
 	private int depth;
 	private double rating;
-
 	private int selectedBundleNum;
-
 	private final JPanel contentPanel = new JPanel();
 	private JTextField commentField;
 	private JTextField replyCommentField;
 	private JPanel commentCard;
 	private JPanel ratingPanel;
 	private JPanel ratingPanel_2;
-	private CardLayout card = new CardLayout(0, 0);
 	private JPanel commentScreen;
-	private JScrollPane scrollPane;
 	private JLabel resTitleReview;
 	private JPanel commentLayout;
 	private JPanel tempReplyCommPanel;
-	private static String basicComment = "후기를 입력해주세요";
-	private static String basicReplyComment = "대댓글을 작성해주세요";
+	private CardLayout card = new CardLayout(0, 0);
+	private JScrollPane scrollPane;
 	private JButton leaveBtn;
 	private JButton replyLeaveBtn;
 	private JComboBox<String> scoreComboBox;
 	private int tempReplyCommentLayOutPointY;
+	private static String basicComment = "후기를 입력해주세요";
+	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
+
+	public JPanel getCommentCard() {
+		return commentCard;
+	}
+
+	public void setCommentCard(JPanel commentCard) {
+		this.commentCard = commentCard;
+	}
 
 	public JScrollPane getScrollPane() {
 		return scrollPane;
@@ -225,7 +232,6 @@ public class ReviewDialog extends JDialog {
 		commentField.setColumns(10);
 		commentField.addMouseListener(new CommentFieldML(commentField));
 		commentField.addKeyListener(new CommentFieldKL(ReviewDialog.this, commentField));
-		// 마우스리스너, 키리스너 코드 다른 클래스파일로 이전
 
 		leaveBtn = new JButton("등록");
 		leaveBtn.setEnabled(false);
@@ -235,7 +241,6 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
 		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList));
-		// 액션리스너 코드 leaveCommentAL 클래스 파일로 이전
 
 		scoreComboBox = new JComboBox(stars);
 		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -282,7 +287,6 @@ public class ReviewDialog extends JDialog {
 		replyComment.add(replyCommentField);
 		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
 		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
-		// replyCommentField 키 리스너, 마우스 리스너 코드 리스너스 패키지로 이전
 
 		// 두번째 카드레이아웃에서 다이얼로그 UI를 똑같이 생성후, 선택한 댓글만 최상단에 생성, depth가 1인 리뷰만 노출되게 설정해야함
 		replyLeaveBtn = new JButton("등록");
@@ -342,14 +346,14 @@ public class ReviewDialog extends JDialog {
 					CardLayout card = getCard();
 					card.show(commentCard, "ReplyComment");
 					selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
-					if(tempReviewPanel.getBackground() == Color.white) {
+					if (tempReviewPanel.getBackground() == Color.white) {
 						tempReviewPanel.setBackground(Color.PINK);
 					} else {
 						tempReviewPanel.setBackground(Color.WHITE);
 					}
 				}
 			});
-			System.out.println(commentScreen.getHeight());
+			
 			// tempReviewPanel패널에 별점 등록
 			rating = ro.getRating();
 			JLabel star_5_1 = new JLabel("★");

@@ -1,15 +1,14 @@
 package ReviewAndRatings.ReviewDB;
 
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import busan.ConnectionProvider;
 
@@ -230,6 +229,7 @@ public class ReviewRepository {
 		return list;
 	}
 
+	// 리뷰창을 열었을때 작성된 리뷰갯수(일반+대댓글)를 반환
 	public static int getCommentCount(int bpmId) {
 		String getBpmId = "select count(*) from busan.review where bpmID = ?;";
 		int rsBPMid = 0;
