@@ -173,7 +173,7 @@ public class ReviewDialog extends JDialog {
 		commentScreen = new JPanel(null);
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
-		commentScreen.setSize(396, commentCount * 90);
+		commentScreen.setSize(396, commentCount * 95);
 		scrollPane.setViewportView(commentScreen);
 
 		// JList로 선택된 음식점 정보 (tempReviewPanel 패널에 노출)
