@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Main;
 import listeners.MainGUI.ComboBoxListener;
@@ -61,6 +62,15 @@ public class MainGUI extends JFrame {
 	public JButton btnReviewDialogPopUp;
 	private JPanel[] zonePanArr;
 	private JLabel loadingLabel;
+	private int selectBpmId;
+
+	public int getSelectBpmId() {
+		return selectBpmId;
+	}
+
+	public void setSelectBpmId(int selectBpmId) {
+		this.selectBpmId = selectBpmId;
+	}
 
 	public void setLoadingLabel(ImageIcon ii) {
 		loadingLabel.setIcon(ii);
@@ -440,8 +450,10 @@ public class MainGUI extends JFrame {
 		btnReviewDialogPopUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ReviewDialog dialog = new ReviewDialog(MainGUI.this);
+				int commentCount = ReviewRepository.getCommentCount(selectBpmId);
+				ReviewDialog dialog = new ReviewDialog(MainGUI.this, commentCount);
 				dialog.setVisible(true);
+				
 			}
 		});
 
