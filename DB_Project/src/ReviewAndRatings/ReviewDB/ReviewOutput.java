@@ -1,7 +1,6 @@
 package ReviewAndRatings.ReviewDB;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 // 코멘트 Class
 public class ReviewOutput {

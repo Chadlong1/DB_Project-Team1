@@ -23,7 +23,6 @@ public class replyLeaveBtnAL implements ActionListener {
 	private int bpmIdNum;
 	private int count;
 	private JTextField replyCommentField;
-	
 
 	public replyLeaveBtnAL(ReviewDialog dialog, JList<String> searchingList) {
 		super();
@@ -39,15 +38,18 @@ public class replyLeaveBtnAL implements ActionListener {
 			commentScreen.removeAll();
 			commentScreen.revalidate();
 			commentScreen.repaint();
+
 			int depth = 1;
 			int selectedBundleNum = dialog.getSelectedBundleNum();
 			for (int i = 0; i <= searchingList.getLastVisibleIndex(); i++) {
-				if (searchingList.getSelectedIndex() == i) {
-					String selectedItemStr = searchingList.getSelectedValue();
-					Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
-					bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
-					ReviewRepository.insert(new ReviewInput(replyCommentField.getText(), dialog.getRating(),
-							selectedBundleNum, depth, bpmIdNum));
+				if (!searchingList.getValueIsAdjusting()) {
+					if (searchingList.getSelectedIndex() == i) {
+						String selectedItemStr = searchingList.getSelectedValue();
+						Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
+						bpmIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
+						ReviewRepository.insert(new ReviewInput(replyCommentField.getText(), dialog.getRating(),
+								selectedBundleNum, depth, bpmIdNum));
+					}
 				}
 			}
 //		List<ReviewOutput> list = new ArrayList<>();
@@ -57,7 +59,7 @@ public class replyLeaveBtnAL implements ActionListener {
 
 			for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
 				List<ReviewOutput> list = new ArrayList<>();
-				list = ReviewRepository.viewReviewAll(bpmIdNum);				
+				list = ReviewRepository.viewReviewAll(bpmIdNum);
 				dialog.leaveComment(list.get(j), j);
 			}
 		}

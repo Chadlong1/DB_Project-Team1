@@ -32,10 +32,10 @@ import ReviewAndRatings.ReviewDB.ReviewOutput;
 import ReviewAndRatings.ReviewDB.ReviewRepository;
 import SEARCHINFO.SEARCHTOOLS;
 import busan.Restaurant;
+import listeners.ReviewDialog.CommentFieldKL;
 import listeners.ReviewDialog.CommentFieldML;
 import listeners.ReviewDialog.ReplyCommentFieldKL;
 import listeners.ReviewDialog.ReplyCommentFieldML;
-import listeners.ReviewDialog.CommentFieldKL;
 import listeners.ReviewDialog.leaveCommentAL;
 import listeners.ReviewDialog.replyLeaveBtnAL;
 
@@ -61,7 +61,6 @@ public class ReviewDialog extends JDialog {
 	private JButton leaveBtn;
 	private JButton replyLeaveBtn;
 	private JComboBox<String> scoreComboBox;
-	private int tempReplyCommentLayOutPointY;
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
@@ -179,7 +178,7 @@ public class ReviewDialog extends JDialog {
 		commentScreen = new JPanel(null);
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
-		commentScreen.setSize(396, commentCount * 97);
+		commentScreen.setSize(396, (commentCount - 1) * 98);
 		scrollPane.setViewportView(commentScreen);
 
 		// JList로 선택된 음식점 정보 (tempReviewPanel 패널에 노출)
@@ -255,7 +254,7 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList, commentCount));
+		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList));
 
 		scoreComboBox = new JComboBox(stars);
 		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -354,11 +353,6 @@ public class ReviewDialog extends JDialog {
 			tempReviewPanel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					Object o = e.getSource();
-					if (o == tempReviewPanel) {
-						tempReplyCommentLayOutPointY = tempReviewPanel.getY() + tempReviewPanel.getHeight() + 5;
-					}
-
 					CardLayout card = getCard();
 					card.show(commentCard, "ReplyComment");
 					selectedBundleNum = Integer.valueOf(bundleNumLbl.getText());
@@ -434,18 +428,20 @@ public class ReviewDialog extends JDialog {
 			reviewDate.setBounds(160, 65, 158, 15);
 			tempReviewPanel.add(reviewDate);
 
-			// 코멘트스크린 댓글 갯수에 맞춰 늘리기
-			commentScreen.setSize(396, commentCount * 100);
-			scrollPane.setViewportView(commentScreen);
-//			if (count >= 2) {
-//				Dimension size = new Dimension();
-//				int y = commentScreen.getHeight() + (97 * (count - 1));
-//				size.setSize(396, y);
-//				commentScreen.setPreferredSize(size);
-//				scrollPane.setViewportView(commentScreen);
-//			}
-			commentScreen.repaint();
-			commentScreen.revalidate();
+			// 코멘트 갯수에 맞춰서 화면늘리기
+			if (commentCount == 2) {
+				Dimension size = new Dimension();
+				int y = commentScreen.getHeight() + 30;
+				size.setSize(396, y);
+				commentScreen.setPreferredSize(size);
+			}
+
+			if (commentCount >= 3) {
+				Dimension size = new Dimension();
+				int y = commentScreen.getHeight() + 100;
+				size.setSize(396, y);
+				commentScreen.setPreferredSize(size);
+			}
 
 			// 대댓글 입력
 		} else if (depth == 1) {
@@ -468,7 +464,7 @@ public class ReviewDialog extends JDialog {
 			tempReplyCommPanel.add(replyReviewDate);
 
 			Dimension size = new Dimension();
-			int y = commentScreen.getHeight() + 80;
+			int y = commentScreen.getHeight() + 100;
 			size.setSize(396, y);
 			commentScreen.setPreferredSize(size);
 			scrollPane.setViewportView(commentScreen);

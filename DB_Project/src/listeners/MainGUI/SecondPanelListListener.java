@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
@@ -36,11 +35,10 @@ public class SecondPanelListListener implements ListSelectionListener {
 				if (searchingList.getSelectedIndex() == i) {
 					ImageIcon loading = new ImageIcon("ajax-loading.gif");
 					frame.setLoadingLabel(loading);
+					// 스레드 객체
 					Thread t = new Thread(new Runnable() {
 						@Override
 						public void run() {
-							// 시간이 오래 걸리는 작업 추가 << 이 작업은 스윙이 맡으면 화면이 멈춤.
-							// t라는 쓰레드가 이 작업을 할 거임.
 							String selectedItemStr = searchingList.getSelectedValue();
 							Restaurant tempRest = SEARCHTOOLS.searchRestaurant(selectedItemStr);
 							Integer searchIdNum = SEARCHTOOLS.searchIdNum(tempRest.getTitle());
@@ -60,7 +58,8 @@ public class SecondPanelListListener implements ListSelectionListener {
 							}
 							btnReviewDialogPopUp.setVisible(true);
 							frame.setStaitcMap(GoogleStaticMaps.getStaticMapURL(geoList.get(0), geoList.get(1)));
-							// 작업이 끝나면 스윙보고 끝났다고 보고하면 됨.
+
+							// 작업이 끝났음을 알림
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
