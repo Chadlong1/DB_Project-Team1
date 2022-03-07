@@ -145,6 +145,7 @@ public class ReviewDialog extends JDialog {
 
 		scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(12, 40, 396, 286);
 		scrollPane.setBorder(null);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16); // 스크롤 속도 조절
@@ -575,7 +576,8 @@ public class ReviewDialog extends JDialog {
 			resImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			ratingPanel.add(resImageLabel);
 		}
-
+		ratingPanel.repaint();
+		
 	}
 
 	// ratingPanel패널에 평점별 선택된 개수 출력
@@ -641,5 +643,8 @@ public class ReviewDialog extends JDialog {
 		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		scoreCount_1.setBounds(55, 95, 59, 15);
 		ratingPanel_2.add(scoreCount_1);
+		
+		ratingPanel_2.repaint();
+		
 	}
 }
