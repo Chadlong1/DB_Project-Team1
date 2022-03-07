@@ -30,11 +30,13 @@ public class leaveCommentAL implements ActionListener {
 	private JPanel ratingPanel_2;
 	private JPanel commentLayout;
 	private JScrollPane scrollPane;
+	private int commentCount;
 
-	public leaveCommentAL(MainGUI parent, ReviewDialog dialog, JList<String> searchingList) {
+	public leaveCommentAL(MainGUI parent, ReviewDialog dialog, JList<String> searchingList, int commentCount) {
 		super();
 		this.parent = parent;
 		this.dialog = dialog;
+		this.commentCount = commentCount;
 		this.searchingList = searchingList;
 		this.count = dialog.getCount();
 		this.commentField = dialog.getCommentField();
@@ -94,6 +96,7 @@ public class leaveCommentAL implements ActionListener {
 		commentField.setText("");
 		commentField.addMouseListener(new CommentFieldML(commentField));
 		commentField.addKeyListener(new CommentFieldKL(dialog, commentField));
+		dialog.increaseCommentCount();
 
 //		commentLayout.revalidate();
 //		commentLayout.repaint();

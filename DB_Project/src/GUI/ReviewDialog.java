@@ -65,6 +65,11 @@ public class ReviewDialog extends JDialog {
 	private static String basicComment = "후기를 입력해주세요";
 	private static String basicReplyComment = "대댓글을 작성해주세요";
 	private String[] stars = new String[] { "별점 입력", "★", "★★", "★★★", "★★★★", "★★★★★" };
+	private int commentCount;
+
+	public void increaseCommentCount() {
+		commentCount++;
+	}
 
 	public JPanel getCommentCard() {
 		return commentCard;
@@ -109,7 +114,7 @@ public class ReviewDialog extends JDialog {
 	public void replyLeaveBtnDisable() {
 		replyLeaveBtn.setEnabled(false);
 	}
-	
+
 	public void leaveBtnEnable() {
 		leaveBtn.setEnabled(true);
 	}
@@ -146,6 +151,7 @@ public class ReviewDialog extends JDialog {
 		super(parent, "후기", true);
 		searchingList = parent.getSearchingList();
 		setResizable(false);
+		this.commentCount = commentCount;
 
 //		setBounds(100, 100, 590, 490); // 리뷰창 크기조절 막고 크기조정함. 확인 후 변경 가능
 //		setLocation(1200, 350); // 리뷰창 위치. 뒤로가기 버튼 안 가리고 사진도 덜 가리게 조절함. 확인 후 변경 가능
@@ -173,7 +179,7 @@ public class ReviewDialog extends JDialog {
 		commentScreen = new JPanel(null);
 		commentScreen.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		commentScreen.setBackground(Color.WHITE);
-		commentScreen.setSize(396, commentCount * 95);
+		commentScreen.setSize(396, commentCount * 97);
 		scrollPane.setViewportView(commentScreen);
 
 		// JList로 선택된 음식점 정보 (tempReviewPanel 패널에 노출)
@@ -249,7 +255,7 @@ public class ReviewDialog extends JDialog {
 		leaveBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		leaveBtn.setBounds(455, 12, 97, 29);
 		normalComment.add(leaveBtn);
-		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList));
+		leaveBtn.addActionListener(new leaveCommentAL(parent, ReviewDialog.this, searchingList, commentCount));
 
 		scoreComboBox = new JComboBox(stars);
 		scoreComboBox.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
@@ -363,7 +369,7 @@ public class ReviewDialog extends JDialog {
 					}
 				}
 			});
-			
+
 			// tempReviewPanel패널에 별점 등록
 			rating = ro.getRating();
 			JLabel star_5_1 = new JLabel("★");
@@ -428,13 +434,16 @@ public class ReviewDialog extends JDialog {
 			reviewDate.setBounds(160, 65, 158, 15);
 			tempReviewPanel.add(reviewDate);
 
-			if (count >= 2) {
-				Dimension size = new Dimension();
-				int y = commentScreen.getHeight() + (97 * (count - 1));
-				size.setSize(396, y);
-				commentScreen.setPreferredSize(size);
-				scrollPane.setViewportView(commentScreen);
-			}
+			// 코멘트스크린 댓글 갯수에 맞춰 늘리기
+			commentScreen.setSize(396, commentCount * 100);
+			scrollPane.setViewportView(commentScreen);
+//			if (count >= 2) {
+//				Dimension size = new Dimension();
+//				int y = commentScreen.getHeight() + (97 * (count - 1));
+//				size.setSize(396, y);
+//				commentScreen.setPreferredSize(size);
+//				scrollPane.setViewportView(commentScreen);
+//			}
 			commentScreen.repaint();
 			commentScreen.revalidate();
 
@@ -601,8 +610,9 @@ public class ReviewDialog extends JDialog {
 			ratingPanel.add(resImageLabel);
 		}
 		ratingPanel.repaint();
-		
+
 	}
+
 	// ratingPanel패널에 평점별 선택된 개수 출력
 	public void createRatingPanel2(int[] arr) {
 		ratingPanel_2 = new JPanel();
@@ -666,8 +676,8 @@ public class ReviewDialog extends JDialog {
 		scoreCount_1.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
 		scoreCount_1.setBounds(55, 95, 59, 15);
 		ratingPanel_2.add(scoreCount_1);
-		
+
 		ratingPanel_2.repaint();
-		
+
 	}
 }

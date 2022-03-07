@@ -23,6 +23,7 @@ public class replyLeaveBtnAL implements ActionListener {
 	private int bpmIdNum;
 	private int count;
 	private JTextField replyCommentField;
+	
 
 	public replyLeaveBtnAL(ReviewDialog dialog, JList<String> searchingList) {
 		super();
@@ -56,7 +57,7 @@ public class replyLeaveBtnAL implements ActionListener {
 
 			for (int j = 0; j < ReviewRepository.viewReviewAll(bpmIdNum).size(); j++) {
 				List<ReviewOutput> list = new ArrayList<>();
-				list = ReviewRepository.viewReviewAll(bpmIdNum);
+				list = ReviewRepository.viewReviewAll(bpmIdNum);				
 				dialog.leaveComment(list.get(j), j);
 			}
 		}
@@ -65,5 +66,6 @@ public class replyLeaveBtnAL implements ActionListener {
 //		replyCommentField.addMouseListener(new ReplyCommentFieldML(replyCommentField));
 //		replyCommentField.addKeyListener(new ReplyCommentFieldKL(replyCommentField));
 		dialog.getCard().show(dialog.getCommentCard(), "NORMAL");
+		dialog.increaseCommentCount();
 	}
 }
