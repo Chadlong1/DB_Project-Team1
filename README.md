@@ -1,7 +1,7 @@
 #### 부산 맛집 소개 어플리케이션 (돼동여지도)
 
 
-
+메인페이지
 ![main](https://user-images.githubusercontent.com/95194851/163225482-a76fb06d-6693-48eb-9bd7-14d2faae9c5a.gif)
 
 
